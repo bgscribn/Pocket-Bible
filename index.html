@@ -13,7 +13,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#d97706">
 
-    <!-- Direct Favicon & iOS Web Clip Icons (Used by Chrome Android as Direct Fallbacks) -->
+    <!-- Direct Favicon & iOS Web Clip Icons -->
     <link rel="icon" type="image/png" sizes="512x512" href="https://bgscribn.github.io/Pocket-Bible/icon.png?v=2">
     <link rel="icon" type="image/png" sizes="192x192" href="https://bgscribn.github.io/Pocket-Bible/icon.png?v=2">
     <link rel="apple-touch-icon" sizes="180x180" href="https://bgscribn.github.io/Pocket-Bible/icon.png?v=2">
@@ -55,7 +55,7 @@
         })();
     </script>
 
-    <!-- Google Fonts: Inter (UI) & Newsreader (Scripture) -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;500;600&display=swap" rel="stylesheet">
@@ -171,7 +171,7 @@
                 </div>
             </div>
 
-            <!-- SETTINGS PANEL (Collapsible) -->
+            <!-- SETTINGS PANEL -->
             <div id="settings-panel" class="hidden px-5 py-4 bg-slate-50/90 dark:bg-slate-900/90 backdrop-blur-md border-t border-slate-200/60 dark:border-slate-800/60 text-xs space-y-3.5">
                 <div class="flex items-center justify-between">
                     <span class="font-medium text-slate-700 dark:text-slate-300">Words of Jesus in Red</span>
@@ -204,7 +204,6 @@
         <!-- MAIN READING CONTENT AREA -->
         <main id="reader-container" class="flex-1 overflow-y-auto px-6 py-6 pb-24 no-scrollbar relative bg-white dark:bg-slate-950">
             
-            <!-- FLOATING BACK TO ORIGINAL CROSS REF BUTTON -->
             <div id="return-crossref-banner" class="fixed top-16 left-1/2 -translate-x-1/2 z-40 hidden">
                 <button id="btn-return-crossref" class="px-4 py-2 bg-amber-600/90 hover:bg-amber-600 text-white backdrop-blur-md rounded-full text-xs font-bold shadow-xl border border-amber-400/40 flex items-center space-x-1.5 active:scale-95 transition">
                     <i data-lucide="arrow-left" class="w-4 h-4"></i>
@@ -231,7 +230,7 @@
             </button>
         </div>
 
-        <!-- ENHANCED LARGER BOTTOM NAVIGATION BAR (4 TABS) -->
+        <!-- BOTTOM NAVIGATION BAR (4 TABS) -->
         <nav class="bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl border-t border-slate-200/80 dark:border-slate-800/80 grid grid-cols-4 py-3 z-30 shadow-lg">
             <button data-tab="home" class="nav-tab flex flex-col items-center justify-center py-1 px-1 rounded-xl transition active:scale-95 text-amber-600 dark:text-amber-500 font-bold">
                 <i data-lucide="home" class="w-6 h-6 mb-1"></i>
@@ -271,6 +270,53 @@
             </div>
         </div>
 
+        <!-- VERSE OF THE DAY CONTEXT MODAL -->
+        <div id="modal-votd-context" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex flex-col justify-end">
+            <div class="bg-white dark:bg-slate-900 rounded-t-3xl max-h-[85vh] overflow-y-auto p-6 space-y-5 animate-slide-up shadow-2xl border-t dark:border-slate-800">
+                <div class="flex justify-between items-center border-b pb-3 dark:border-slate-800">
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="book-open-check" class="w-5 h-5 text-amber-600 dark:text-amber-500"></i>
+                        <h3 id="context-modal-ref" class="font-bold text-slate-900 dark:text-slate-100 text-base">Understanding the Context</h3>
+                    </div>
+                    <button id="btn-close-context" class="p-1 text-slate-400 hover:text-slate-200"><i data-lucide="x" class="w-5 h-5"></i></button>
+                </div>
+
+                <!-- Verse Display Card -->
+                <div class="p-4 bg-amber-50/80 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-800/40 rounded-2xl space-y-2">
+                    <p id="context-modal-verse" class="font-scripture text-base italic text-amber-900 dark:text-amber-200 leading-relaxed"></p>
+                </div>
+
+                <!-- Easy Context Section -->
+                <div class="space-y-2">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-500 flex items-center space-x-1.5">
+                        <i data-lucide="compass" class="w-4 h-4"></i>
+                        <span>What Was Happening Here?</span>
+                    </h4>
+                    <p id="context-background-text" class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-sans"></p>
+                </div>
+
+                <!-- Personalized Life Application Section -->
+                <div class="p-4 bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 rounded-2xl space-y-2">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-slate-100 flex items-center space-x-1.5">
+                        <i data-lucide="heart-handshake" class="w-4 h-4 text-amber-600 dark:text-amber-500"></i>
+                        <span>What It Means For You Today</span>
+                    </h4>
+                    <p id="context-application-text" class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-sans"></p>
+                </div>
+
+                <!-- Modal Actions -->
+                <div class="pt-2 flex flex-col space-y-2">
+                    <button id="btn-context-jump-reader" class="w-full py-3 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-2xl text-xs flex items-center justify-center space-x-2 shadow-md active:scale-95 transition">
+                        <span>Read Full Chapter in Reader</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                    <button id="btn-context-dismiss" class="w-full py-2.5 text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <!-- VERSE ACTION MODAL -->
         <div id="modal-verse-actions" class="fixed inset-0 bg-black/40 backdrop-blur-xs z-50 hidden flex items-end">
             <div class="bg-white dark:bg-slate-900 w-full rounded-t-3xl p-6 space-y-5 shadow-2xl border-t dark:border-slate-800 animate-slide-up">
@@ -302,7 +348,7 @@
             </div>
         </div>
 
-        <!-- TAB VIEWS (Hidden overlays for Home, CrossRef, Saved) -->
+        <!-- TAB VIEWS -->
         <div id="view-overlay" class="absolute inset-0 bg-slate-50 dark:bg-slate-950 z-20 top-[60px] pb-24 overflow-y-auto p-5">
             
             <!-- HOME TAB CONTENT -->
@@ -357,7 +403,6 @@
                         <button id="btn-submit-quiz" class="w-full py-2.5 bg-amber-600 text-white font-bold rounded-xl text-xs active:scale-95 transition">Get My Tailored Verse</button>
                     </div>
 
-                    <!-- Compact Completed State Banner -->
                     <div id="quiz-completed-banner" class="hidden p-3 rounded-2xl bg-amber-50/70 dark:bg-amber-950/40 border border-amber-200/60 dark:border-amber-800/40 text-xs text-amber-900 dark:text-amber-200 flex items-center justify-between">
                         <div class="flex items-center space-x-2">
                             <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-600 dark:text-amber-500"></i>
@@ -481,14 +526,50 @@
             { name: "Revelation", testament: "NT", chapters: 22 }
         ];
 
-        // VERSES DATABASE FOR TAILORED ANSWERS
+        // TAILORED VERSES & EASY CONTEXT DATA
         const TAILORED_VERSES = {
-            "anxious_comfort": { book: "Philippians", chapter: 4, verse: 6, ref: "Philippians 4:6", text: "Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God." },
-            "anxious_strength": { book: "Isaiah", chapter: 41, verse: 10, ref: "Isaiah 41:10", text: "Fear thou not; for I am with thee: be not dismayed; for I am thy God: I will strengthen thee; yea, I will help thee." },
-            "seeking_wisdom": { book: "James", chapter: 1, verse: 5, ref: "James 1:5", text: "If any of you lack wisdom, let him ask of God, that giveth to all men liberally, and upbraideth not; and it shall be given him." },
-            "joyful_praise": { book: "Psalms", chapter: 100, verse: 1, ref: "Psalms 100:1-2", text: "Make a joyful noise unto the LORD, all ye lands. Serve the LORD with gladness: come before his presence with singing." },
-            "peace_comfort": { book: "John", chapter: 14, verse: 27, ref: "John 14:27", text: "Peace I leave with you, my peace I give unto you: not as the world giveth, give I unto you. Let not your heart be troubled, neither let it be afraid." },
-            "default": { book: "John", chapter: 3, verse: 16, ref: "John 3:16", text: "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life." }
+            "anxious_comfort": {
+                book: "Philippians", chapter: 4, verse: 6, ref: "Philippians 4:6",
+                text: "Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God.",
+                context: "Paul wrote this while chained in a Roman prison, yet he was encouraging believers not to let worry paralyze them. In ancient times, 'careful' meant full of burden or anxiety.",
+                app_anxious: "When anxiety hits your mind today, treat this verse as permission to trade your heavy thoughts for direct conversation with God. Instead of replaying worries in your head, speak them out in prayer with a thankful heart for what He's already done.",
+                app_default: "Whatever stress or friction you encounter today, bring it straight to God in simple prayer rather than carrying it on your own shoulders."
+            },
+            "anxious_strength": {
+                book: "Isaiah", chapter: 41, verse: 10, ref: "Isaiah 41:10",
+                text: "Fear thou not; for I am with thee: be not dismayed; for I am thy God: I will strengthen thee; yea, I will help thee.",
+                context: "God spoke these words to Israel while they were feeling helpless and outnumbered by surrounding nations. He reminded them that His presence was their ultimate shield.",
+                app_anxious: "When feeling weary or uncertain about what lies ahead today, remember you aren't walking into any room or situation alone. God guarantees His strength and personal backing right where you are.",
+                app_default: "Take a deep breath when facing hard decisions today, knowing God steps into your challenges right alongside you."
+            },
+            "seeking_wisdom": {
+                book: "James", chapter: 1, verse: 5, ref: "James 1:5",
+                text: "If any of you lack wisdom, let him ask of God, that giveth to all men liberally, and upbraideth not; and it shall be given him.",
+                context: "James was guiding early Christians who faced overwhelming choices during persecution. He assured them God never mocks or looks down on someone who admits they don't know what to do.",
+                app_seeking: "If you're at a crossroads or trying to solve a tough issue today, pause before reacting. Ask God for clarity in plain terms—He gives guidance generously without making you feel foolish for asking.",
+                app_default: "Don't rely solely on quick instincts or human advice today; ask God for the inner wisdom to make the right call."
+            },
+            "joyful_praise": {
+                book: "Psalms", chapter: 100, verse: 1, ref: "Psalms 100:1-2",
+                text: "Make a joyful noise unto the LORD, all ye lands. Serve the LORD with gladness: come before his presence with singing.",
+                context: "This psalm was a song sung by pilgrims as they marched up the hill to worship in the temple courts in Jerusalem, celebrating God's enduring goodness and faithfulness.",
+                app_joyful: "Use the good energy and gratitude you feel today to encourage someone else. Let your joy overflow into how you speak to others and approach your work.",
+                app_default: "Focus today on small blessings and take a moment to pause and thank God with a glad heart."
+            },
+            "peace_comfort": {
+                book: "John", chapter: 14, verse: 27, ref: "John 14:27",
+                text: "Peace I leave with you, my peace I give unto you: not as the world giveth, give I unto you. Let not your heart be troubled, neither let it be afraid.",
+                context: "Jesus shared these comforting words with His disciples the night before His arrest. He promised them a deep inner calm that doesn't depend on peaceful external circumstances.",
+                app_anxious: "Worldly peace depends on everything going right, but Christ's peace settles your heart even when circumstances are chaotic. Let His calm rule your thoughts today.",
+                app_default: "Hold onto a quiet, grounded confidence throughout your day, knowing Christ's peace guards your spirit."
+            },
+            "default": {
+                book: "John", chapter: 3, verse: 16, ref: "John 3:16",
+                text: "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.",
+                context: "Jesus was explaining God's grand plan of redemption to Nicodemus, a religious leader who came to Him in secret at night seeking real truth.",
+                app_seeking: "Remember today that your value is rooted in how deeply God loves you—enough to give everything so you can live with security and eternal hope.",
+                app_default: "Walk through today anchored in the realization that you are deeply loved and valued by God."
+            }
         };
 
         // APP STATE MANAGEMENT
@@ -519,6 +600,7 @@
         const settingsPanel = document.getElementById('settings-panel');
         const modalPicker = document.getElementById('modal-picker');
         const modalVerseActions = document.getElementById('modal-verse-actions');
+        const modalVotdContext = document.getElementById('modal-votd-context');
         const pickerBooks = document.getElementById('picker-books');
         const pickerChapters = document.getElementById('picker-chapters');
         const viewOverlay = document.getElementById('view-overlay');
@@ -531,7 +613,6 @@
             lucide.createIcons();
             applyTheme(state.theme);
             
-            // Sync dropdown element and label pill to stored version
             const versionSelect = document.getElementById('version-select');
             const versionAbbrPill = document.getElementById('version-selected-abbr');
             if (versionSelect) versionSelect.value = state.version;
@@ -708,7 +789,7 @@
             document.getElementById('btn-prev-chap').addEventListener('click', () => navigateChapter(-1));
             document.getElementById('btn-next-chap').addEventListener('click', () => navigateChapter(1));
 
-            // Quiz Button Selections
+            // Quiz Selections
             document.querySelectorAll('.quiz-btn-q1').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     document.querySelectorAll('.quiz-btn-q1').forEach(b => b.classList.remove('bg-amber-100', 'border-amber-600', 'dark:bg-amber-950/60', 'dark:border-amber-500'));
@@ -757,13 +838,19 @@
                 }
             });
 
-            // Verse of the Day Read Context Button
-            document.getElementById('btn-read-context').addEventListener('click', () => {
+            // OPEN VERSE OF THE DAY CONTEXT MODAL
+            document.getElementById('btn-read-context').addEventListener('click', openVotdContextModal);
+            document.getElementById('btn-close-context').addEventListener('click', () => modalVotdContext.classList.add('hidden'));
+            document.getElementById('btn-context-dismiss').addEventListener('click', () => modalVotdContext.classList.add('hidden'));
+
+            // Jump from Context Modal to Reader
+            document.getElementById('btn-context-jump-reader').addEventListener('click', () => {
                 if (state.currentVotd) {
                     state.book = state.currentVotd.book;
                     state.chapter = state.currentVotd.chapter;
                     state.targetVerse = state.currentVotd.verse;
                 }
+                modalVotdContext.classList.add('hidden');
                 renderPassage();
                 handleTabSwitch('reader');
             });
@@ -796,6 +883,28 @@
             });
 
             document.getElementById('act-bookmark').addEventListener('click', toggleBookmark);
+        }
+
+        // VOTD CONTEXT MODAL LOGIC
+        function openVotdContextModal() {
+            const currentVotd = state.currentVotd || TAILORED_VERSES['default'];
+
+            document.getElementById('context-modal-ref').textContent = currentVotd.ref;
+            document.getElementById('context-modal-verse').textContent = `"${currentVotd.text}"`;
+            document.getElementById('context-background-text').textContent = currentVotd.context || "This scripture was spoken to offer encouragement and enduring faith during times of trial and reflection.";
+
+            // Pick customized application based on user quiz answers
+            let appText = currentVotd.app_default;
+            if (state.quizAns1 === 'anxious' && currentVotd.app_anxious) {
+                appText = currentVotd.app_anxious;
+            } else if (state.quizAns1 === 'seeking' && currentVotd.app_seeking) {
+                appText = currentVotd.app_seeking;
+            } else if (state.quizAns1 === 'joyful' && currentVotd.app_joyful) {
+                appText = currentVotd.app_joyful;
+            }
+
+            document.getElementById('context-application-text').textContent = appText;
+            modalVotdContext.classList.remove('hidden');
         }
 
         // THEME APPLIER
