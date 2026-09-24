@@ -130,20 +130,25 @@
             from { transform: translateY(100%); }
             to { transform: translateY(0); }
         }
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
         .animate-slide-up { animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-fade-in { animation: fadeInScale 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
     </style>
 </head>
-<body class="h-full bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200 antialiased selection:bg-amber-200">
+<body class="h-full bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200 antialiased selection:bg-amber-200 text-base">
 
     <div id="app" class="flex flex-col h-full max-w-md mx-auto bg-white dark:bg-slate-950 shadow-2xl relative overflow-hidden">
         
         <!-- MODERN GLASSMORPHISM HEADER -->
         <header id="header" class="sticky top-0 z-30 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-200/60 dark:border-slate-800/60 transition-colors">
-            <div class="flex items-center justify-between px-4 py-3">
+            <div class="flex items-center justify-between px-4 py-3.5">
                 <div class="flex items-center space-x-2">
-                    <button id="btn-nav-picker" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800/80 text-sm font-semibold text-slate-900 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-700 transition active:scale-95">
+                    <button id="btn-nav-picker" class="flex items-center space-x-1.5 px-3.5 py-2 rounded-full bg-slate-100 dark:bg-slate-800/80 text-base font-semibold text-slate-900 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-700 transition active:scale-95">
                         <span id="current-passage-label">John 3</span>
-                        <i data-lucide="chevron-down" class="w-4 h-4 text-amber-600 dark:text-amber-500"></i>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-amber-600 dark:text-amber-500"></i>
                     </button>
                 </div>
 
@@ -158,44 +163,44 @@
                             <option value="NIV">New International Version</option>
                             <option value="NASB">New American Standard Bible</option>
                         </select>
-                        <div id="version-display-pill" class="bg-slate-100 dark:bg-slate-800/80 border-0 rounded-full text-xs font-bold px-3.5 py-1.5 text-slate-800 dark:text-slate-200 flex items-center space-x-1 pointer-events-none">
+                        <div id="version-display-pill" class="bg-slate-100 dark:bg-slate-800/80 border-0 rounded-full text-xs font-bold px-3.5 py-2 text-slate-800 dark:text-slate-200 flex items-center space-x-1 pointer-events-none">
                             <span id="version-selected-abbr">CSB</span>
-                            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400"></i>
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
                         </div>
                     </div>
 
                     <!-- Settings Button -->
                     <button id="btn-toggle-settings" class="p-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-full hover:bg-slate-100 dark:hover:bg-slate-800/80 transition">
-                        <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
+                        <i data-lucide="sliders-horizontal" class="w-5 h-5"></i>
                     </button>
                 </div>
             </div>
 
             <!-- SETTINGS PANEL -->
-            <div id="settings-panel" class="hidden px-5 py-4 bg-slate-50/90 dark:bg-slate-900/90 backdrop-blur-md border-t border-slate-200/60 dark:border-slate-800/60 text-xs space-y-3.5">
+            <div id="settings-panel" class="hidden px-5 py-4 bg-slate-50/90 dark:bg-slate-900/90 backdrop-blur-md border-t border-slate-200/60 dark:border-slate-800/60 text-sm space-y-4">
                 <div class="flex items-center justify-between">
                     <span class="font-medium text-slate-700 dark:text-slate-300">Words of Jesus in Red</span>
                     <label class="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" id="toggle-red-letter" class="sr-only peer" checked>
-                        <div class="w-10 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-amber-600"></div>
+                        <div class="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-600"></div>
                     </label>
                 </div>
 
                 <div class="flex items-center justify-between">
                     <span class="font-medium text-slate-700 dark:text-slate-300">Theme</span>
                     <div class="flex bg-slate-200/70 dark:bg-slate-800/70 rounded-full p-1 space-x-1">
-                        <button data-theme="light" class="btn-theme px-3 py-1 rounded-full text-[11px] font-medium transition dark:text-slate-200">Light</button>
-                        <button data-theme="sepia" class="btn-theme px-3 py-1 rounded-full text-[11px] font-medium transition dark:text-slate-200">Sepia</button>
-                        <button data-theme="dark" class="btn-theme px-3 py-1 rounded-full text-[11px] font-medium transition dark:text-slate-200">Dark</button>
+                        <button data-theme="light" class="btn-theme px-3.5 py-1 rounded-full text-xs font-medium transition dark:text-slate-200">Light</button>
+                        <button data-theme="sepia" class="btn-theme px-3.5 py-1 rounded-full text-xs font-medium transition dark:text-slate-200">Sepia</button>
+                        <button data-theme="dark" class="btn-theme px-3.5 py-1 rounded-full text-xs font-medium transition dark:text-slate-200">Dark</button>
                     </div>
                 </div>
 
                 <div class="flex items-center justify-between">
                     <span class="font-medium text-slate-700 dark:text-slate-300">Text Size</span>
                     <div class="flex items-center space-x-2">
-                        <button id="btn-font-dec" class="w-7 h-7 bg-white dark:bg-slate-800 rounded-full border border-slate-200 dark:border-slate-700 font-bold flex items-center justify-center text-slate-700 dark:text-slate-200 shadow-sm">-</button>
-                        <span id="font-size-label" class="text-xs font-semibold w-8 text-center dark:text-slate-200">19px</span>
-                        <button id="btn-font-inc" class="w-7 h-7 bg-white dark:bg-slate-800 rounded-full border border-slate-200 dark:border-slate-700 font-bold flex items-center justify-center text-slate-700 dark:text-slate-200 shadow-sm">+</button>
+                        <button id="btn-font-dec" class="w-8 h-8 bg-white dark:bg-slate-800 rounded-full border border-slate-200 dark:border-slate-700 font-bold flex items-center justify-center text-slate-700 dark:text-slate-200 shadow-sm">-</button>
+                        <span id="font-size-label" class="text-xs font-semibold w-9 text-center dark:text-slate-200">22px</span>
+                        <button id="btn-font-inc" class="w-8 h-8 bg-white dark:bg-slate-800 rounded-full border border-slate-200 dark:border-slate-700 font-bold flex items-center justify-center text-slate-700 dark:text-slate-200 shadow-sm">+</button>
                     </div>
                 </div>
             </div>
@@ -212,10 +217,10 @@
             </div>
 
             <div id="loading-spinner" class="hidden flex justify-center py-16">
-                <div class="animate-spin rounded-full h-7 w-7 border-b-2 border-amber-600"></div>
+                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-600"></div>
             </div>
             
-            <div id="chapter-content" class="space-y-4 leading-relaxed font-scripture text-lg text-slate-800 dark:text-slate-100">
+            <div id="chapter-content" class="space-y-4 leading-relaxed font-scripture text-xl text-slate-800 dark:text-slate-100">
                 <!-- Scripture dynamically injected here -->
             </div>
         </main>
@@ -254,12 +259,12 @@
         <div id="modal-picker" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex flex-col justify-end">
             <div class="bg-white dark:bg-slate-900 rounded-t-3xl max-h-[82vh] flex flex-col p-5 space-y-4 animate-slide-up shadow-2xl">
                 <div class="flex items-center justify-between border-b pb-3 dark:border-slate-800">
-                    <h3 class="font-bold text-slate-900 dark:text-slate-100 text-base">Select Passage</h3>
-                    <button id="btn-close-picker" class="p-1 text-slate-400 hover:text-slate-200"><i data-lucide="x" class="w-5 h-5"></i></button>
+                    <h3 class="font-bold text-slate-900 dark:text-slate-100 text-lg">Select Passage</h3>
+                    <button id="btn-close-picker" class="p-1 text-slate-400 hover:text-slate-200"><i data-lucide="x" class="w-6 h-6"></i></button>
                 </div>
                 <div class="flex space-x-2 border-b dark:border-slate-800">
-                    <button id="tab-ot" class="px-4 py-2 text-xs font-bold border-b-2 border-amber-600 text-amber-600 dark:text-amber-500">Old Testament</button>
-                    <button id="tab-nt" class="px-4 py-2 text-xs font-bold text-slate-400 dark:text-slate-500">New Testament</button>
+                    <button id="tab-ot" class="px-4 py-2 text-sm font-bold border-b-2 border-amber-600 text-amber-600 dark:text-amber-500">Old Testament</button>
+                    <button id="tab-nt" class="px-4 py-2 text-sm font-bold text-slate-400 dark:text-slate-500">New Testament</button>
                 </div>
                 <div id="picker-books" class="grid grid-cols-2 gap-2 overflow-y-auto max-h-64 p-1 no-scrollbar">
                     <!-- Books injected dynamically -->
@@ -270,9 +275,9 @@
             </div>
         </div>
 
-        <!-- VERSE OF THE DAY CONTEXT MODAL -->
-        <div id="modal-votd-context" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex flex-col justify-end">
-            <div class="bg-white dark:bg-slate-900 rounded-t-3xl max-h-[85vh] overflow-y-auto p-6 space-y-5 animate-slide-up shadow-2xl border-t dark:border-slate-800">
+        <!-- VERSE OF THE DAY CONTEXT FLOATING CENTER MODAL -->
+        <div id="modal-votd-context" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+            <div class="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-sm max-h-[88vh] overflow-y-auto p-5 space-y-4 animate-fade-in shadow-2xl border border-slate-100 dark:border-slate-800">
                 <div class="flex justify-between items-center border-b pb-3 dark:border-slate-800">
                     <div class="flex items-center space-x-2">
                         <i data-lucide="book-open-check" class="w-5 h-5 text-amber-600 dark:text-amber-500"></i>
@@ -282,7 +287,7 @@
                 </div>
 
                 <!-- Verse Display Card -->
-                <div class="p-4 bg-amber-50/80 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-800/40 rounded-2xl space-y-2">
+                <div class="p-4 bg-amber-50/80 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-800/40 rounded-2xl space-y-1">
                     <p id="context-modal-verse" class="font-scripture text-base italic text-amber-900 dark:text-amber-200 leading-relaxed"></p>
                 </div>
 
@@ -295,22 +300,22 @@
                     <p id="context-background-text" class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-sans"></p>
                 </div>
 
-                <!-- Personalized Life Application Section -->
+                <!-- Personalized Life Application Section (Detailed Explanation) -->
                 <div class="p-4 bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 rounded-2xl space-y-2">
                     <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-slate-100 flex items-center space-x-1.5">
                         <i data-lucide="heart-handshake" class="w-4 h-4 text-amber-600 dark:text-amber-500"></i>
                         <span>What It Means For You Today</span>
                     </h4>
-                    <p id="context-application-text" class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-sans"></p>
+                    <p id="context-application-text" class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-sans space-y-2"></p>
                 </div>
 
                 <!-- Modal Actions -->
-                <div class="pt-2 flex flex-col space-y-2">
-                    <button id="btn-context-jump-reader" class="w-full py-3 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-2xl text-xs flex items-center justify-center space-x-2 shadow-md active:scale-95 transition">
+                <div class="pt-1 flex flex-col space-y-2">
+                    <button id="btn-context-jump-reader" class="w-full py-3 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-xs flex items-center justify-center space-x-2 shadow-md active:scale-95 transition">
                         <span>Read Full Chapter in Reader</span>
                         <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </button>
-                    <button id="btn-context-dismiss" class="w-full py-2.5 text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200">
+                    <button id="btn-context-dismiss" class="w-full py-2 text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200">
                         Close
                     </button>
                 </div>
@@ -321,17 +326,17 @@
         <div id="modal-verse-actions" class="fixed inset-0 bg-black/40 backdrop-blur-xs z-50 hidden flex items-end">
             <div class="bg-white dark:bg-slate-900 w-full rounded-t-3xl p-6 space-y-5 shadow-2xl border-t dark:border-slate-800 animate-slide-up">
                 <div class="flex justify-between items-center">
-                    <h4 id="action-verse-title" class="font-bold text-slate-900 dark:text-slate-100 text-sm">John 3:16</h4>
+                    <h4 id="action-verse-title" class="font-bold text-slate-900 dark:text-slate-100 text-base">John 3:16</h4>
                     <button id="btn-close-verse-actions" class="text-slate-400 hover:text-slate-200"><i data-lucide="x" class="w-5 h-5"></i></button>
                 </div>
                 
                 <!-- Highlight Swatches -->
                 <div class="flex space-x-4 justify-center py-1">
-                    <button data-color="yellow" class="btn-hl-color w-9 h-9 rounded-full bg-yellow-300 ring-2 ring-offset-2 ring-transparent hover:ring-yellow-400 active:scale-95 transition"></button>
-                    <button data-color="green"  class="btn-hl-color w-9 h-9 rounded-full bg-green-300 ring-2 ring-offset-2 ring-transparent hover:ring-green-400 active:scale-95 transition"></button>
-                    <button data-color="blue"   class="btn-hl-color w-9 h-9 rounded-full bg-blue-300 ring-2 ring-offset-2 ring-transparent hover:ring-blue-400 active:scale-95 transition"></button>
-                    <button data-color="pink"   class="btn-hl-color w-9 h-9 rounded-full bg-pink-300 ring-2 ring-offset-2 ring-transparent hover:ring-pink-400 active:scale-95 transition"></button>
-                    <button data-color="clear"  class="btn-hl-color w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-[10px] font-bold text-slate-500 dark:text-slate-400 border dark:border-slate-700">Clear</button>
+                    <button data-color="yellow" class="btn-hl-color w-10 h-10 rounded-full bg-yellow-300 ring-2 ring-offset-2 ring-transparent hover:ring-yellow-400 active:scale-95 transition"></button>
+                    <button data-color="green"  class="btn-hl-color w-10 h-10 rounded-full bg-green-300 ring-2 ring-offset-2 ring-transparent hover:ring-green-400 active:scale-95 transition"></button>
+                    <button data-color="blue"   class="btn-hl-color w-10 h-10 rounded-full bg-blue-300 ring-2 ring-offset-2 ring-transparent hover:ring-blue-400 active:scale-95 transition"></button>
+                    <button data-color="pink"   class="btn-hl-color w-10 h-10 rounded-full bg-pink-300 ring-2 ring-offset-2 ring-transparent hover:ring-pink-400 active:scale-95 transition"></button>
+                    <button data-color="clear"  class="btn-hl-color w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-xs font-bold text-slate-500 dark:text-slate-400 border dark:border-slate-700">Clear</button>
                 </div>
 
                 <div class="grid grid-cols-3 gap-2 pt-1">
@@ -357,10 +362,10 @@
                 <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-amber-600 to-amber-800 p-6 text-white shadow-xl">
                     <div class="absolute -right-4 -bottom-4 w-32 h-32 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
                     <div class="flex justify-between items-center mb-3">
-                        <span class="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-[10px] font-bold uppercase tracking-wider text-amber-100">Verse of the Day</span>
+                        <span class="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-bold uppercase tracking-wider text-amber-100">Verse of the Day</span>
                         <i data-lucide="sun" class="w-5 h-5 text-amber-200"></i>
                     </div>
-                    <p id="votd-text" class="font-scripture text-lg leading-relaxed mb-4 text-amber-50 font-medium">
+                    <p id="votd-text" class="font-scripture text-xl leading-relaxed mb-4 text-amber-50 font-medium">
                         "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life."
                     </p>
                     <div class="flex justify-between items-center pt-2 border-t border-amber-500/40">
@@ -373,39 +378,39 @@
                 <div id="reflection-quiz-card" class="p-5 border border-slate-200/80 dark:border-slate-800 rounded-3xl bg-white dark:bg-slate-900 space-y-4 shadow-sm">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center space-x-2 text-amber-600 dark:text-amber-500">
-                            <i data-lucide="sparkles" class="w-4 h-4"></i>
+                            <i data-lucide="sparkles" class="w-5 h-5"></i>
                             <h3 class="font-bold text-xs uppercase tracking-wider">Daily Heart Check</h3>
                         </div>
-                        <button id="btn-reopen-quiz" class="hidden text-[10px] text-amber-600 dark:text-amber-500 font-semibold hover:underline">Change Today's Answers</button>
+                        <button id="btn-reopen-quiz" class="hidden text-xs text-amber-600 dark:text-amber-500 font-semibold hover:underline">Change Today's Answers</button>
                     </div>
 
                     <div id="quiz-questions-view" class="space-y-4">
                         <div class="space-y-2">
                             <label class="block text-xs font-semibold text-slate-800 dark:text-slate-100">1. How is your spirit feeling today?</label>
                             <div class="grid grid-cols-2 gap-2 text-xs">
-                                <button data-q1="peace" class="quiz-btn-q1 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 text-slate-800 dark:text-slate-200 text-left transition">Peaceful / Grateful</button>
-                                <button data-q1="anxious" class="quiz-btn-q1 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 text-slate-800 dark:text-slate-200 text-left transition">Anxious / Weary</button>
-                                <button data-q1="seeking" class="quiz-btn-q1 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 text-slate-800 dark:text-slate-200 text-left transition">Seeking Direction</button>
-                                <button data-q1="joyful" class="quiz-btn-q1 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 text-slate-800 dark:text-slate-200 text-left transition">Joyful / Victorious</button>
+                                <button data-q1="peace" class="quiz-btn-q1 p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 text-slate-800 dark:text-slate-200 text-left transition">Peaceful / Grateful</button>
+                                <button data-q1="anxious" class="quiz-btn-q1 p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 text-slate-800 dark:text-slate-200 text-left transition">Anxious / Weary</button>
+                                <button data-q1="seeking" class="quiz-btn-q1 p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 text-slate-800 dark:text-slate-200 text-left transition">Seeking Direction</button>
+                                <button data-q1="joyful" class="quiz-btn-q1 p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 text-slate-800 dark:text-slate-200 text-left transition">Joyful / Victorious</button>
                             </div>
                         </div>
 
                         <div class="space-y-2">
                             <label class="block text-xs font-semibold text-slate-800 dark:text-slate-100">2. What do you need most from Scripture right now?</label>
                             <div class="grid grid-cols-2 gap-2 text-xs">
-                                <button data-q2="strength" class="quiz-btn-q2 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 text-slate-800 dark:text-slate-200 text-left transition">Strength & Courage</button>
-                                <button data-q2="comfort" class="quiz-btn-q2 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 text-slate-800 dark:text-slate-200 text-left transition">Comfort & Rest</button>
-                                <button data-q2="wisdom" class="quiz-btn-q2 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 text-slate-800 dark:text-slate-200 text-left transition">Wisdom & Guidance</button>
-                                <button data-q2="praise" class="quiz-btn-q2 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 text-slate-800 dark:text-slate-200 text-left transition">Praise & Worship</button>
+                                <button data-q2="strength" class="quiz-btn-q2 p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 text-slate-800 dark:text-slate-200 text-left transition">Strength & Courage</button>
+                                <button data-q2="comfort" class="quiz-btn-q2 p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 text-slate-800 dark:text-slate-200 text-left transition">Comfort & Rest</button>
+                                <button data-q2="wisdom" class="quiz-btn-q2 p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 text-slate-800 dark:text-slate-200 text-left transition">Wisdom & Guidance</button>
+                                <button data-q2="praise" class="quiz-btn-q2 p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 text-slate-800 dark:text-slate-200 text-left transition">Praise & Worship</button>
                             </div>
                         </div>
 
-                        <button id="btn-submit-quiz" class="w-full py-2.5 bg-amber-600 text-white font-bold rounded-xl text-xs active:scale-95 transition">Get My Tailored Verse</button>
+                        <button id="btn-submit-quiz" class="w-full py-3 bg-amber-600 text-white font-bold rounded-xl text-xs active:scale-95 transition">Get My Tailored Verse</button>
                     </div>
 
-                    <div id="quiz-completed-banner" class="hidden p-3 rounded-2xl bg-amber-50/70 dark:bg-amber-950/40 border border-amber-200/60 dark:border-amber-800/40 text-xs text-amber-900 dark:text-amber-200 flex items-center justify-between">
+                    <div id="quiz-completed-banner" class="hidden p-3.5 rounded-2xl bg-amber-50/70 dark:bg-amber-950/40 border border-amber-200/60 dark:border-amber-800/40 text-xs text-amber-900 dark:text-amber-200 flex items-center justify-between">
                         <div class="flex items-center space-x-2">
-                            <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-600 dark:text-amber-500"></i>
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-amber-600 dark:text-amber-500"></i>
                             <span>You've completed your reflection check for today.</span>
                         </div>
                     </div>
@@ -416,12 +421,12 @@
                     <h3 class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider px-1">Quick Jump</h3>
                     <div class="grid grid-cols-2 gap-3">
                         <button data-quick="John 3" class="btn-quick-jump p-4 border border-slate-200/80 dark:border-slate-800 rounded-2xl bg-white dark:bg-slate-900 text-left hover:border-amber-500 transition shadow-sm">
-                            <span class="block text-xs font-bold text-slate-900 dark:text-slate-100">John 3</span>
-                            <span class="text-[10px] text-slate-400 dark:text-slate-500">Gospel of John</span>
+                            <span class="block text-sm font-bold text-slate-900 dark:text-slate-100">John 3</span>
+                            <span class="text-xs text-slate-400 dark:text-slate-500">Gospel of John</span>
                         </button>
                         <button data-quick="Psalms 23" class="btn-quick-jump p-4 border border-slate-200/80 dark:border-slate-800 rounded-2xl bg-white dark:bg-slate-900 text-left hover:border-amber-500 transition shadow-sm">
-                            <span class="block text-xs font-bold text-slate-900 dark:text-slate-100">Psalms 23</span>
-                            <span class="text-[10px] text-slate-400 dark:text-slate-500">The Shepherd Psalm</span>
+                            <span class="block text-sm font-bold text-slate-900 dark:text-slate-100">Psalms 23</span>
+                            <span class="text-xs text-slate-400 dark:text-slate-500">The Shepherd Psalm</span>
                         </button>
                     </div>
                 </div>
@@ -432,11 +437,11 @@
                 <h2 class="text-lg font-bold text-slate-900 dark:text-slate-100">Thematic Cross-Reference</h2>
                 <div id="crossref-source-box" class="p-4 bg-amber-50/70 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-800/50 rounded-2xl text-xs space-y-1 hidden">
                     <span class="font-bold text-amber-800 dark:text-amber-400" id="crossref-source-ref">John 3:16</span>
-                    <p class="font-scripture text-sm italic dark:text-slate-200" id="crossref-source-text"></p>
+                    <p class="font-scripture text-base italic dark:text-slate-200" id="crossref-source-text"></p>
                 </div>
                 <div class="flex space-x-2">
-                    <input type="text" id="crossref-input" placeholder="Topic or phrase..." class="flex-1 px-4 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-500">
-                    <button id="btn-trigger-crossref" class="px-5 py-2.5 bg-amber-600 text-white rounded-xl text-xs font-bold active:scale-95 transition">Find</button>
+                    <input type="text" id="crossref-input" placeholder="Topic or phrase..." class="flex-1 px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                    <button id="btn-trigger-crossref" class="px-5 py-3 bg-amber-600 text-white rounded-xl text-xs font-bold active:scale-95 transition">Find</button>
                 </div>
                 <div id="crossref-results-container" class="space-y-3 pt-2"></div>
             </div>
@@ -526,49 +531,49 @@
             { name: "Revelation", testament: "NT", chapters: 22 }
         ];
 
-        // TAILORED VERSES & EASY CONTEXT DATA
+        // TAILORED VERSES & DETAILED EASY CONTEXT DATA
         const TAILORED_VERSES = {
             "anxious_comfort": {
                 book: "Philippians", chapter: 4, verse: 6, ref: "Philippians 4:6",
                 text: "Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God.",
                 context: "Paul wrote this while chained in a Roman prison, yet he was encouraging believers not to let worry paralyze them. In ancient times, 'careful' meant full of burden or anxiety.",
-                app_anxious: "When anxiety hits your mind today, treat this verse as permission to trade your heavy thoughts for direct conversation with God. Instead of replaying worries in your head, speak them out in prayer with a thankful heart for what He's already done.",
-                app_default: "Whatever stress or friction you encounter today, bring it straight to God in simple prayer rather than carrying it on your own shoulders."
+                app_anxious: "Because you're feeling anxious today, this passage serves as an explicit invitation to trade mental worry for direct prayer. When a stressful thought or problem enters your mind, notice it, pause, and immediately reframe it into a brief request to God. Pair that request with gratitude by remembering three specific things that went right recently—gratitude physically shifts your focus from what is spiraling out of control to what is already secure under God's care.",
+                app_default: "Whatever friction or stress comes your way today, bring it straight to God in simple, honest prayer rather than trying to carry the burden entirely on your own strength."
             },
             "anxious_strength": {
                 book: "Isaiah", chapter: 41, verse: 10, ref: "Isaiah 41:10",
                 text: "Fear thou not; for I am with thee: be not dismayed; for I am thy God: I will strengthen thee; yea, I will help thee.",
                 context: "God spoke these words to Israel while they were feeling helpless and outnumbered by surrounding nations. He reminded them that His presence was their ultimate shield.",
-                app_anxious: "When feeling weary or uncertain about what lies ahead today, remember you aren't walking into any room or situation alone. God guarantees His strength and personal backing right where you are.",
-                app_default: "Take a deep breath when facing hard decisions today, knowing God steps into your challenges right alongside you."
+                app_anxious: "When anxiety makes you feel weak, outnumbered by tasks, or uncertain about upcoming challenges today, treat this verse as your foundation. God doesn't promise a life completely free of pressure, but He guarantees His personal presence inside the pressure. Before stepping into a difficult meeting, conversation, or task today, remind yourself: 'I am not walking into this alone. God is upholding me right here.'",
+                app_default: "Take a deep breath whenever you encounter tough decisions or intimidating moments today, knowing God steps into your challenges directly alongside you."
             },
             "seeking_wisdom": {
                 book: "James", chapter: 1, verse: 5, ref: "James 1:5",
                 text: "If any of you lack wisdom, let him ask of God, that giveth to all men liberally, and upbraideth not; and it shall be given him.",
                 context: "James was guiding early Christians who faced overwhelming choices during persecution. He assured them God never mocks or looks down on someone who admits they don't know what to do.",
-                app_seeking: "If you're at a crossroads or trying to solve a tough issue today, pause before reacting. Ask God for clarity in plain terms—He gives guidance generously without making you feel foolish for asking.",
-                app_default: "Don't rely solely on quick instincts or human advice today; ask God for the inner wisdom to make the right call."
+                app_seeking: "If you're searching for direction or feeling stuck on a complex choice today, avoid rushing into a decision based purely on quick emotional reactions. Before making your next big call, pause for 60 seconds and explicitly ask God for clarity in plain terms. Trust that God loves giving wisdom generously—He won't judge or reprimand you for admitting you don't have all the answers figured out.",
+                app_default: "Don't rely solely on fast human advice or momentary impulses today; ask God directly for the inner perspective to make the right choice."
             },
             "joyful_praise": {
                 book: "Psalms", chapter: 100, verse: 1, ref: "Psalms 100:1-2",
                 text: "Make a joyful noise unto the LORD, all ye lands. Serve the LORD with gladness: come before his presence with singing.",
                 context: "This psalm was a song sung by pilgrims as they marched up the hill to worship in the temple courts in Jerusalem, celebrating God's enduring goodness and faithfulness.",
-                app_joyful: "Use the good energy and gratitude you feel today to encourage someone else. Let your joy overflow into how you speak to others and approach your work.",
-                app_default: "Focus today on small blessings and take a moment to pause and thank God with a glad heart."
+                app_joyful: "Since your spirit is feeling joyful and victorious today, channel that positive energy into serving and encouraging those around you. Joy becomes contagious when it is shared. Take time today to send a encouraging note, extend grace to someone under stress, or simply vocalize your gratitude to God for the good season you are walking through.",
+                app_default: "Focus on life's daily blessings today and take moments throughout your schedule to stop and thank God with a glad, grounded heart."
             },
             "peace_comfort": {
                 book: "John", chapter: 14, verse: 27, ref: "John 14:27",
                 text: "Peace I leave with you, my peace I give unto you: not as the world giveth, give I unto you. Let not your heart be troubled, neither let it be afraid.",
                 context: "Jesus shared these comforting words with His disciples the night before His arrest. He promised them a deep inner calm that doesn't depend on peaceful external circumstances.",
-                app_anxious: "Worldly peace depends on everything going right, but Christ's peace settles your heart even when circumstances are chaotic. Let His calm rule your thoughts today.",
-                app_default: "Hold onto a quiet, grounded confidence throughout your day, knowing Christ's peace guards your spirit."
+                app_anxious: "Worldly peace only exists when everything around you goes perfectly, but Christ's peace operates differently—it anchors your heart even inside noisy, chaotic environments. When things feel messy or unpredictable today, practice breathing slowly and reminding yourself that Christ's peace is inside you, guarding your spirit regardless of external noise.",
+                app_default: "Maintain a quiet, steady confidence throughout your entire day, resting in the reality that Christ's peace guards your mind and heart."
             },
             "default": {
                 book: "John", chapter: 3, verse: 16, ref: "John 3:16",
                 text: "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.",
                 context: "Jesus was explaining God's grand plan of redemption to Nicodemus, a religious leader who came to Him in secret at night seeking real truth.",
-                app_seeking: "Remember today that your value is rooted in how deeply God loves you—enough to give everything so you can live with security and eternal hope.",
-                app_default: "Walk through today anchored in the realization that you are deeply loved and valued by God."
+                app_seeking: "As you seek direction today, anchor your self-worth in God's immense love for you rather than your accomplishments or daily productivity. Knowing you are deeply valued by God gives you the freedom to move forward with confidence, clear purpose, and hope.",
+                app_default: "Walk through every situation today firmly established in the knowledge that you are loved, held, and valued by God."
             }
         };
 
@@ -581,7 +586,7 @@
             targetVerse: null,
             redLetter: true,
             theme: 'light',
-            fontSize: 19,
+            fontSize: 22,
             selectedTestament: 'NT',
             selectedVerseForAction: null,
             crossRefSource: null,
@@ -710,7 +715,7 @@
                 p.dataset.text = v.text;
 
                 const vNum = document.createElement('span');
-                vNum.className = 'font-sans text-[11px] font-bold text-amber-600 dark:text-amber-500 mr-2 select-none align-super';
+                vNum.className = 'font-sans text-[12px] font-bold text-amber-600 dark:text-amber-500 mr-2 select-none align-super';
                 vNum.textContent = v.verse;
 
                 const vText = document.createElement('span');
@@ -766,14 +771,14 @@
             });
 
             document.getElementById('btn-font-inc').addEventListener('click', () => {
-                if (state.fontSize < 28) {
+                if (state.fontSize < 32) {
                     state.fontSize += 1;
                     document.getElementById('font-size-label').textContent = `${state.fontSize}px`;
                     renderPassage();
                 }
             });
             document.getElementById('btn-font-dec').addEventListener('click', () => {
-                if (state.fontSize > 13) {
+                if (state.fontSize > 15) {
                     state.fontSize -= 1;
                     document.getElementById('font-size-label').textContent = `${state.fontSize}px`;
                     renderPassage();
@@ -885,7 +890,7 @@
             document.getElementById('act-bookmark').addEventListener('click', toggleBookmark);
         }
 
-        // VOTD CONTEXT MODAL LOGIC
+        // VOTD CONTEXT MODAL LOGIC (Detailed Explanations)
         function openVotdContextModal() {
             const currentVotd = state.currentVotd || TAILORED_VERSES['default'];
 
@@ -930,8 +935,8 @@
 
         function switchTestament(testament) {
             state.selectedTestament = testament;
-            document.getElementById('tab-ot').className = testament === 'OT' ? 'px-4 py-2 text-xs font-bold border-b-2 border-amber-600 text-amber-600 dark:text-amber-500' : 'px-4 py-2 text-xs font-bold text-slate-400 dark:text-slate-500';
-            document.getElementById('tab-nt').className = testament === 'NT' ? 'px-4 py-2 text-xs font-bold border-b-2 border-amber-600 text-amber-600 dark:text-amber-500' : 'px-4 py-2 text-xs font-bold text-slate-400 dark:text-slate-500';
+            document.getElementById('tab-ot').className = testament === 'OT' ? 'px-4 py-2 text-sm font-bold border-b-2 border-amber-600 text-amber-600 dark:text-amber-500' : 'px-4 py-2 text-sm font-bold text-slate-400 dark:text-slate-500';
+            document.getElementById('tab-nt').className = testament === 'NT' ? 'px-4 py-2 text-sm font-bold border-b-2 border-amber-600 text-amber-600 dark:text-amber-500' : 'px-4 py-2 text-sm font-bold text-slate-400 dark:text-slate-500';
             renderPickerBooks();
         }
 
@@ -940,7 +945,7 @@
             const filtered = BIBLE_BOOKS.filter(b => b.testament === state.selectedTestament);
             filtered.forEach(b => {
                 const btn = document.createElement('button');
-                btn.className = 'p-2.5 text-left text-xs font-semibold rounded-xl bg-slate-50 dark:bg-slate-800/80 text-slate-800 dark:text-slate-100 hover:bg-amber-500 hover:text-white dark:hover:bg-amber-600 border border-slate-200/60 dark:border-slate-800 transition';
+                btn.className = 'p-3 text-left text-xs font-semibold rounded-xl bg-slate-50 dark:bg-slate-800/80 text-slate-800 dark:text-slate-100 hover:bg-amber-500 hover:text-white dark:hover:bg-amber-600 border border-slate-200/60 dark:border-slate-800 transition';
                 btn.textContent = b.name;
                 btn.addEventListener('click', () => renderPickerChapters(b));
                 pickerBooks.appendChild(btn);
@@ -1066,7 +1071,7 @@
                 const card = document.createElement('div');
                 card.className = 'p-3.5 border border-slate-200 dark:border-slate-800 rounded-2xl bg-white dark:bg-slate-900 space-y-1 shadow-sm';
                 card.innerHTML = `<div class="font-bold text-xs text-amber-600 dark:text-amber-500">${bm.ref}</div>
-                                  <div class="text-sm font-scripture text-slate-800 dark:text-slate-100">${bm.text}</div>`;
+                                  <div class="text-base font-scripture text-slate-800 dark:text-slate-100">${bm.text}</div>`;
                 container.appendChild(card);
             });
         }
@@ -1102,7 +1107,7 @@
 
         function performCrossReferenceSearch(rawText) {
             const container = document.getElementById('crossref-results-container');
-            container.innerHTML = `<div class="flex justify-center py-8"><div class="animate-spin rounded-full h-6 w-6 border-b-2 border-amber-600"></div></div>`;
+            container.innerHTML = `<div class="flex justify-center py-8"><div class="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-600"></div></div>`;
 
             setTimeout(() => {
                 container.innerHTML = '';
@@ -1119,7 +1124,7 @@
                                         <span>${item.ref}</span>
                                         <i data-lucide="arrow-right-circle" class="w-4 h-4"></i>
                                       </div>
-                                      <div class="text-sm font-scripture text-slate-800 dark:text-slate-100">${item.text}</div>`;
+                                      <div class="text-base font-scripture text-slate-800 dark:text-slate-100">${item.text}</div>`;
                     
                     card.addEventListener('click', () => {
                         state.book = item.book;
