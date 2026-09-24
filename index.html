@@ -131,15 +131,21 @@
                 </div>
 
                 <div class="flex items-center space-x-2">
-                    <!-- Version Select Pill (Spelled-Out Names) -->
-                    <select id="version-select" class="bg-slate-100 dark:bg-slate-800/80 border-0 rounded-full text-xs font-bold px-3 py-1.5 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500 cursor-pointer max-w-[150px] truncate">
-                        <option value="CSB">Christian Standard Bible</option>
-                        <option value="ESV">English Standard Version</option>
-                        <option value="KJV">King James Version</option>
-                        <option value="NKJV">New King James Version</option>
-                        <option value="NIV">New International Version</option>
-                        <option value="NASB">New American Standard Bible</option>
-                    </select>
+                    <!-- Custom Version Select Pill Wrapper -->
+                    <div class="relative inline-block">
+                        <select id="version-select" class="absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer">
+                            <option value="CSB">Christian Standard Bible</option>
+                            <option value="ESV">English Standard Version</option>
+                            <option value="KJV">King James Version</option>
+                            <option value="NKJV">New King James Version</option>
+                            <option value="NIV">New International Version</option>
+                            <option value="NASB">New American Standard Bible</option>
+                        </select>
+                        <div id="version-display-pill" class="bg-slate-100 dark:bg-slate-800/80 border-0 rounded-full text-xs font-bold px-3.5 py-1.5 text-slate-800 dark:text-slate-200 flex items-center space-x-1 pointer-events-none">
+                            <span id="version-selected-abbr">CSB</span>
+                            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400"></i>
+                        </div>
+                    </div>
 
                     <!-- Settings Button -->
                     <button id="btn-toggle-settings" class="p-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-full hover:bg-slate-100 dark:hover:bg-slate-800/80 transition">
@@ -208,8 +214,8 @@
             </button>
         </div>
 
-        <!-- ENHANCED LARGER BOTTOM NAVIGATION BAR -->
-        <nav class="bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl border-t border-slate-200/80 dark:border-slate-800/80 grid grid-cols-5 py-3 z-30 shadow-lg">
+        <!-- ENHANCED LARGER BOTTOM NAVIGATION BAR (4 TABS) -->
+        <nav class="bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl border-t border-slate-200/80 dark:border-slate-800/80 grid grid-cols-4 py-3 z-30 shadow-lg">
             <button data-tab="home" class="nav-tab flex flex-col items-center justify-center py-1 px-1 rounded-xl transition active:scale-95 text-amber-600 dark:text-amber-500 font-bold">
                 <i data-lucide="home" class="w-6 h-6 mb-1"></i>
                 <span class="text-xs font-semibold tracking-tight">Home</span>
@@ -217,10 +223,6 @@
             <button data-tab="reader" class="nav-tab flex flex-col items-center justify-center py-1 px-1 rounded-xl transition active:scale-95 text-slate-500 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400">
                 <i data-lucide="book-open" class="w-6 h-6 mb-1"></i>
                 <span class="text-xs font-semibold tracking-tight">Read</span>
-            </button>
-            <button data-tab="search" class="nav-tab flex flex-col items-center justify-center py-1 px-1 rounded-xl transition active:scale-95 text-slate-500 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400">
-                <i data-lucide="search" class="w-6 h-6 mb-1"></i>
-                <span class="text-xs font-semibold tracking-tight">Search</span>
             </button>
             <button data-tab="crossref" class="nav-tab flex flex-col items-center justify-center py-1 px-1 rounded-xl transition active:scale-95 text-slate-500 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400">
                 <i data-lucide="git-fork" class="w-6 h-6 mb-1"></i>
@@ -283,7 +285,7 @@
             </div>
         </div>
 
-        <!-- TAB VIEWS (Hidden overlays for Home, Search, CrossRef, Saved) -->
+        <!-- TAB VIEWS (Hidden overlays for Home, CrossRef, Saved) -->
         <div id="view-overlay" class="absolute inset-0 bg-slate-50 dark:bg-slate-950 z-20 top-[60px] pb-24 overflow-y-auto p-5">
             
             <!-- HOME TAB CONTENT -->
@@ -363,17 +365,7 @@
                 </div>
             </div>
 
-            <!-- Search Tab Content -->
-            <div id="tab-content-search" class="tab-view hidden space-y-4">
-                <h2 class="text-lg font-bold text-slate-900 dark:text-slate-100">Search Scripture</h2>
-                <div class="flex space-x-2">
-                    <input type="text" id="search-input" placeholder="Search keywords (e.g., grace, faith)..." class="flex-1 px-4 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-500">
-                    <button id="btn-trigger-search" class="px-5 py-2.5 bg-amber-600 text-white rounded-xl text-xs font-bold active:scale-95 transition">Search</button>
-                </div>
-                <div id="search-results" class="space-y-3 pt-2"></div>
-            </div>
-
-            <!-- Cross Reference Search Tab -->
+            <!-- Cross Reference Tab -->
             <div id="tab-content-crossref" class="tab-view hidden space-y-4">
                 <h2 class="text-lg font-bold text-slate-900 dark:text-slate-100">Thematic Cross-Reference</h2>
                 <div id="crossref-source-box" class="p-4 bg-amber-50/70 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-800/50 rounded-2xl text-xs space-y-1 hidden">
@@ -648,6 +640,7 @@
         function setupEventListeners() {
             document.getElementById('version-select').addEventListener('change', (e) => {
                 state.version = e.target.value;
+                document.getElementById('version-selected-abbr').textContent = e.target.value;
                 renderPassage();
             });
 
