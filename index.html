@@ -318,7 +318,7 @@
 
                 <!-- Selected Reference Range Display -->
                 <div class="p-3 bg-brand-50 dark:bg-slate-800/80 border border-brand-200 dark:border-slate-700/60 rounded-xl">
-                    <span id="explanation-range-title" class="font-bold text-xs text-brand-600 dark:text-brand-400 block mb-1">John 3:16-17</span>
+                    <span id="explanation-range-title" class="font-bold text-xs text-brand-600 dark:text-brand-400 block mb-1"></span>
                     <p id="explanation-range-snippets" class="font-scripture text-xs italic text-slate-700 dark:text-slate-300 line-clamp-3"></p>
                 </div>
 
@@ -625,7 +625,7 @@
             redLetter: true,
             theme: localStorage.getItem('pb_theme') || 'system',
             fontSize: 22,
-            selectedTestament: 'NT',
+            selectedTestament: 'OT',
             selectedVerses: [], // Array of selected verse objects for multi-select
             crossRefSource: null,
             quizAns1: null,
@@ -723,13 +723,26 @@
             localStorage.setItem('pb_votd', JSON.stringify(votdObj));
         }
 
-        // API SCRIPTURE FETCHING
+        // API SCRIPTURE FETCHING (BULLETPROOF SINGLE-CHAPTER BOOK FIX)
         async function fetchChapterText(book, chapter, version) {
             try {
                 spinner.classList.remove('hidden');
                 chapterContent.innerHTML = '';
                 
-                const query = `${book} ${chapter}`;
+                // Explicit final verse counts for single-chapter books to bypass API shorthand ambiguity
+                const singleChapterRanges = {
+                    "Obadiah": "1:1-21",
+                    "Philemon": "1:1-25",
+                    "2 John": "1:1-13",
+                    "3 John": "1:1-14",
+                    "Jude": "1:1-25"
+                };
+
+                let query = `${book} ${chapter}`;
+                if (singleChapterRanges[book]) {
+                    query = `${book} ${singleChapterRanges[book]}`;
+                }
+
                 const res = await fetch(`https://bible-api.com/${encodeURIComponent(query)}?translation=kjv`);
                 const data = await res.json();
                 
@@ -1068,7 +1081,7 @@
             }, 600);
         }
 
-        // DYNAMIC REAL-WORLD EXPLANATION GENERATOR
+        // SMART DYNAMIC VERSE ANALYSIS ENGINE
         function openRealWorldExplanationModal() {
             if (state.selectedVerses.length === 0) return;
 
@@ -1083,26 +1096,29 @@
             const combinedText = state.selectedVerses.map(v => `v.${v.verse} ${v.text}`).join(' ');
             document.getElementById('explanation-range-snippets').textContent = `"${combinedText}"`;
 
-            // Dynamic analysis of selected verses
-            const fullTextLower = combinedText.toLowerCase();
+            // Analyze the exact words selected by the user to generate a unique response
+            const textLower = combinedText.toLowerCase();
             let bigPicture = "";
             let everyday = "";
 
-            if (fullTextLower.includes("love") || fullTextLower.includes("believeth") || fullTextLower.includes("son")) {
-                bigPicture = `In ${rangeStr}, the text highlights God's ultimate commitment and unconditional love toward humanity, emphasizing that belief and trust lead to eternal security rather than judgment.`;
-                everyday = `In daily life, this means you don't have to earn your worth or walk through your heaviest moments alone. When you feel inadequate or pressured, remember that you are fully valued and secure in God's eyes.`;
-            } else if (fullTextLower.includes("fear") || fullTextLower.includes("afraid") || fullTextLower.includes("troubled") || fullTextLower.includes("careful")) {
-                bigPicture = `In ${rangeStr}, the writer directly addresses human anxiety and fear, offering a rock-solid reminder that divine presence and peace outlast any temporary storm.`;
-                everyday = `When stress, racing thoughts, or unexpected challenges hit you today, use this passage as your mental anchor. Pause, breathe, and consciously hand your worries over in prayer instead of carrying them alone.`;
-            } else if (fullTextLower.includes("wisdom") || fullTextLower.includes("ask") || fullTextLower.includes("understanding") || fullTextLower.includes("path")) {
-                bigPicture = `In ${rangeStr}, we are given a clear promise that God readily provides wisdom and direction to anyone who asks without hesitation or judgment.`;
-                everyday = `If you are facing a confusing decision or feeling stuck at a crossroads today, stop and ask God for clarity before reacting. Trust that He wants to guide your next steps with wisdom.`;
-            } else if (fullTextLower.includes("joy") || fullTextLower.includes("praise") || fullTextLower.includes("sing") || fullTextLower.includes("glad")) {
-                bigPicture = `In ${rangeStr}, the passage invites an expression of joyful celebration and gratitude centered on God's enduring goodness and faithfulness.`;
-                everyday = `Take a moment today to channel that positive energy outward. Share encouragement, express gratitude for what is going right, and let your positive outlook lift up someone around you.`;
+            if (textLower.includes("love") || textLower.includes("believeth") || textLower.includes("grace") || textLower.includes("merc")) {
+                bigPicture = `In ${rangeStr}, the passage centers directly on the boundless depth of divine love, mercy, and unearned grace extended to humanity.`;
+                everyday = `When you feel inadequate, stressed, or like you have to constantly prove your worth today, let these specific words remind you that your foundation is secure in unconditional love. You don't have to carry your burdens or perfectionism alone.`;
+            } else if (textLower.includes("fear") || textLower.includes("afraid") || textLower.includes("troubled") || textLower.includes("careful") || textLower.includes("anxious")) {
+                bigPicture = `In ${rangeStr}, the text directly confronts human worry, fear, and internal turmoil, offering a steady anchor of calm and divine protection amidst life's storms.`;
+                everyday = `When racing thoughts, anxiety, or intimidating circumstances press in on you today, treat these verses as your immediate pause button. Hand your specific worries over in quiet prayer rather than trying to white-knuckle your way through them.`;
+            } else if (textLower.includes("wisdom") || textLower.includes("guid") || textLower.includes("path") || textLower.includes("understand") || textLower.includes("know")) {
+                bigPicture = `In ${rangeStr}, the focus is on seeking divine insight, true discernment, and clarity for navigating life's complex decisions.`;
+                everyday = `If you are standing at a crossroads or facing a tough choice today, avoid relying solely on fast human reactions or emotional impulses. Pause for a moment and consciously ask God for the clarity and perspective you need for your next step.`;
+            } else if (textLower.includes("joy") || textLower.includes("praise") || textLower.includes("sing") || textLower.includes("rejoic") || textLower.includes("glad")) {
+                bigPicture = `In ${rangeStr}, the passage invites an expression of vibrant celebration, thankfulness, and praise for God's steadfast faithfulness.`;
+                everyday = `Channel this positive energy outward today. Take time to thank God for specific blessings in your life right now, and let your grounded, joyful outlook bring encouragement to someone around you who might be struggling.`;
+            } else if (textLower.includes("strength") || textLower.includes("power") || textLower.includes("strong") || textLower.includes("help") || textLower.includes("shield")) {
+                bigPicture = `In ${rangeStr}, we are reminded that God acts as an active defender, provider, and source of relentless resilience when human endurance falls short.`;
+                everyday = `If you are feeling physically or emotionally weary today, stop trying to manufacture your own strength. Lean into this promise, take things one task at a time, and trust that you are being sustained by a power much greater than your own.`;
             } else {
-                bigPicture = `In ${rangeStr} (${state.book}), these verses speak directly into the core theme of walking faithfully and trusting God's guidance through every season.`;
-                everyday = `In practical terms, this passage encourages you to keep your perspective grounded today. Whatever task or conversation is right in front of you, approach it with integrity, calm confidence, and trust in God's support.`;
+                bigPicture = `In ${rangeStr} (${state.book}), these specific words speak directly to walking faithfully, maintaining integrity, and trusting God's deeper purpose in this chapter of your life.`;
+                everyday = `In practical terms, whatever task, conversation, or challenge is immediately in front of you today, approach it with calm confidence, honesty, and the assurance that your steps are guided.`;
             }
 
             document.getElementById('expl-big-picture').textContent = bigPicture;
@@ -1160,7 +1176,8 @@
             modalPicker.classList.remove('hidden');
             pickerBooks.classList.remove('hidden');
             pickerChapters.classList.add('hidden');
-            renderPickerBooks();
+            // Explicitly force OT load on modal open to prevent desync
+            switchTestament('OT');
         }
 
         function switchTestament(testament) {
