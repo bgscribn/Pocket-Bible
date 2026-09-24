@@ -1,0 +1,9 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "io.github.bgscribn.twa",
+        "sha256_cert_fingerprints": ["BC:B9:AD:E2:43:D7:BE:E9:F0:7D:F9:53:2F:DB:CC:0E:8E:77:16:57:F2:A0:4A:07:96:C5:61:33:8C:5E:2A:3C"]
+      }
+    }]
+
