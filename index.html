@@ -5,38 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Pocket Bible</title>
 
-    <!-- Direct Icon Links -->
-    <link rel="icon" type="image/png" sizes="192x192" href="https://bgscribn.github.io/Pocket-Bible/icon.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://bgscribn.github.io/Pocket-Bible/icon.png">
-
-    <!-- Web App Manifest -->
-    <link rel="manifest" href='data:application/manifest+json,{
-        "name": "Pocket Bible",
-        "short_name": "Pocket Bible",
-        "start_url": "https://bgscribn.github.io/Pocket-Bible/",
-        "display": "standalone",
-        "background_color": "#ffffff",
-        "theme_color": "#d97706",
-        "icons": [
-            {
-                "src": "https://bgscribn.github.io/Pocket-Bible/icon.png",
-                "sizes": "192x192",
-                "type": "image/png",
-                "purpose": "any maskable"
-            },
-            {
-                "src": "https://bgscribn.github.io/Pocket-Bible/icon.png",
-                "sizes": "512x512",
-                "type": "image/png",
-                "purpose": "any maskable"
-            }
-        ]
-    }'>
-
+    <!-- App Name & Theme Settings -->
+    <meta name="application-name" content="Pocket Bible">
+    <meta name="apple-mobile-web-app-title" content="Pocket Bible">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#d97706">
+
+    <!-- Direct Favicon & iOS Web Clip Icons (Used by Chrome Android as Direct Fallbacks) -->
+    <link rel="icon" type="image/png" sizes="512x512" href="https://bgscribn.github.io/Pocket-Bible/icon.png?v=2">
+    <link rel="icon" type="image/png" sizes="192x192" href="https://bgscribn.github.io/Pocket-Bible/icon.png?v=2">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://bgscribn.github.io/Pocket-Bible/icon.png?v=2">
+
+    <!-- Dynamic Web App Manifest Generation -->
+    <script>
+        (function() {
+            const manifest = {
+                "name": "Pocket Bible",
+                "short_name": "Pocket Bible",
+                "start_url": "https://bgscribn.github.io/Pocket-Bible/",
+                "scope": "https://bgscribn.github.io/Pocket-Bible/",
+                "display": "standalone",
+                "orientation": "portrait",
+                "background_color": "#ffffff",
+                "theme_color": "#d97706",
+                "icons": [
+                    {
+                        "src": "https://bgscribn.github.io/Pocket-Bible/icon.png?v=2",
+                        "sizes": "192x192",
+                        "type": "image/png",
+                        "purpose": "any maskable"
+                    },
+                    {
+                        "src": "https://bgscribn.github.io/Pocket-Bible/icon.png?v=2",
+                        "sizes": "512x512",
+                        "type": "image/png",
+                        "purpose": "any maskable"
+                    }
+                ]
+            };
+            const stringManifest = JSON.stringify(manifest);
+            const blob = new Blob([stringManifest], {type: 'application/json'});
+            const manifestURL = URL.createObjectURL(blob);
+            const link = document.createElement('link');
+            link.rel = 'manifest';
+            link.href = manifestURL;
+            document.getElementsByTagName('head')[0].appendChild(link);
+        })();
+    </script>
 
     <!-- Google Fonts: Inter (UI) & Newsreader (Scripture) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
