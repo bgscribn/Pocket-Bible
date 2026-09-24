@@ -494,7 +494,7 @@
         // APP STATE MANAGEMENT
         const state = {
             activeTab: 'home',
-            version: 'CSB',
+            version: localStorage.getItem('pb_version') || 'CSB',
             book: 'John',
             chapter: 3,
             targetVerse: null,
@@ -530,6 +530,13 @@
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
             applyTheme(state.theme);
+            
+            // Sync dropdown element and label pill to stored version
+            const versionSelect = document.getElementById('version-select');
+            const versionAbbrPill = document.getElementById('version-selected-abbr');
+            if (versionSelect) versionSelect.value = state.version;
+            if (versionAbbrPill) versionAbbrPill.textContent = state.version;
+
             checkDailyVotdAndQuizState();
             renderPassage();
             setupEventListeners();
@@ -657,6 +664,7 @@
         function setupEventListeners() {
             document.getElementById('version-select').addEventListener('change', (e) => {
                 state.version = e.target.value;
+                localStorage.setItem('pb_version', e.target.value);
                 document.getElementById('version-selected-abbr').textContent = e.target.value;
                 renderPassage();
             });
