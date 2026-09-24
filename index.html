@@ -18,6 +18,9 @@
     <link rel="icon" type="image/png" sizes="192x192" href="https://bgscribn.github.io/Pocket-Bible/icon.png?v=2">
     <link rel="apple-touch-icon" sizes="180x180" href="https://bgscribn.github.io/Pocket-Bible/icon.png?v=2">
 
+    <!-- Static Web App Manifest Link -->
+    <link rel="manifest" href="manifest.json">
+
     <!-- Dynamic Web App Manifest Generation -->
     <script>
         (function() {
@@ -1273,6 +1276,13 @@
             document.querySelectorAll('.tab-view').forEach(v => v.classList.add('hidden'));
             document.getElementById(`tab-content-${tabName}`).classList.remove('hidden');
         }
+    </script>
+
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+      }
     </script>
 </body>
 </html>
