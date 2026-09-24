@@ -3,14 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Pocket Bible - Modern Edition</title>
+    <title>Pocket Bible</title>
 
-    <!-- App Icon for Home Screen / PWA -->
-    <link rel="icon" type="image/png" href="icon.png">
-    <link rel="apple-touch-icon" href="icon.png">
+    <!-- Direct Icon Links -->
+    <link rel="icon" type="image/png" sizes="192x192" href="https://bgscribn.github.io/Pocket-Bible/icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://bgscribn.github.io/Pocket-Bible/icon.png">
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href='data:application/manifest+json,{
+        "name": "Pocket Bible",
+        "short_name": "Pocket Bible",
+        "start_url": "https://bgscribn.github.io/Pocket-Bible/",
+        "display": "standalone",
+        "background_color": "#ffffff",
+        "theme_color": "#d97706",
+        "icons": [
+            {
+                "src": "https://bgscribn.github.io/Pocket-Bible/icon.png",
+                "sizes": "192x192",
+                "type": "image/png",
+                "purpose": "any maskable"
+            },
+            {
+                "src": "https://bgscribn.github.io/Pocket-Bible/icon.png",
+                "sizes": "512x512",
+                "type": "image/png",
+                "purpose": "any maskable"
+            }
+        ]
+    }'>
+
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Pocket Bible">
+    <meta name="theme-color" content="#d97706">
 
     <!-- Google Fonts: Inter (UI) & Newsreader (Scripture) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -278,15 +304,43 @@
                     </div>
                 </div>
 
-                <!-- Daily Reflection Card -->
-                <div class="p-5 border border-slate-200/80 dark:border-slate-800 rounded-3xl bg-white dark:bg-slate-900 space-y-2 shadow-sm">
-                    <div class="flex items-center space-x-2 text-amber-600 dark:text-amber-500">
-                        <i data-lucide="sparkles" class="w-4 h-4"></i>
-                        <h3 class="font-bold text-xs uppercase tracking-wider">Daily Reflection</h3>
+                <!-- Interactive Reflection Quiz Panel -->
+                <div id="reflection-quiz-card" class="p-5 border border-slate-200/80 dark:border-slate-800 rounded-3xl bg-white dark:bg-slate-900 space-y-4 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-2 text-amber-600 dark:text-amber-500">
+                            <i data-lucide="sparkles" class="w-4 h-4"></i>
+                            <h3 class="font-bold text-xs uppercase tracking-wider">Daily Heart Check</h3>
+                        </div>
+                        <button id="btn-reset-quiz" class="text-[10px] text-slate-400 hover:text-amber-600">Retake</button>
                     </div>
-                    <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                        Reflect today on God's steadfast love and grace. Take a moment to write a note or mark a key verse as you read through His word.
-                    </p>
+
+                    <div id="quiz-questions-view" class="space-y-4">
+                        <div class="space-y-2">
+                            <label class="block text-xs font-semibold text-slate-800 dark:text-slate-200">1. How is your spirit feeling today?</label>
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <button data-q1="peace" class="quiz-btn-q1 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 text-left">Peaceful / Grateful</button>
+                                <button data-q1="anxious" class="quiz-btn-q1 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 text-left">Anxious / Weary</button>
+                                <button data-q1="seeking" class="quiz-btn-q1 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 text-left">Seeking Direction</button>
+                                <button data-q1="joyful" class="quiz-btn-q1 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 text-left">Joyful / Victorious</button>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="block text-xs font-semibold text-slate-800 dark:text-slate-200">2. What do you need most from Scripture right now?</label>
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <button data-q2="strength" class="quiz-btn-q2 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 text-left">Strength & Courage</button>
+                                <button data-q2="comfort" class="quiz-btn-q2 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 text-left">Comfort & Rest</button>
+                                <button data-q2="wisdom" class="quiz-btn-q2 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 text-left">Wisdom & Guidance</button>
+                                <button data-q2="praise" class="quiz-btn-q2 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 text-left">Praise & Worship</button>
+                            </div>
+                        </div>
+
+                        <button id="btn-submit-quiz" class="w-full py-2.5 bg-amber-600 text-white font-bold rounded-xl text-xs active:scale-95 transition">Get My Tailored Verse</button>
+                    </div>
+
+                    <div id="quiz-result-summary" class="hidden text-xs text-slate-600 dark:text-slate-400 leading-relaxed italic bg-amber-50/50 dark:bg-amber-950/20 p-3 rounded-2xl border border-amber-200/50 dark:border-amber-800/30">
+                        Verse tailored based on your answers today.
+                    </div>
                 </div>
 
                 <!-- Quick Navigation Shortcuts -->
@@ -414,6 +468,16 @@
             { name: "Revelation", testament: "NT", chapters: 22 }
         ];
 
+        // VERSES DATABASE FOR TAILORED ANSWERS
+        const TAILORED_VERSES = {
+            "anxious_comfort": { book: "Philippians", chapter: 4, verse: 6, ref: "Philippians 4:6", text: "Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God." },
+            "anxious_strength": { book: "Isaiah", chapter: 41, verse: 10, ref: "Isaiah 41:10", text: "Fear thou not; for I am with thee: be not dismayed; for I am thy God: I will strengthen thee; yea, I will help thee." },
+            "seeking_wisdom": { book: "James", chapter: 1, verse: 5, ref: "James 1:5", text: "If any of you lack wisdom, let him ask of God, that giveth to all men liberally, and upbraideth not; and it shall be given him." },
+            "joyful_praise": { book: "Psalms", chapter: 100, verse: 1, ref: "Psalms 100:1-2", text: "Make a joyful noise unto the LORD, all ye lands. Serve the LORD with gladness: come before his presence with singing." },
+            "peace_comfort": { book: "John", chapter: 14, verse: 27, ref: "John 14:27", text: "Peace I leave with you, my peace I give unto you: not as the world giveth, give I unto you. Let not your heart be troubled, neither let it be afraid." },
+            "default": { book: "John", chapter: 3, verse: 16, ref: "John 3:16", text: "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life." }
+        };
+
         // APP STATE MANAGEMENT
         const state = {
             activeTab: 'home',
@@ -427,6 +491,9 @@
             selectedTestament: 'NT',
             selectedVerseForAction: null,
             crossRefSource: null,
+            quizAns1: null,
+            quizAns2: null,
+            currentVotd: JSON.parse(localStorage.getItem('pb_votd') || 'null'),
             highlights: JSON.parse(localStorage.getItem('pb_highlights') || '{}'),
             bookmarks: JSON.parse(localStorage.getItem('pb_bookmarks') || '[]')
         };
@@ -449,10 +516,28 @@
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
             applyTheme(state.theme);
+            checkDailyVotdReset();
             renderPassage();
             setupEventListeners();
             handleTabSwitch('home');
         });
+
+        // DAILY VOTD CHECK
+        function checkDailyVotdReset() {
+            const today = new Date().toDateString();
+            if (state.currentVotd && state.currentVotd.date === today) {
+                updateVotdCard(state.currentVotd);
+            } else {
+                updateVotdCard({ date: today, ...TAILORED_VERSES['default'] });
+            }
+        }
+
+        function updateVotdCard(votdObj) {
+            document.getElementById('votd-text').textContent = `"${votdObj.text}"`;
+            document.getElementById('votd-ref').textContent = votdObj.ref;
+            state.currentVotd = votdObj;
+            localStorage.setItem('pb_votd', JSON.stringify(votdObj));
+        }
 
         // API SCRIPTURE FETCHING
         async function fetchChapterText(book, chapter, version) {
@@ -509,7 +594,6 @@
 
                 const vText = document.createElement('span');
                 
-                // Words of Jesus Red Letter Logic
                 if (state.redLetter && v.jesus) {
                     vText.className = 'red-letter';
                 }
@@ -523,7 +607,6 @@
                 chapterContent.appendChild(p);
             });
 
-            // Target verse scroll into view
             if (state.targetVerse) {
                 setTimeout(() => {
                     const targetEl = document.getElementById(`verse-${state.targetVerse}`);
@@ -583,6 +666,41 @@
             document.getElementById('btn-prev-chap').addEventListener('click', () => navigateChapter(-1));
             document.getElementById('btn-next-chap').addEventListener('click', () => navigateChapter(1));
 
+            // Quiz Button Selections
+            document.querySelectorAll('.quiz-btn-q1').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.quiz-btn-q1').forEach(b => b.classList.remove('bg-amber-100', 'border-amber-600'));
+                    e.currentTarget.classList.add('bg-amber-100', 'border-amber-600');
+                    state.quizAns1 = e.currentTarget.dataset.q1;
+                });
+            });
+
+            document.querySelectorAll('.quiz-btn-q2').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.quiz-btn-q2').forEach(b => b.classList.remove('bg-amber-100', 'border-amber-600'));
+                    e.currentTarget.classList.add('bg-amber-100', 'border-amber-600');
+                    state.quizAns2 = e.currentTarget.dataset.q2;
+                });
+            });
+
+            // Submit Quiz
+            document.getElementById('btn-submit-quiz').addEventListener('click', () => {
+                const key = `${state.quizAns1}_${state.quizAns2}`;
+                const chosenVerse = TAILORED_VERSES[key] || TAILORED_VERSES['default'];
+                
+                const newVotd = { date: new Date().toDateString(), ...chosenVerse };
+                updateVotdCard(newVotd);
+
+                document.getElementById('quiz-result-summary').classList.remove('hidden');
+            });
+
+            document.getElementById('btn-reset-quiz').addEventListener('click', () => {
+                document.querySelectorAll('.quiz-btn-q1, .quiz-btn-q2').forEach(b => b.classList.remove('bg-amber-100', 'border-amber-600'));
+                document.getElementById('quiz-result-summary').classList.add('hidden');
+                state.quizAns1 = null;
+                state.quizAns2 = null;
+            });
+
             // Return to Cross Reference Origin
             document.getElementById('btn-return-crossref').addEventListener('click', () => {
                 if (state.crossRefSource) {
@@ -598,9 +716,11 @@
 
             // Verse of the Day Read Context Button
             document.getElementById('btn-read-context').addEventListener('click', () => {
-                state.book = 'John';
-                state.chapter = 3;
-                state.targetVerse = 16;
+                if (state.currentVotd) {
+                    state.book = state.currentVotd.book;
+                    state.chapter = state.currentVotd.chapter;
+                    state.targetVerse = state.currentVotd.verse;
+                }
                 renderPassage();
                 handleTabSwitch('reader');
             });
@@ -811,7 +931,6 @@
         document.getElementById('act-crossref').addEventListener('click', () => {
             if (!state.selectedVerseForAction) return;
             
-            // Save origin for back navigation
             state.crossRefSource = { ...state.selectedVerseForAction };
             
             modalVerseActions.classList.add('hidden');
@@ -850,13 +969,11 @@
                                       </div>
                                       <div class="text-sm font-scripture text-slate-800 dark:text-slate-200">${item.text}</div>`;
                     
-                    // Click handler to jump directly to referenced passage
                     card.addEventListener('click', () => {
                         state.book = item.book;
                         state.chapter = item.chapter;
                         state.targetVerse = item.verse;
 
-                        // Display Return Banner
                         if (state.crossRefSource) {
                             returnCrossRefLabel.textContent = `Back to ${state.crossRefSource.book} ${state.crossRefSource.chapter}:${state.crossRefSource.verse}`;
                             returnCrossRefBanner.classList.remove('hidden');
