@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Pocket Bible</title>
+    <title>BGS Pocket Scripture</title>
 
     <!-- App Name & Theme Settings -->
-    <meta name="application-name" content="Pocket Bible">
-    <meta name="apple-mobile-web-app-title" content="Pocket Bible">
+    <meta name="application-name" content="BGS Pocket Scripture">
+    <meta name="apple-mobile-web-app-title" content="BGS Pocket Scripture">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -25,8 +25,8 @@
     <script>
         (function() {
             const manifest = {
-                "name": "Pocket Bible",
-                "short_name": "Pocket Bible",
+                "name": "BGS Pocket Scripture",
+                "short_name": "BGS Scripture",
                 "start_url": "https://bgscribn.github.io/Pocket-Bible/",
                 "scope": "https://bgscribn.github.io/Pocket-Bible/",
                 "display": "standalone",
@@ -236,7 +236,7 @@
                     </button>
                 </div>
 
-                <!-- Center Group: Enlarged Highlight Swatches -->
+                <!-- Center Group: Highlight Swatches -->
                 <div class="flex items-center space-x-1.5 bg-slate-800/80 p-1.5 rounded-xl border border-slate-700/80 flex-shrink-0">
                     <button data-color="yellow" class="dock-hl-color w-6 h-6 rounded-full bg-yellow-400 active:scale-95 transition shadow-sm" title="Yellow"></button>
                     <button data-color="green"  class="dock-hl-color w-6 h-6 rounded-full bg-emerald-400 active:scale-95 transition shadow-sm" title="Green"></button>
@@ -245,7 +245,7 @@
                     <button data-color="clear"  class="dock-hl-color w-6 h-6 rounded-full bg-slate-700 flex items-center justify-center text-xs font-bold text-slate-300 shadow-sm" title="Clear">×</button>
                 </div>
 
-                <!-- Right Group: Enlarged Cross-Ref & Clear -->
+                <!-- Right Group: Cross-Ref & Clear -->
                 <div class="flex items-center space-x-1.5 flex-shrink-0">
                     <button id="dock-act-crossref" class="px-2.5 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl shadow-md flex items-center space-x-1 text-xs font-bold active:scale-95 transition" title="Cross-Reference">
                         <i data-lucide="git-fork" class="w-3.5 h-3.5"></i>
@@ -310,35 +310,28 @@
 
         <!-- REAL-WORLD EXPLANATION MODAL ("WHAT DOES THIS MEAN?") -->
         <div id="modal-explanation" class="fixed inset-0 bg-black/60 dark:bg-black/75 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
-            <div class="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-sm max-h-[88vh] overflow-y-auto p-5 space-y-4 animate-fade-in shadow-2xl border border-slate-200 dark:border-slate-800">
+            <div class="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-sm max-h-[88vh] overflow-y-auto p-6 space-y-5 animate-fade-in shadow-2xl border border-slate-200 dark:border-slate-800">
                 <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-3">
                     <div class="flex items-center space-x-2">
-                        <i data-lucide="lightbulb" class="w-5 h-5 text-amber-500"></i>
-                        <h3 class="font-bold text-slate-900 dark:text-slate-100 text-base">What Does This Mean?</h3>
+                        <i data-lucide="lightbulb" class="w-6 h-6 text-amber-500"></i>
+                        <h3 class="font-bold text-slate-900 dark:text-slate-100 text-xl">What Does This Mean?</h3>
                     </div>
-                    <button id="btn-close-explanation" class="p-1 text-slate-400 hover:text-slate-200"><i data-lucide="x" class="w-5 h-5"></i></button>
+                    <button id="btn-close-explanation" class="p-1 text-slate-400 hover:text-slate-200"><i data-lucide="x" class="w-6 h-6"></i></button>
                 </div>
 
                 <!-- Selected Reference Range Display -->
-                <div class="p-3 bg-brand-50 dark:bg-slate-800/80 border border-brand-200 dark:border-slate-700/60 rounded-xl">
-                    <span id="explanation-range-title" class="font-bold text-xs text-brand-600 dark:text-brand-400 block mb-1"></span>
-                    <p id="explanation-range-snippets" class="font-scripture text-xs italic text-slate-700 dark:text-slate-300 line-clamp-3"></p>
+                <div class="p-4 bg-brand-50 dark:bg-slate-800/80 border border-brand-200 dark:border-slate-700/60 rounded-2xl">
+                    <span id="explanation-range-title" class="font-bold text-base text-brand-600 dark:text-brand-400 block mb-1.5"></span>
+                    <p id="explanation-range-snippets" class="font-scripture text-xl italic text-slate-800 dark:text-slate-200 leading-snug line-clamp-5"></p>
                 </div>
 
-                <!-- Simple Real-World Breakdown -->
-                <div class="space-y-3">
-                    <div class="space-y-1">
-                        <h4 class="text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">The Big Picture</h4>
-                        <p id="expl-big-picture" class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-sans"></p>
-                    </div>
-
-                    <div class="p-3.5 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 rounded-2xl space-y-1">
-                        <h4 class="text-xs font-bold uppercase tracking-wider text-accent-600 dark:text-accent-500">WHAT THIS MEANS TO YOU</h4>
-                        <p id="expl-everyday" class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-sans"></p>
-                    </div>
+                <!-- Single Expanded Real-World Breakdown Section -->
+                <div class="space-y-2">
+                    <h4 class="text-base font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">The Big Picture</h4>
+                    <p id="expl-big-picture" class="text-lg text-slate-800 dark:text-slate-200 leading-relaxed font-sans"></p>
                 </div>
 
-                <button id="btn-dismiss-explanation" class="w-full py-3 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl text-xs shadow-lg active:scale-95 transition">
+                <button id="btn-dismiss-explanation" class="w-full py-3.5 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl text-base shadow-lg active:scale-95 transition">
                     Got It
                 </button>
             </div>
@@ -346,45 +339,45 @@
 
         <!-- VERSE OF THE DAY CONTEXT FLOATING CENTER MODAL -->
         <div id="modal-votd-context" class="fixed inset-0 bg-black/60 dark:bg-black/75 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
-            <div class="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-sm max-h-[88vh] overflow-y-auto p-5 space-y-4 animate-fade-in shadow-2xl border border-slate-200 dark:border-slate-800">
+            <div class="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-sm max-h-[88vh] overflow-y-auto p-6 space-y-5 animate-fade-in shadow-2xl border border-slate-200 dark:border-slate-800">
                 <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-3">
                     <div class="flex items-center space-x-2">
-                        <i data-lucide="compass" class="w-5 h-5 text-brand-600 dark:text-brand-400"></i>
-                        <h3 id="context-modal-ref" class="font-bold text-slate-900 dark:text-slate-100 text-base">Understanding the Context</h3>
+                        <i data-lucide="compass" class="w-6 h-6 text-brand-600 dark:text-brand-400"></i>
+                        <h3 id="context-modal-ref" class="font-bold text-slate-900 dark:text-slate-100 text-lg">Understanding the Context</h3>
                     </div>
-                    <button id="btn-close-context" class="p-1 text-slate-400 hover:text-slate-200"><i data-lucide="x" class="w-5 h-5"></i></button>
+                    <button id="btn-close-context" class="p-1 text-slate-400 hover:text-slate-200"><i data-lucide="x" class="w-6 h-6"></i></button>
                 </div>
 
                 <!-- Verse Display Card -->
                 <div class="p-4 bg-amber-50/80 dark:bg-slate-800/80 border border-amber-200/80 dark:border-slate-700/60 rounded-2xl space-y-1">
-                    <p id="context-modal-verse" class="font-scripture text-base italic text-amber-900 dark:text-brand-200 leading-relaxed"></p>
+                    <p id="context-modal-verse" class="font-scripture text-lg italic text-amber-950 dark:text-brand-200 leading-relaxed"></p>
                 </div>
 
                 <!-- Easy Context Section -->
                 <div class="space-y-2">
-                    <h4 class="text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400 flex items-center space-x-1.5">
+                    <h4 class="text-sm font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400 flex items-center space-x-1.5">
                         <i data-lucide="book-open" class="w-4 h-4"></i>
                         <span>What Was Happening Here?</span>
                     </h4>
-                    <p id="context-background-text" class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-sans"></p>
+                    <p id="context-background-text" class="text-base text-slate-800 dark:text-slate-200 leading-relaxed font-sans"></p>
                 </div>
 
                 <!-- Personalized Life Application Section -->
                 <div class="p-4 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 rounded-2xl space-y-2">
-                    <h4 class="text-xs font-bold uppercase tracking-wider text-accent-600 dark:text-accent-500 flex items-center space-x-1.5">
+                    <h4 class="text-sm font-bold uppercase tracking-wider text-accent-600 dark:text-accent-500 flex items-center space-x-1.5">
                         <i data-lucide="heart-handshake" class="w-4 h-4"></i>
                         <span>What It Means For You Today</span>
                     </h4>
-                    <p id="context-application-text" class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-sans space-y-2"></p>
+                    <p id="context-application-text" class="text-base text-slate-800 dark:text-slate-200 leading-relaxed font-sans space-y-2"></p>
                 </div>
 
                 <!-- Modal Actions -->
-                <div class="pt-1 flex flex-col space-y-2">
-                    <button id="btn-context-jump-reader" class="w-full py-3 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl text-xs flex items-center justify-center space-x-2 shadow-lg active:scale-95 transition">
+                <div class="pt-1 flex flex-col space-y-2.5">
+                    <button id="btn-context-jump-reader" class="w-full py-3.5 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl text-sm flex items-center justify-center space-x-2 shadow-lg active:scale-95 transition">
                         <span>Read Full Chapter in Reader</span>
                         <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </button>
-                    <button id="btn-context-dismiss" class="w-full py-2 text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200">
+                    <button id="btn-context-dismiss" class="w-full py-2 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200">
                         Close
                     </button>
                 </div>
@@ -572,50 +565,88 @@
             { name: "Revelation", testament: "NT", chapters: 22 }
         ];
 
-        // TAILORED VERSES & DETAILED EASY CONTEXT DATA
+        // EXPANDED TAILORED VERSES POOLS
         const TAILORED_VERSES = {
-            "anxious_comfort": {
-                book: "Philippians", chapter: 4, verse: 6, ref: "Philippians 4:6",
-                text: "Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God.",
-                context: "Paul wrote this while chained in a Roman prison, yet he was encouraging believers not to let worry paralyze them. In ancient times, 'careful' meant full of burden or anxiety.",
-                app_anxious: "Because you're feeling anxious today, this passage serves as an explicit invitation to trade mental worry for direct prayer. When a stressful thought or problem enters your mind, notice it, pause, and immediately reframe it into a brief request to God. Pair that request with gratitude by remembering three specific things that went right recently—gratitude physically shifts your focus from what is spiraling out of control to what is already secure under God's care.",
-                app_default: "Whatever friction or stress comes your way today, bring it straight to God in simple, honest prayer rather than trying to carry the burden entirely on your own strength."
-            },
-            "anxious_strength": {
-                book: "Isaiah", chapter: 41, verse: 10, ref: "Isaiah 41:10",
-                text: "Fear thou not; for I am with thee: be not dismayed; for I am thy God: I will strengthen thee; yea, I will help thee.",
-                context: "God spoke these words to Israel while they were feeling helpless and outnumbered by surrounding nations. He reminded them that His presence was their ultimate shield.",
-                app_anxious: "When anxiety makes you feel weak, outnumbered by tasks, or uncertain about upcoming challenges today, treat this verse as your foundation. God doesn't promise a life completely free of pressure, but He guarantees His personal presence inside the pressure. Before stepping into a difficult meeting, conversation, or task today, remind yourself: 'I am not walking into this alone. God is upholding me right here.'",
-                app_default: "Take a deep breath whenever you encounter tough decisions or intimidating moments today, knowing God steps into your challenges directly alongside you."
-            },
-            "seeking_wisdom": {
-                book: "James", chapter: 1, verse: 5, ref: "James 1:5",
-                text: "If any of you lack wisdom, let him ask of God, that giveth to all men liberally, and upbraideth not; and it shall be given him.",
-                context: "James was guiding early Christians who faced overwhelming choices during persecution. He assured them God never mocks or looks down on someone who admits they don't know what to do.",
-                app_seeking: "If you're searching for direction or feeling stuck on a complex choice today, avoid rushing into a decision based purely on quick emotional reactions. Before making your next big call, pause for 60 seconds and explicitly ask God for clarity in plain terms. Trust that God loves giving wisdom generously—He won't judge or reprimand you for admitting you don't have all the answers figured out.",
-                app_default: "Don't rely solely on fast human advice or momentary impulses today; ask God directly for the inner perspective to make the right choice."
-            },
-            "joyful_praise": {
-                book: "Psalms", chapter: 100, verse: 1, ref: "Psalms 100:1-2",
-                text: "Make a joyful noise unto the LORD, all ye lands. Serve the LORD with gladness: come before his presence with singing.",
-                context: "This psalm was a song sung by pilgrims as they marched up the hill to worship in the temple courts in Jerusalem, celebrating God's enduring goodness and faithfulness.",
-                app_joyful: "Since your spirit is feeling joyful and victorious today, channel that positive energy into serving and encouraging those around you. Joy becomes contagious when it is shared. Take time today to send a encouraging note, extend grace to someone under stress, or simply vocalize your gratitude to God for the good season you are walking through.",
-                app_default: "Focus on life's daily blessings today and take moments throughout your schedule to stop and thank God with a glad, grounded heart."
-            },
-            "peace_comfort": {
-                book: "John", chapter: 14, verse: 27, ref: "John 14:27",
-                text: "Peace I leave with you, my peace I give unto you: not as the world giveth, give I unto you. Let not your heart be troubled, neither let it be afraid.",
-                context: "Jesus shared these comforting words with His disciples the night before His arrest. He promised them a deep inner calm that doesn't depend on peaceful external circumstances.",
-                app_anxious: "Worldly peace only exists when everything around you goes perfectly, but Christ's peace operates differently—it anchors your heart even inside noisy, chaotic environments. When things feel messy or unpredictable today, practice breathing slowly and reminding yourself that Christ's peace is inside you, guarding your spirit regardless of external noise.",
-                app_default: "Maintain a quiet, steady confidence throughout your entire day, resting in the reality that Christ's peace guards your mind and heart."
-            },
-            "default": {
-                book: "John", chapter: 3, verse: 16, ref: "John 3:16",
-                text: "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.",
-                context: "Jesus was explaining God's grand plan of redemption to Nicodemus, a religious leader who came to Him in secret at night seeking real truth.",
-                app_seeking: "As you seek direction today, anchor your self-worth in God's immense love for you rather than your accomplishments or daily productivity. Knowing you are deeply valued by God gives you the freedom to move forward with confidence, clear purpose, and hope.",
-                app_default: "Walk through every situation today firmly established in the knowledge that you are loved, held, and valued by God."
-            }
+            "anxious_comfort": [
+                {
+                    book: "Philippians", chapter: 4, verse: 6, ref: "Philippians 4:6",
+                    text: "Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God.",
+                    context: "Paul wrote this while chained in a Roman prison, encouraging believers not to let worry paralyze them.",
+                    app_anxious: "Because you're feeling anxious today, trade mental worry for direct prayer. Pair that request with gratitude.",
+                    app_default: "Bring your stress straight to God in simple, honest prayer."
+                },
+                {
+                    book: "Psalms", chapter: 94, verse: 19, ref: "Psalms 94:19",
+                    text: "In the multitude of my thoughts within me thy comforts delight my soul.",
+                    context: "The psalmist acknowledges how racing thoughts can overwhelm the mind.",
+                    app_anxious: "When racing thoughts pile up today, step back and let scripture refocus your attention on lasting comfort.",
+                    app_default: "Let your thoughts find rest in God's promises throughout the day."
+                },
+                {
+                    book: "1 Peter", chapter: 5, verse: 7, ref: "1 Peter 5:7",
+                    text: "Casting all your care upon him; for he careth for you.",
+                    context: "Peter urged early Christians facing hostility to surrender their mental burdens to God.",
+                    app_anxious: "Physically visualize taking your heaviest concern today and handing it over completely.",
+                    app_default: "Remember that God actively cares about the details of your day."
+                }
+            ],
+            "anxious_strength": [
+                {
+                    book: "Isaiah", chapter: 41, verse: 10, ref: "Isaiah 41:10",
+                    text: "Fear thou not; for I am with thee: be not dismayed; for I am thy God: I will strengthen thee; yea, I will help thee.",
+                    context: "God spoke these words to Israel while they were feeling helpless and outnumbered.",
+                    app_anxious: "When anxiety makes you feel weak, treat this verse as your foundation. God guarantees His presence.",
+                    app_default: "Take a deep breath knowing God steps into your challenges alongside you."
+                },
+                {
+                    book: "Joshua", chapter: 1, verse: 9, ref: "Joshua 1:9",
+                    text: "Have not I commanded thee? Be strong and of a good courage; be not afraid, neither be thou dismayed: for the LORD thy God is with thee whithersoever thou goest.",
+                    context: "Joshua was stepping into new leadership, facing an intimidating chapter.",
+                    app_anxious: "Courage isn't the absence of fear; it's moving forward knowing God is present.",
+                    app_default: "Step into your tasks with steady, quiet confidence."
+                }
+            ],
+            "seeking_wisdom": [
+                {
+                    book: "James", chapter: 1, verse: 5, ref: "James 1:5",
+                    text: "If any of you lack wisdom, let him ask of God, that giveth to all men liberally, and upbraideth not; and it shall be given him.",
+                    context: "James guided believers making complex choices, assuring them God gives wisdom generously.",
+                    app_seeking: "Pause before making your next big decision today and explicitly ask God for clarity.",
+                    app_default: "Ask God directly for the inner perspective to make the right choice."
+                },
+                {
+                    book: "Proverbs", chapter: 3, verse: 5, ref: "Proverbs 3:5-6",
+                    text: "Trust in the LORD with all thine heart; and lean not unto thine own understanding. In all thy ways acknowledge him, and he shall direct thy paths.",
+                    context: "Solomon wrote this wisdom to teach that human logic alone is incomplete without divine guidance.",
+                    app_seeking: "Avoid rushing into a decision based on fast emotional reactions; seek God's alignment first.",
+                    app_default: "Acknowledge God in your small decisions throughout the day."
+                }
+            ],
+            "joyful_praise": [
+                {
+                    book: "Psalms", chapter: 100, verse: 1, ref: "Psalms 100:1-2",
+                    text: "Make a joyful noise unto the LORD, all ye lands. Serve the LORD with gladness: come before his presence with singing.",
+                    context: "A pilgrim song celebrating God's enduring goodness in the temple courts.",
+                    app_joyful: "Channel your positive energy into encouraging those around you today.",
+                    app_default: "Focus on daily blessings with a glad heart."
+                },
+                {
+                    book: "Psalms", chapter: 118, verse: 24, ref: "Psalms 118:24",
+                    text: "This is the day which the LORD hath made; we will rejoice and be glad in it.",
+                    context: "A song of thanksgiving celebrating victory and a new day of opportunity.",
+                    app_joyful: "Share your joy today with someone who might be struggling.",
+                    app_default: "Approach today with intentional gratitude."
+                }
+            ],
+            "default": [
+                {
+                    book: "John", chapter: 3, verse: 16, ref: "John 3:16",
+                    text: "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.",
+                    context: "Jesus explaining God's plan of redemption to Nicodemus.",
+                    app_seeking: "Anchor your self-worth in God's love rather than productivity.",
+                    app_default: "Walk through every situation knowing you are valued by God."
+                }
+            ]
         };
 
         // APP STATE MANAGEMENT
@@ -629,7 +660,7 @@
             theme: localStorage.getItem('pb_theme') || 'system',
             fontSize: 22,
             selectedTestament: 'OT',
-            selectedVerses: [], // Array of selected verse objects for multi-select
+            selectedVerses: [],
             crossRefSource: null,
             quizAns1: null,
             quizAns2: null,
@@ -655,6 +686,30 @@
         const returnCrossRefBanner = document.getElementById('return-crossref-banner');
         const returnCrossRefLabel = document.getElementById('return-crossref-label');
 
+        // NON-REPEATING VERSE TRACKER LOGIC
+        function getShownVerseHistory() {
+            return JSON.parse(localStorage.getItem('pb_shown_verses') || '[]');
+        }
+
+        function getNonRepeatingVerse(poolKey) {
+            const pool = TAILORED_VERSES[poolKey] || TAILORED_VERSES['default'];
+            let history = getShownVerseHistory();
+
+            let unshownVerses = pool.filter(v => !history.includes(v.ref));
+
+            if (unshownVerses.length === 0) {
+                history = history.filter(ref => !pool.some(v => v.ref === ref));
+                unshownVerses = [...pool];
+            }
+
+            const selectedVerse = unshownVerses[Math.floor(Math.random() * unshownVerses.length)];
+
+            history.push(selectedVerse.ref);
+            localStorage.setItem('pb_shown_verses', JSON.stringify(history));
+
+            return selectedVerse;
+        }
+
         // INITIALIZATION
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
@@ -673,7 +728,6 @@
 
             checkDailyVotdAndQuizState();
             
-            // Default initial state setup
             if (!state.book) {
                 labelPassage.textContent = "Choose a Book";
                 chapterContent.innerHTML = `<div class="text-center py-20 space-y-3">
@@ -703,7 +757,7 @@
             if (state.currentVotd && state.currentVotd.date === today) {
                 updateVotdCard(state.currentVotd);
             } else {
-                updateVotdCard({ date: today, ...TAILORED_VERSES['default'] });
+                updateVotdCard({ date: today, ...TAILORED_VERSES['default'][0] });
             }
         }
 
@@ -726,13 +780,12 @@
             localStorage.setItem('pb_votd', JSON.stringify(votdObj));
         }
 
-        // API SCRIPTURE FETCHING (BULLETPROOF SINGLE-CHAPTER BOOK FIX)
+        // API SCRIPTURE FETCHING
         async function fetchChapterText(book, chapter, version) {
             try {
                 spinner.classList.remove('hidden');
                 chapterContent.innerHTML = '';
                 
-                // Explicit final verse counts for single-chapter books to bypass API shorthand ambiguity
                 const singleChapterRanges = {
                     "Obadiah": "1:1-21",
                     "Philemon": "1:1-25",
@@ -761,13 +814,11 @@
             }
         }
 
-        // FALLBACK SCRIPTURE DATA
         function getFallbackVerseData(book, chapter) {
             const isNT = BIBLE_BOOKS.find(b => b.name === book)?.testament === 'NT';
             return [
                 { verse: 1, text: "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.", jesus: isNT && (book === 'John' || book === 'Matthew' || book === 'Mark' || book === 'Luke') },
-                { verse: 2, text: "For God sent not his Son into the world to condemn the world; but that the world through him might be saved.", jesus: isNT && (book === 'John' || book === 'Matthew' || book === 'Mark' || book === 'Luke') },
-                { verse: 3, text: "He that believeth on him is not condemned: but he that believeth not is condemned already, because he hath not believed in the name of the only begotten Son of God.", jesus: isNT && (book === 'John' || book === 'Matthew' || book === 'Mark' || book === 'Luke') }
+                { verse: 2, text: "For God sent not his Son into the world to condemn the world; but that the world through him might be saved.", jesus: isNT && (book === 'John' || book === 'Matthew' || book === 'Mark' || book === 'Luke') }
             ];
         }
 
@@ -804,7 +855,6 @@
                 p.appendChild(vNum);
                 p.appendChild(vText);
 
-                // Multi-Verse Selection Toggle on Click
                 p.addEventListener('click', () => toggleVerseSelection(v.verse, v.text, p));
                 chapterContent.appendChild(p);
             });
@@ -903,11 +953,9 @@
             document.getElementById('btn-prev-chap').addEventListener('click', () => navigateChapter(-1));
             document.getElementById('btn-next-chap').addEventListener('click', () => navigateChapter(1));
 
-            // Multi-Verse Dock Actions
             document.getElementById('btn-clear-selection').addEventListener('click', clearVerseSelections);
             document.getElementById('btn-what-does-this-mean').addEventListener('click', openRealWorldExplanationModal);
             
-            // Inline Highlight Color Actions
             document.querySelectorAll('.dock-hl-color').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const color = e.currentTarget.dataset.color;
@@ -915,13 +963,11 @@
                 });
             });
 
-            // Inline Cross-Ref Action
             document.getElementById('dock-act-crossref').addEventListener('click', dockTriggerCrossRef);
 
             document.getElementById('btn-close-explanation').addEventListener('click', () => modalExplanation.classList.add('hidden'));
             document.getElementById('btn-dismiss-explanation').addEventListener('click', () => modalExplanation.classList.add('hidden'));
 
-            // Quiz Selections
             document.querySelectorAll('.quiz-btn-q1').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     document.querySelectorAll('.quiz-btn-q1').forEach(b => b.classList.remove('bg-brand-50', 'dark:bg-brand-950', 'border-brand-600', 'dark:border-brand-500', 'text-brand-700', 'dark:text-brand-300'));
@@ -938,10 +984,9 @@
                 });
             });
 
-            // Submit Quiz
             document.getElementById('btn-submit-quiz').addEventListener('click', () => {
                 const key = `${state.quizAns1}_${state.quizAns2}`;
-                const chosenVerse = TAILORED_VERSES[key] || TAILORED_VERSES['default'];
+                const chosenVerse = getNonRepeatingVerse(key);
                 
                 const today = new Date().toDateString();
                 const newVotd = { date: today, ...chosenVerse };
@@ -957,7 +1002,6 @@
                 showQuizQuestionsState();
             });
 
-            // Return to Cross Reference Origin
             document.getElementById('btn-return-crossref').addEventListener('click', () => {
                 if (state.crossRefSource) {
                     state.book = state.crossRefSource.book;
@@ -970,12 +1014,10 @@
                 }
             });
 
-            // OPEN VERSE OF THE DAY CONTEXT MODAL
             document.getElementById('btn-read-context').addEventListener('click', openVotdContextModal);
             document.getElementById('btn-close-context').addEventListener('click', () => modalVotdContext.classList.add('hidden'));
             document.getElementById('btn-context-dismiss').addEventListener('click', () => modalVotdContext.classList.add('hidden'));
 
-            // Jump from Context Modal to Reader
             document.getElementById('btn-context-jump-reader').addEventListener('click', () => {
                 if (state.currentVotd) {
                     state.book = state.currentVotd.book;
@@ -987,7 +1029,6 @@
                 handleTabSwitch('reader');
             });
 
-            // Quick Jump Buttons
             document.querySelectorAll('.btn-quick-jump').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const quick = e.currentTarget.dataset.quick.split(' ');
@@ -1006,7 +1047,6 @@
             });
         }
 
-        // APPLY HIGHLIGHT TO ALL SELECTED VERSES
         function applyDockHighlight(color) {
             if (state.selectedVerses.length === 0) return;
 
@@ -1084,7 +1124,6 @@
             }, 600);
         }
 
-        // SMART DYNAMIC VERSE ANALYSIS ENGINE
         function openRealWorldExplanationModal() {
             if (state.selectedVerses.length === 0) return;
 
@@ -1099,40 +1138,35 @@
             const combinedText = state.selectedVerses.map(v => `v.${v.verse} ${v.text}`).join(' ');
             document.getElementById('explanation-range-snippets').textContent = `"${combinedText}"`;
 
-            // Analyze the exact words selected by the user to generate a unique response
             const textLower = combinedText.toLowerCase();
-            let bigPicture = "";
-            let everyday = "";
+            let dynamicAnalysis = "";
 
-            if (textLower.includes("love") || textLower.includes("believeth") || textLower.includes("grace") || textLower.includes("merc")) {
-                bigPicture = `In ${rangeStr}, the passage centers directly on the boundless depth of divine love, mercy, and unearned grace extended to humanity.`;
-                everyday = `When you feel inadequate, stressed, or like you have to constantly prove your worth today, let these specific words remind you that your foundation is secure in unconditional love. You don't have to carry your burdens or perfectionism alone.`;
-            } else if (textLower.includes("fear") || textLower.includes("afraid") || textLower.includes("troubled") || textLower.includes("careful") || textLower.includes("anxious")) {
-                bigPicture = `In ${rangeStr}, the text directly confronts human worry, fear, and internal turmoil, offering a steady anchor of calm and divine protection amidst life's storms.`;
-                everyday = `When racing thoughts, anxiety, or intimidating circumstances press in on you today, treat these verses as your immediate pause button. Hand your specific worries over in quiet prayer rather than trying to white-knuckle your way through them.`;
-            } else if (textLower.includes("wisdom") || textLower.includes("guid") || textLower.includes("path") || textLower.includes("understand") || textLower.includes("know")) {
-                bigPicture = `In ${rangeStr}, the focus is on seeking divine insight, true discernment, and clarity for navigating life's complex decisions.`;
-                everyday = `If you are standing at a crossroads or facing a tough choice today, avoid relying solely on fast human reactions or emotional impulses. Pause for a moment and consciously ask God for the clarity and perspective you need for your next step.`;
-            } else if (textLower.includes("joy") || textLower.includes("praise") || textLower.includes("sing") || textLower.includes("rejoic") || textLower.includes("glad")) {
-                bigPicture = `In ${rangeStr}, the passage invites an expression of vibrant celebration, thankfulness, and praise for God's steadfast faithfulness.`;
-                everyday = `Channel this positive energy outward today. Take time to thank God for specific blessings in your life right now, and let your grounded, joyful outlook bring encouragement to someone around you who might be struggling.`;
-            } else if (textLower.includes("strength") || textLower.includes("power") || textLower.includes("strong") || textLower.includes("help") || textLower.includes("shield")) {
-                bigPicture = `In ${rangeStr}, we are reminded that God acts as an active defender, provider, and source of relentless resilience when human endurance falls short.`;
-                everyday = `If you are feeling physically or emotionally weary today, stop trying to manufacture your own strength. Lean into this promise, take things one task at a time, and trust that you are being sustained by a power much greater than your own.`;
+            if (textLower.includes("love") || textLower.includes("believeth") || textLower.includes("grace") || textLower.includes("mercy")) {
+                dynamicAnalysis = `In ${rangeStr}, the text emphasizes the relational heart of God toward humanity. Rather than evaluating people based on performance, these verses reveal unconditional love and grace as the foundational motivation for redemption in ${first.book}.`;
+            } else if (textLower.includes("fear") || textLower.includes("afraid") || textLower.includes("troubled") || textLower.includes("peace")) {
+                dynamicAnalysis = `In ${rangeStr}, the writer addresses the internal friction of anxiety and uncertainty. The passage serves as a direct antidote to fear, redirecting attention from immediate threats to God's enduring presence and sovereignty in ${first.book} ${first.chapter}.`;
+            } else if (textLower.includes("wisdom") || textLower.includes("light") || textLower.includes("truth") || textLower.includes("word") || textLower.includes("path")) {
+                dynamicAnalysis = `In ${rangeStr}, the central theme is spiritual alignment and clarity. It contrasts temporary human perspective with eternal divine truth, encouraging the reader to anchor choices in wisdom rather than momentary impulse.`;
+            } else if (textLower.includes("pray") || textLower.includes("ask") || textLower.includes("seek") || textLower.includes("call")) {
+                dynamicAnalysis = `In ${rangeStr}, the emphasis is on active communion with God. The text highlights that prayer is not a rigid formal ritual, but an open channel for bringing real human needs, burdens, and requests directly before God.`;
+            } else if (textLower.includes("strength") || textLower.includes("power") || textLower.includes("shield") || textLower.includes("rock") || textLower.includes("help")) {
+                dynamicAnalysis = `In ${rangeStr}, the passage highlights human limitation alongside divine sufficiency. It assures the reader in ${first.book} that when personal energy or endurance is exhausted, God acts as a reliable fortress and source of strength.`;
+            } else if (textLower.includes("praise") || textLower.includes("sing") || textLower.includes("rejoice") || textLower.includes("thanks")) {
+                dynamicAnalysis = `In ${rangeStr}, the passage shifts focus to intentional gratitude and worship. It encourages recognizing God's active goodness across daily life, using thanksgiving as a catalyst to transform your perspective.`;
             } else {
-                bigPicture = `In ${rangeStr} (${state.book}), these specific words speak directly to walking faithfully, maintaining integrity, and trusting God's deeper purpose in this chapter of your life.`;
-                everyday = `In practical terms, whatever task, conversation, or challenge is immediately in front of you today, approach it with calm confidence, honesty, and the assurance that your steps are guided.`;
+                dynamicAnalysis = `In ${rangeStr}, this selection from ${first.book} chapter ${first.chapter} highlights walking with integrity, living faithfully, and understanding your active role within God's ongoing purpose.`;
             }
 
-            document.getElementById('expl-big-picture').textContent = bigPicture;
-            document.getElementById('expl-everyday').textContent = everyday;
+            const wordCount = combinedText.split(' ').length;
+            const customTail = ` Examining the ${wordCount}-word passage (${rangeStr}), the primary focus centers on: "${combinedText.substring(0, 80).trim()}..."`;
+
+            document.getElementById('expl-big-picture').textContent = dynamicAnalysis + customTail;
 
             modalExplanation.classList.remove('hidden');
         }
 
-        // VOTD CONTEXT MODAL LOGIC
         function openVotdContextModal() {
-            const currentVotd = state.currentVotd || TAILORED_VERSES['default'];
+            const currentVotd = state.currentVotd || TAILORED_VERSES['default'][0];
 
             document.getElementById('context-modal-ref').textContent = currentVotd.ref;
             document.getElementById('context-modal-verse').textContent = `"${currentVotd.text}"`;
@@ -1151,7 +1185,6 @@
             modalVotdContext.classList.remove('hidden');
         }
 
-        // THEME APPLIER (SYSTEM / LIGHT / SEPIA / DARK)
         function applyTheme(theme) {
             state.theme = theme;
             localStorage.setItem('pb_theme', theme);
@@ -1174,12 +1207,10 @@
             }
         }
 
-        // PASSAGE PICKER LOGIC
         function openPicker() {
             modalPicker.classList.remove('hidden');
             pickerBooks.classList.remove('hidden');
             pickerChapters.classList.add('hidden');
-            // Explicitly force OT load on modal open to prevent desync
             switchTestament('OT');
         }
 
@@ -1223,7 +1254,6 @@
             }
         }
 
-        // CHAPTER NAVIGATION
         function navigateChapter(direction) {
             if (!state.book) {
                 openPicker();
@@ -1251,7 +1281,6 @@
             renderPassage();
         }
 
-        // TAB SWITCHING & OVERLAYS
         function handleTabSwitch(tabName) {
             state.activeTab = tabName;
 
