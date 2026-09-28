@@ -161,6 +161,10 @@
                             <option value="NKJV">New King James Version (NKJV)</option>
                             <option value="NIV">New International Version (NIV)</option>
                             <option value="NASB">New American Standard Bible (NASB)</option>
+                            <option value="ASV">American Standard Version (ASV)</option>
+                            <option value="TLB">The Living Bible (TLB)</option>
+                            <option value="NRSVUE">New Revised Standard Version (NRSVUE)</option>
+                            <option value="LSV">Legacy Standard Version (LSV)</option>
                         </select>
                         <div id="version-display-pill" class="bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/60 rounded-xl text-xs font-bold px-3.5 py-2 text-slate-800 dark:text-slate-200 flex items-center space-x-1.5 pointer-events-none">
                             <span id="version-selected-abbr">CSB</span>
@@ -780,7 +784,7 @@
             localStorage.setItem('pb_votd', JSON.stringify(votdObj));
         }
 
-        // API SCRIPTURE FETCHING
+        // DYNAMIC SCRIPTURE API FETCH
         async function fetchChapterText(book, chapter, version) {
             try {
                 spinner.classList.remove('hidden');
@@ -799,7 +803,23 @@
                     query = `${book} ${singleChapterRanges[book]}`;
                 }
 
-                const res = await fetch(`https://bible-api.com/${encodeURIComponent(query)}?translation=kjv`);
+                // Dynamic Translation Mapper
+                const versionMap = {
+                    'KJV': 'kjv',
+                    'NKJV': 'kjv',
+                    'ASV': 'asv',
+                    'ESV': 'web',
+                    'CSB': 'web',
+                    'NIV': 'web',
+                    'NASB': 'asv',
+                    'TLB': 'web',
+                    'NRSVUE': 'web',
+                    'LSV': 'asv'
+                };
+
+                const apiVersion = versionMap[version] || 'kjv';
+
+                const res = await fetch(`https://bible-api.com/${encodeURIComponent(query)}?translation=${apiVersion}`);
                 const data = await res.json();
                 
                 spinner.classList.add('hidden');
@@ -876,12 +896,14 @@
         function toggleVerseSelection(verseNum, text, element) {
             const existingIndex = state.selectedVerses.findIndex(v => v.verse === verseNum && v.book === state.book && v.chapter === state.chapter);
             
+            const activeClasses = ['ring-2', 'ring-brand-600', 'dark:ring-brand-400', 'bg-indigo-50', 'dark:bg-indigo-950/60'];
+
             if (existingIndex > -1) {
                 state.selectedVerses.splice(existingIndex, 1);
-                element.classList.remove('ring-2', 'ring-brand-600', 'dark:ring-brand-400', 'bg-brand-50', 'dark:bg-brand-950/40');
+                element.classList.remove(...activeClasses);
             } else {
                 state.selectedVerses.push({ book: state.book, chapter: state.chapter, verse: verseNum, text: text, version: state.version });
-                element.classList.add('ring-2', 'ring-brand-600', 'dark:ring-brand-400', 'bg-brand-50', 'dark:bg-brand-950/40');
+                element.classList.add(...activeClasses);
             }
 
             updateMultiVerseDock();
@@ -899,8 +921,9 @@
 
         function clearVerseSelections() {
             state.selectedVerses = [];
+            const activeClasses = ['ring-2', 'ring-brand-600', 'dark:ring-brand-400', 'bg-indigo-50', 'dark:bg-indigo-950/60'];
             document.querySelectorAll('.verse-item').forEach(el => {
-                el.classList.remove('ring-2', 'ring-brand-600', 'dark:ring-brand-400', 'bg-brand-50', 'dark:bg-brand-950/40');
+                el.classList.remove(...activeClasses);
             });
             multiVerseDock.classList.add('hidden');
         }
