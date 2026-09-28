@@ -322,7 +322,7 @@
                 <!-- Selected Reference Range Display -->
                 <div class="p-4 bg-brand-50 dark:bg-slate-800/80 border border-brand-200 dark:border-slate-700/60 rounded-2xl">
                     <span id="explanation-range-title" class="font-bold text-base text-brand-600 dark:text-brand-400 block mb-1.5"></span>
-                    <p id="explanation-range-snippets" class="font-scripture text-xl italic text-slate-800 dark:text-slate-200 leading-snug line-clamp-5"></p>
+                    <p id="explanation-range-snippets" class="font-scripture text-xl italic text-slate-800 dark:text-slate-200 leading-snug"></p>
                 </div>
 
                 <!-- Single Expanded Real-World Breakdown Section -->
@@ -1141,26 +1141,25 @@
             const textLower = combinedText.toLowerCase();
             let dynamicAnalysis = "";
 
-            if (textLower.includes("love") || textLower.includes("believeth") || textLower.includes("grace") || textLower.includes("mercy")) {
-                dynamicAnalysis = `In ${rangeStr}, the text emphasizes the relational heart of God toward humanity. Rather than evaluating people based on performance, these verses reveal unconditional love and grace as the foundational motivation for redemption in ${first.book}.`;
+            if (textLower.includes("tabernacle") || textLower.includes("congregation") || textLower.includes("gather") || textLower.includes("assembly")) {
+                dynamicAnalysis = `This passage from ${first.book} focuses on corporate sacred duty and community alignment. Gathering the assembly at the entrance signifies transparency, unity, and preparing the community to witness and participate in God's ordered purpose.`;
+            } else if (textLower.includes("love") || textLower.includes("believeth") || textLower.includes("grace") || textLower.includes("mercy")) {
+                dynamicAnalysis = `In ${rangeStr}, the text emphasizes the relational heart of God toward humanity. Rather than evaluating people based on performance, these verses reveal unconditional love and grace as the foundational motivation for redemption.`;
             } else if (textLower.includes("fear") || textLower.includes("afraid") || textLower.includes("troubled") || textLower.includes("peace")) {
-                dynamicAnalysis = `In ${rangeStr}, the writer addresses the internal friction of anxiety and uncertainty. The passage serves as a direct antidote to fear, redirecting attention from immediate threats to God's enduring presence and sovereignty in ${first.book} ${first.chapter}.`;
+                dynamicAnalysis = `In ${rangeStr}, the writer addresses internal anxiety and uncertainty. The passage serves as an antidote to fear, redirecting attention to God's enduring presence and sovereignty.`;
             } else if (textLower.includes("wisdom") || textLower.includes("light") || textLower.includes("truth") || textLower.includes("word") || textLower.includes("path")) {
-                dynamicAnalysis = `In ${rangeStr}, the central theme is spiritual alignment and clarity. It contrasts temporary human perspective with eternal divine truth, encouraging the reader to anchor choices in wisdom rather than momentary impulse.`;
+                dynamicAnalysis = `In ${rangeStr}, the central theme is spiritual alignment and clarity. It contrasts temporary human perspective with divine truth, encouraging choices rooted in wisdom.`;
             } else if (textLower.includes("pray") || textLower.includes("ask") || textLower.includes("seek") || textLower.includes("call")) {
-                dynamicAnalysis = `In ${rangeStr}, the emphasis is on active communion with God. The text highlights that prayer is not a rigid formal ritual, but an open channel for bringing real human needs, burdens, and requests directly before God.`;
+                dynamicAnalysis = `In ${rangeStr}, the emphasis is on direct communion with God, inviting open expression of needs, burdens, and requests.`;
             } else if (textLower.includes("strength") || textLower.includes("power") || textLower.includes("shield") || textLower.includes("rock") || textLower.includes("help")) {
-                dynamicAnalysis = `In ${rangeStr}, the passage highlights human limitation alongside divine sufficiency. It assures the reader in ${first.book} that when personal energy or endurance is exhausted, God acts as a reliable fortress and source of strength.`;
+                dynamicAnalysis = `In ${rangeStr}, the passage highlights divine sufficiency during times of weakness, offering reassurance of God's active protection and support.`;
             } else if (textLower.includes("praise") || textLower.includes("sing") || textLower.includes("rejoice") || textLower.includes("thanks")) {
-                dynamicAnalysis = `In ${rangeStr}, the passage shifts focus to intentional gratitude and worship. It encourages recognizing God's active goodness across daily life, using thanksgiving as a catalyst to transform your perspective.`;
+                dynamicAnalysis = `In ${rangeStr}, the passage shifts focus to intentional gratitude and worship, recognizing God's active goodness across daily life.`;
             } else {
-                dynamicAnalysis = `In ${rangeStr}, this selection from ${first.book} chapter ${first.chapter} highlights walking with integrity, living faithfully, and understanding your active role within God's ongoing purpose.`;
+                dynamicAnalysis = `This selection from ${first.book} chapter ${first.chapter} highlights walking with integrity, living faithfully, and recognizing your active role within God's ongoing purpose.`;
             }
 
-            const wordCount = combinedText.split(' ').length;
-            const customTail = ` Examining the ${wordCount}-word passage (${rangeStr}), the primary focus centers on: "${combinedText.substring(0, 80).trim()}..."`;
-
-            document.getElementById('expl-big-picture').textContent = dynamicAnalysis + customTail;
+            document.getElementById('expl-big-picture').textContent = dynamicAnalysis;
 
             modalExplanation.classList.remove('hidden');
         }
