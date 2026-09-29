@@ -532,6 +532,17 @@
 
     <!-- SCRIPT APPLICATION LOGIC -->
     <script>
+        // HAPTIC FEEDBACK ENGINE
+        function triggerHaptic() {
+            if ('vibrate' in navigator) {
+                try {
+                    navigator.vibrate(12);
+                } catch (e) {
+                    // Ignore haptic errors on unsupported hardware
+                }
+            }
+        }
+
         // Cross-platform viewport height handler
         function setAppHeight() {
             const doc = document.documentElement;
@@ -813,6 +824,7 @@
         const floatingChapNav = document.getElementById('floating-chap-nav');
         const returnCrossRefBanner = document.getElementById('return-crossref-banner');
         const returnCrossRefLabel = document.getElementById('return-crossref-label');
+        const readerContainer = document.getElementById('reader-container');
 
         // NON-REPEATING VERSE TRACKER LOGIC
         function getShownVerseHistory() {
@@ -885,8 +897,46 @@
             }
 
             setupEventListeners();
+            setupTouchSwipeGestures();
             handleTabSwitch('home');
         });
+
+        // SWIPE GESTURE HANDLER FOR CHAPTER NAVIGATION
+        function setupTouchSwipeGestures() {
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let touchEndX = 0;
+            let touchEndY = 0;
+
+            readerContainer.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+                touchStartY = e.changedTouches[0].screenY;
+            }, { passive: true });
+
+            readerContainer.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                touchEndY = e.changedTouches[0].screenY;
+                handleSwipeGesture();
+            }, { passive: true });
+
+            function handleSwipeGesture() {
+                const diffX = touchEndX - touchStartX;
+                const diffY = touchEndY - touchStartY;
+
+                // Ensure the horizontal swipe was greater than vertical movement to avoid triggering on scrolling
+                if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                    if (diffX < 0) {
+                        // Swiped Left -> Next Chapter
+                        triggerHaptic();
+                        navigateChapter(1);
+                    } else {
+                        // Swiped Right -> Prev Chapter
+                        triggerHaptic();
+                        navigateChapter(-1);
+                    }
+                }
+            }
+        }
 
         // DAILY VOTD & QUIZ STATE RESET LOGIC
         async function checkDailyVotdAndQuizState() {
@@ -1009,7 +1059,10 @@
                 p.appendChild(vNum);
                 p.appendChild(vText);
 
-                p.addEventListener('click', () => toggleVerseSelection(v.verse, v.text, p));
+                p.addEventListener('click', () => {
+                    triggerHaptic();
+                    toggleVerseSelection(v.verse, v.text, p);
+                });
                 chapterContent.appendChild(p);
             });
 
@@ -1054,6 +1107,7 @@
         }
 
         function clearVerseSelections() {
+            triggerHaptic();
             state.selectedVerses = [];
             const activeClasses = ['ring-2', 'ring-brand-600', 'dark:ring-brand-400', 'bg-indigo-50', 'dark:bg-indigo-950/60'];
             document.querySelectorAll('.verse-item').forEach(el => {
@@ -1065,6 +1119,7 @@
         // EVENT LISTENERS & NAVIGATION
         function setupEventListeners() {
             document.getElementById('version-select').addEventListener('change', async (e) => {
+                triggerHaptic();
                 state.version = e.target.value;
                 localStorage.setItem('pb_version', e.target.value);
                 document.getElementById('version-selected-abbr').textContent = e.target.value;
@@ -1078,21 +1133,25 @@
             });
 
             document.getElementById('btn-toggle-settings').addEventListener('click', () => {
+                triggerHaptic();
                 settingsPanel.classList.toggle('hidden');
             });
 
             document.getElementById('toggle-red-letter').addEventListener('change', (e) => {
+                triggerHaptic();
                 state.redLetter = e.target.checked;
                 if (state.book) renderPassage();
             });
 
             document.querySelectorAll('.btn-theme').forEach(btn => {
                 btn.addEventListener('click', (e) => {
+                    triggerHaptic();
                     applyTheme(e.target.dataset.theme);
                 });
             });
 
             document.getElementById('btn-font-inc').addEventListener('click', () => {
+                triggerHaptic();
                 if (state.fontSize < 32) {
                     state.fontSize += 1;
                     document.getElementById('font-size-label').textContent = `${state.fontSize}px`;
@@ -1100,6 +1159,7 @@
                 }
             });
             document.getElementById('btn-font-dec').addEventListener('click', () => {
+                triggerHaptic();
                 if (state.fontSize > 15) {
                     state.fontSize -= 1;
                     document.getElementById('font-size-label').textContent = `${state.fontSize}px`;
@@ -1107,32 +1167,64 @@
                 }
             });
 
-            document.getElementById('btn-nav-picker').addEventListener('click', openPicker);
-            document.getElementById('btn-close-picker').addEventListener('click', () => modalPicker.classList.add('hidden'));
+            document.getElementById('btn-nav-picker').addEventListener('click', () => {
+                triggerHaptic();
+                openPicker();
+            });
+            document.getElementById('btn-close-picker').addEventListener('click', () => {
+                triggerHaptic();
+                modalPicker.classList.add('hidden');
+            });
 
-            document.getElementById('tab-ot').addEventListener('click', () => switchTestament('OT'));
-            document.getElementById('tab-nt').addEventListener('click', () => switchTestament('NT'));
+            document.getElementById('tab-ot').addEventListener('click', () => {
+                triggerHaptic();
+                switchTestament('OT');
+            });
+            document.getElementById('tab-nt').addEventListener('click', () => {
+                triggerHaptic();
+                switchTestament('NT');
+            });
 
-            document.getElementById('btn-prev-chap').addEventListener('click', () => navigateChapter(-1));
-            document.getElementById('btn-next-chap').addEventListener('click', () => navigateChapter(1));
+            document.getElementById('btn-prev-chap').addEventListener('click', () => {
+                triggerHaptic();
+                navigateChapter(-1);
+            });
+            document.getElementById('btn-next-chap').addEventListener('click', () => {
+                triggerHaptic();
+                navigateChapter(1);
+            });
 
             document.getElementById('btn-clear-selection').addEventListener('click', clearVerseSelections);
-            document.getElementById('btn-what-does-this-mean').addEventListener('click', openRealWorldExplanationModal);
+            document.getElementById('btn-what-does-this-mean').addEventListener('click', () => {
+                triggerHaptic();
+                openRealWorldExplanationModal();
+            });
             
             document.querySelectorAll('.dock-hl-color').forEach(btn => {
                 btn.addEventListener('click', (e) => {
+                    triggerHaptic();
                     const color = e.currentTarget.dataset.color;
                     applyDockHighlight(color);
                 });
             });
 
-            document.getElementById('dock-act-crossref').addEventListener('click', dockTriggerCrossRef);
+            document.getElementById('dock-act-crossref').addEventListener('click', () => {
+                triggerHaptic();
+                dockTriggerCrossRef();
+            });
 
-            document.getElementById('btn-close-explanation').addEventListener('click', () => modalExplanation.classList.add('hidden'));
-            document.getElementById('btn-dismiss-explanation').addEventListener('click', () => modalExplanation.classList.add('hidden'));
+            document.getElementById('btn-close-explanation').addEventListener('click', () => {
+                triggerHaptic();
+                modalExplanation.classList.add('hidden');
+            });
+            document.getElementById('btn-dismiss-explanation').addEventListener('click', () => {
+                triggerHaptic();
+                modalExplanation.classList.add('hidden');
+            });
 
             document.querySelectorAll('.quiz-btn-q1').forEach(btn => {
                 btn.addEventListener('click', (e) => {
+                    triggerHaptic();
                     document.querySelectorAll('.quiz-btn-q1').forEach(b => b.classList.remove('bg-brand-50', 'dark:bg-brand-950', 'border-brand-600', 'dark:border-brand-500', 'text-brand-700', 'dark:text-brand-300'));
                     e.currentTarget.classList.add('bg-brand-50', 'dark:bg-brand-950', 'border-brand-600', 'dark:border-brand-500', 'text-brand-700', 'dark:text-brand-300');
                     state.quizAns1 = e.currentTarget.dataset.q1;
@@ -1141,6 +1233,7 @@
 
             document.querySelectorAll('.quiz-btn-q2').forEach(btn => {
                 btn.addEventListener('click', (e) => {
+                    triggerHaptic();
                     document.querySelectorAll('.quiz-btn-q2').forEach(b => b.classList.remove('bg-brand-50', 'dark:bg-brand-950', 'border-brand-600', 'dark:border-brand-500', 'text-brand-700', 'dark:text-brand-300'));
                     e.currentTarget.classList.add('bg-brand-50', 'dark:bg-brand-950', 'border-brand-600', 'dark:border-brand-500', 'text-brand-700', 'dark:text-brand-300');
                     state.quizAns2 = e.currentTarget.dataset.q2;
@@ -1148,6 +1241,7 @@
             });
 
             document.getElementById('btn-submit-quiz').addEventListener('click', async () => {
+                triggerHaptic();
                 const key = `${state.quizAns1}_${state.quizAns2}`;
                 const chosenVerse = getNonRepeatingVerse(key);
                 
@@ -1162,10 +1256,12 @@
             });
 
             document.getElementById('btn-reopen-quiz').addEventListener('click', () => {
+                triggerHaptic();
                 showQuizQuestionsState();
             });
 
             document.getElementById('btn-return-crossref').addEventListener('click', () => {
+                triggerHaptic();
                 if (state.crossRefSource) {
                     state.book = state.crossRefSource.book;
                     state.chapter = state.crossRefSource.chapter;
@@ -1177,11 +1273,21 @@
                 }
             });
 
-            document.getElementById('btn-read-context').addEventListener('click', openVotdContextModal);
-            document.getElementById('btn-close-context').addEventListener('click', () => modalVotdContext.classList.add('hidden'));
-            document.getElementById('btn-context-dismiss').addEventListener('click', () => modalVotdContext.classList.add('hidden'));
+            document.getElementById('btn-read-context').addEventListener('click', () => {
+                triggerHaptic();
+                openVotdContextModal();
+            });
+            document.getElementById('btn-close-context').addEventListener('click', () => {
+                triggerHaptic();
+                modalVotdContext.classList.add('hidden');
+            });
+            document.getElementById('btn-context-dismiss').addEventListener('click', () => {
+                triggerHaptic();
+                modalVotdContext.classList.add('hidden');
+            });
 
             document.getElementById('btn-context-jump-reader').addEventListener('click', () => {
+                triggerHaptic();
                 if (state.currentVotd) {
                     state.book = state.currentVotd.book;
                     state.chapter = state.currentVotd.chapter;
@@ -1194,6 +1300,7 @@
 
             document.querySelectorAll('.nav-tab').forEach(tab => {
                 tab.addEventListener('click', (e) => {
+                    triggerHaptic();
                     const targetTab = e.currentTarget.dataset.tab;
                     handleTabSwitch(targetTab);
                 });
@@ -1232,6 +1339,7 @@
         }
 
         document.getElementById('btn-trigger-crossref').addEventListener('click', () => {
+            triggerHaptic();
             const query = document.getElementById('crossref-input').value;
             if (query.trim()) performCrossReferenceSearch(query);
         });
@@ -1258,6 +1366,7 @@
                                       <div class="text-base font-scripture text-slate-900 dark:text-slate-100 selectable-text">${item.text}</div>`;
                     
                     card.addEventListener('click', () => {
+                        triggerHaptic();
                         state.book = item.book;
                         state.chapter = item.chapter;
                         state.targetVerse = item.verse;
@@ -1384,7 +1493,10 @@
                 const btn = document.createElement('button');
                 btn.className = 'p-3 text-left text-xs font-semibold rounded-xl bg-slate-100 dark:bg-slate-800/80 text-slate-800 dark:text-slate-200 hover:bg-brand-600 hover:text-white border border-slate-200 dark:border-slate-700/60 transition';
                 btn.textContent = b.name;
-                btn.addEventListener('click', () => renderPickerChapters(b));
+                btn.addEventListener('click', () => {
+                    triggerHaptic();
+                    renderPickerChapters(b);
+                });
                 pickerBooks.appendChild(btn);
             });
         }
@@ -1399,6 +1511,7 @@
                 btn.className = 'p-3 text-center text-xs font-bold rounded-xl bg-slate-100 dark:bg-slate-800/80 text-slate-800 dark:text-slate-200 hover:bg-brand-600 hover:text-white transition';
                 btn.textContent = i;
                 btn.addEventListener('click', () => {
+                    triggerHaptic();
                     state.book = bookObj.name;
                     state.chapter = i;
                     modalPicker.classList.add('hidden');
@@ -1463,10 +1576,19 @@
         }
     </script>
 
-    <!-- Service Worker Registration with Cache Busting -->
+    <!-- Service Worker Registration with Cache Busting & Auto-Update Handler -->
     <script>
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js?v=4');
+        navigator.serviceWorker.register('sw.js?v=5').then(reg => {
+          reg.onupdatefound = () => {
+            const installingWorker = reg.installing;
+            installingWorker.onstatechange = () => {
+              if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                window.location.reload();
+              }
+            };
+          };
+        });
       }
     </script>
 </body>
