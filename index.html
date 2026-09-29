@@ -183,6 +183,47 @@
             to { opacity: 1; transform: scale(1); }
         }
         .animate-fade-in { animation: fadeInScale 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+        /* 3D PAGE FLIP ANIMATIONS */
+        .page-flip-container {
+            perspective: 1200px;
+            transform-style: preserve-3d;
+        }
+
+        .animate-flip-next-out {
+            animation: flipOutLeft 0.22s ease-in forwards;
+            transform-origin: left center;
+        }
+        .animate-flip-next-in {
+            animation: flipInRight 0.22s ease-out forwards;
+            transform-origin: right center;
+        }
+
+        .animate-flip-prev-out {
+            animation: flipOutRight 0.22s ease-in forwards;
+            transform-origin: right center;
+        }
+        .animate-flip-prev-in {
+            animation: flipInLeft 0.22s ease-out forwards;
+            transform-origin: left center;
+        }
+
+        @keyframes flipOutLeft {
+            0% { transform: rotateY(0deg); opacity: 1; }
+            100% { transform: rotateY(-35deg) translateX(-30px); opacity: 0; }
+        }
+        @keyframes flipInRight {
+            0% { transform: rotateY(35deg) translateX(30px); opacity: 0; }
+            100% { transform: rotateY(0deg) translateX(0); opacity: 1; }
+        }
+        @keyframes flipOutRight {
+            0% { transform: rotateY(0deg); opacity: 1; }
+            100% { transform: rotateY(35deg) translateX(30px); opacity: 0; }
+        }
+        @keyframes flipInLeft {
+            0% { transform: rotateY(-35deg) translateX(-30px); opacity: 0; }
+            100% { transform: rotateY(0deg) translateX(0); opacity: 1; }
+        }
     </style>
 </head>
 <body class="h-full bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200 antialiased selection:bg-brand-500/30 text-base">
@@ -259,7 +300,7 @@
         </header>
 
         <!-- MAIN READING CONTENT AREA -->
-        <main id="reader-container" class="flex-1 overflow-y-auto px-5 py-5 pb-24 no-scrollbar smooth-scroll relative bg-white dark:bg-slate-950 safe-left safe-right selectable-text">
+        <main id="reader-container" class="flex-1 overflow-y-auto px-5 py-5 pb-24 no-scrollbar smooth-scroll relative bg-white dark:bg-slate-950 safe-left safe-right selectable-text page-flip-container">
             
             <div id="return-crossref-banner" class="fixed top-16 left-1/2 -translate-x-1/2 z-40 hidden">
                 <button id="btn-return-crossref" class="px-4 py-2 bg-brand-600 text-white backdrop-blur-md rounded-full text-xs font-bold shadow-xl border border-brand-400/40 flex items-center space-x-1.5 active:scale-95 transition">
@@ -923,7 +964,7 @@
                 const diffX = touchEndX - touchStartX;
                 const diffY = touchEndY - touchStartY;
 
-                // Ensure the horizontal swipe was greater than vertical movement to avoid triggering on scrolling
+                // Ensure horizontal swipe was greater than vertical movement to avoid triggering on scrolling
                 if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
                     if (diffX < 0) {
                         // Swiped Left -> Next Chapter
@@ -1528,26 +1569,45 @@
                 openPicker();
                 return;
             }
+
             const currentBookIndex = BIBLE_BOOKS.findIndex(b => b.name === state.book);
             const currentBookObj = BIBLE_BOOKS[currentBookIndex];
 
-            if (direction === 1) {
-                if (state.chapter < currentBookObj.chapters) {
-                    state.chapter++;
-                } else if (currentBookIndex < BIBLE_BOOKS.length - 1) {
-                    state.book = BIBLE_BOOKS[currentBookIndex + 1].name;
-                    state.chapter = 1;
+            // Apply 3D flip-out animation class
+            const outAnimClass = direction === 1 ? 'animate-flip-next-out' : 'animate-flip-prev-out';
+            const inAnimClass = direction === 1 ? 'animate-flip-next-in' : 'animate-flip-prev-in';
+
+            chapterContent.classList.remove('animate-flip-next-out', 'animate-flip-next-in', 'animate-flip-prev-out', 'animate-flip-prev-in');
+            chapterContent.classList.add(outAnimClass);
+
+            setTimeout(async () => {
+                if (direction === 1) {
+                    if (state.chapter < currentBookObj.chapters) {
+                        state.chapter++;
+                    } else if (currentBookIndex < BIBLE_BOOKS.length - 1) {
+                        state.book = BIBLE_BOOKS[currentBookIndex + 1].name;
+                        state.chapter = 1;
+                    }
+                } else {
+                    if (state.chapter > 1) {
+                        state.chapter--;
+                    } else if (currentBookIndex > 0) {
+                        state.book = BIBLE_BOOKS[currentBookIndex - 1].name;
+                        state.chapter = BIBLE_BOOKS[currentBookIndex - 1].chapters;
+                    }
                 }
-            } else {
-                if (state.chapter > 1) {
-                    state.chapter--;
-                } else if (currentBookIndex > 0) {
-                    state.book = BIBLE_BOOKS[currentBookIndex - 1].name;
-                    state.chapter = BIBLE_BOOKS[currentBookIndex - 1].chapters;
-                }
-            }
-            clearVerseSelections();
-            renderPassage();
+
+                clearVerseSelections();
+                await renderPassage();
+                
+                readerContainer.scrollTop = 0;
+                chapterContent.classList.remove(outAnimClass);
+                chapterContent.classList.add(inAnimClass);
+
+                setTimeout(() => {
+                    chapterContent.classList.remove(inAnimClass);
+                }, 220);
+            }, 200);
         }
 
         function handleTabSwitch(tabName) {
@@ -1579,7 +1639,7 @@
     <!-- Service Worker Registration with Cache Busting & Auto-Update Handler -->
     <script>
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js?v=5').then(reg => {
+        navigator.serviceWorker.register('sw.js?v=6').then(reg => {
           reg.onupdatefound = () => {
             const installingWorker = reg.installing;
             installingWorker.onstatechange = () => {
