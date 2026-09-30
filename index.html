@@ -102,14 +102,11 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            --app-height: 100dvh;
             --ios-bottom-offset: env(safe-area-inset-bottom, 0px);
         }
 
         html, body {
             height: 100%;
-            height: -webkit-fill-available;
-            height: 100dvh;
             overflow: hidden;
             overscroll-behavior: none;
             -webkit-tap-highlight-color: transparent;
@@ -302,7 +299,7 @@
                         </button>
                     </div>
 
-                    <p id="votd-text" class="font-scripture text-xl leading-relaxed text-slate-100 font-medium selectable-text">
+                    <p id="votd-text" class="font-scripture text-xl leading-relaxed text-slate-100 font-medium selectable-text min-h-[4rem]">
                         Loading daily scripture...
                     </p>
 
@@ -316,7 +313,7 @@
                 </div>
 
                 <!-- RELIGIOUS IMAGERY FILLER BANNER -->
-                <div class="relative overflow-hidden rounded-3xl h-64 shadow-lg border border-slate-200 dark:border-slate-800/80 group">
+                <div class="relative overflow-hidden rounded-3xl h-64 bg-slate-900 shadow-lg border border-slate-200 dark:border-slate-800/80 group">
                     <img src="https://images.unsplash.com/photo-1544427920-c49ccfb85579?q=80&w=1000&auto=format&fit=crop" 
                          alt="Three Crosses Silhouette at Sunset" 
                          class="absolute inset-0 w-full h-full object-cover object-center transform group-hover:scale-105 transition duration-700 ease-out">
@@ -471,58 +468,11 @@
 
     <!-- SCRIPT APPLICATION LOGIC -->
     <script>
-        function detectIOSAddressBar() {
-            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-            const htmlEl = document.documentElement;
-
-            if (isIOS) {
-                const windowHeight = window.innerHeight;
-                const visualHeight = window.visualViewport ? window.visualViewport.height : windowHeight;
-                
-                const div = document.createElement('div');
-                div.style.paddingBottom = 'env(safe-area-inset-bottom, 0px)';
-                div.style.position = 'fixed';
-                div.style.bottom = '0';
-                div.style.visibility = 'hidden';
-                document.body.appendChild(div);
-                const insetBottomPx = parseFloat(window.getComputedStyle(div).paddingBottom) || 0;
-                document.body.removeChild(div);
-
-                if (insetBottomPx > 15 || (windowHeight - visualHeight) > 20) {
-                    htmlEl.classList.add('safari-bar-bottom');
-                    htmlEl.classList.remove('safari-bar-top');
-                    document.documentElement.style.setProperty('--ios-bottom-offset', `${Math.max(insetBottomPx, 20)}px`);
-                } else {
-                    htmlEl.classList.add('safari-bar-top');
-                    htmlEl.classList.remove('safari-bar-bottom');
-                    document.documentElement.style.setProperty('--ios-bottom-offset', '0px');
-                }
-            } else {
-                htmlEl.classList.remove('safari-bar-bottom', 'safari-bar-top');
-                document.documentElement.style.setProperty('--ios-bottom-offset', '0px');
-            }
-        }
-
-        window.addEventListener('resize', detectIOSAddressBar);
-        window.addEventListener('orientationchange', detectIOSAddressBar);
-        if (window.visualViewport) {
-            window.visualViewport.addEventListener('resize', detectIOSAddressBar);
-            window.visualViewport.addEventListener('scroll', detectIOSAddressBar);
-        }
-
         function triggerHaptic() {
             if ('vibrate' in navigator) {
                 try { navigator.vibrate(12); } catch (e) {}
             }
         }
-
-        function setAppHeight() {
-            const doc = document.documentElement;
-            doc.style.setProperty('--app-height', `${window.innerHeight}px`);
-        }
-        window.addEventListener('resize', setAppHeight);
-        window.addEventListener('orientationchange', setAppHeight);
-        setAppHeight();
 
         const BIBLE_BOOKS = [
             { name: "Genesis", testament: "OT", chapters: 50 },
@@ -666,7 +616,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
             applyTheme(state.theme);
-            detectIOSAddressBar();
             
             window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
                 if (state.theme === 'system') applyTheme('system');
@@ -1105,7 +1054,7 @@
     <!-- Service Worker Registration with Cache Busting & Auto-Update Handler -->
     <script>
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js?v=14').then(reg => {
+        navigator.serviceWorker.register('sw.js?v=15').then(reg => {
           reg.onupdatefound = () => {
             const installingWorker = reg.installing;
             installingWorker.onstatechange = () => {
