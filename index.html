@@ -281,7 +281,7 @@
         </header>
 
         <!-- MAIN READER CONTAINER -->
-        <main id="reader-container" class="flex-1 overflow-y-auto px-5 py-5 pb-24 no-scrollbar smooth-scroll relative bg-white dark:bg-slate-950 selectable-text page-flip-container">
+        <main id="reader-container" class="hidden flex-1 overflow-y-auto px-5 py-5 pb-24 no-scrollbar smooth-scroll relative bg-white dark:bg-slate-950 selectable-text page-flip-container">
             <div id="return-crossref-banner" class="fixed top-16 left-1/2 -translate-x-1/2 z-40 hidden">
                 <button id="btn-return-crossref" class="px-4 py-2 bg-brand-600 text-white backdrop-blur-md rounded-full text-xs font-bold shadow-xl border border-brand-400/40 flex items-center space-x-1.5 active:scale-95 transition">
                     <i data-lucide="arrow-left" class="w-4 h-4"></i>
@@ -302,62 +302,29 @@
         <div id="view-overlay" class="flex-1 overflow-y-auto p-4 pb-20 smooth-scroll bg-slate-50 dark:bg-slate-950 z-20">
             <!-- HOME TAB CONTENT -->
             <div id="tab-content-home" class="tab-view space-y-5">
-                <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-700 via-brand-600 to-brand-900 p-5 text-white shadow-xl border border-brand-500/30">
+                <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-700 via-brand-600 to-brand-900 p-6 text-white shadow-xl border border-brand-500/30 space-y-4">
                     <div class="absolute -right-4 -bottom-4 w-32 h-32 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
-                    <div class="flex justify-between items-center mb-2.5">
-                        <span class="px-3 py-1 bg-white/15 backdrop-blur-md rounded-full text-[10px] font-bold uppercase tracking-wider text-brand-100 border border-white/10">Verse of the Day</span>
-                        <i data-lucide="sun" class="w-4 h-4 text-amber-300"></i>
+                    
+                    <div class="flex justify-between items-center">
+                        <span class="px-3 py-1 bg-white/15 backdrop-blur-md rounded-full text-[10px] font-bold uppercase tracking-wider text-brand-100 border border-white/10 flex items-center space-x-1">
+                            <i data-lucide="sparkles" class="w-3 h-3 text-amber-300"></i>
+                            <span>Verse of the Day</span>
+                        </span>
+                        <button id="btn-refresh-votd" class="p-1.5 bg-white/10 hover:bg-white/20 text-white rounded-xl transition active:scale-95" title="Get New Random Verse">
+                            <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                        </button>
                     </div>
-                    <p id="votd-text" class="font-scripture text-lg leading-relaxed mb-3 text-slate-100 font-medium selectable-text">
+
+                    <p id="votd-text" class="font-scripture text-xl leading-relaxed text-slate-100 font-medium selectable-text">
                         "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life."
                     </p>
-                    <div class="flex justify-between items-center pt-2.5 border-t border-white/20">
-                        <span id="votd-ref" class="font-bold text-xs text-brand-100">John 3:16</span>
-                        <button id="btn-read-context" class="px-3.5 py-1.5 bg-white text-brand-900 rounded-xl text-xs font-bold shadow-md hover:bg-brand-50 active:scale-95 transition flex items-center space-x-1.5">
+
+                    <div class="flex justify-between items-center pt-3 border-t border-white/20">
+                        <span id="votd-ref" class="font-bold text-sm text-brand-100">John 3:16</span>
+                        <button id="btn-read-context" class="px-4 py-2 bg-white text-brand-900 rounded-xl text-xs font-bold shadow-md hover:bg-brand-50 active:scale-95 transition flex items-center space-x-1.5">
                             <span>Read Context</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </button>
-                    </div>
-                </div>
-
-                <div id="reflection-quiz-card" class="p-4 border border-slate-200 dark:border-slate-800 rounded-3xl bg-white dark:bg-slate-900 space-y-3.5 shadow-sm">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-2 text-brand-600 dark:text-brand-400">
-                            <i data-lucide="sparkles" class="w-4 h-4"></i>
-                            <h3 class="font-bold text-xs uppercase tracking-wider text-slate-800 dark:text-slate-200">Daily Heart Check</h3>
-                        </div>
-                        <button id="btn-reopen-quiz" class="hidden text-xs text-brand-600 dark:text-brand-400 font-semibold hover:underline">Change Answers</button>
-                    </div>
-
-                    <div id="quiz-questions-view" class="space-y-3.5">
-                        <div class="space-y-1.5">
-                            <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300">1. How is your spirit feeling today?</label>
-                            <div class="grid grid-cols-2 gap-2 text-xs">
-                                <button data-q1="peace" class="quiz-btn-q1 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-brand-600 dark:hover:border-brand-500 bg-slate-50 dark:bg-slate-800/40 text-slate-800 dark:text-slate-200 text-left transition">Peaceful / Grateful</button>
-                                <button data-q1="anxious" class="quiz-btn-q1 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-brand-600 dark:hover:border-brand-500 bg-slate-50 dark:bg-slate-800/40 text-slate-800 dark:text-slate-200 text-left transition">Anxious / Weary</button>
-                                <button data-q1="seeking" class="quiz-btn-q1 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-brand-600 dark:hover:border-brand-500 bg-slate-50 dark:bg-slate-800/40 text-slate-800 dark:text-slate-200 text-left transition">Seeking Direction</button>
-                                <button data-q1="joyful" class="quiz-btn-q1 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-brand-600 dark:hover:border-brand-500 bg-slate-50 dark:bg-slate-800/40 text-slate-800 dark:text-slate-200 text-left transition">Joyful / Victorious</button>
-                            </div>
-                        </div>
-
-                        <div class="space-y-1.5">
-                            <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300">2. What do you need most right now?</label>
-                            <div class="grid grid-cols-2 gap-2 text-xs">
-                                <button data-q2="strength" class="quiz-btn-q2 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-brand-600 dark:hover:border-brand-500 bg-slate-50 dark:bg-slate-800/40 text-slate-800 dark:text-slate-200 text-left transition">Strength & Courage</button>
-                                <button data-q2="comfort" class="quiz-btn-q2 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-brand-600 dark:hover:border-brand-500 bg-slate-50 dark:bg-slate-800/40 text-slate-800 dark:text-slate-200 text-left transition">Comfort & Rest</button>
-                                <button data-q2="wisdom" class="quiz-btn-q2 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-brand-600 dark:hover:border-brand-500 bg-slate-50 dark:bg-slate-800/40 text-slate-800 dark:text-slate-200 text-left transition">Wisdom & Guidance</button>
-                                <button data-q2="praise" class="quiz-btn-q2 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-brand-600 dark:hover:border-brand-500 bg-slate-50 dark:bg-slate-800/40 text-slate-800 dark:text-slate-200 text-left transition">Praise & Worship</button>
-                            </div>
-                        </div>
-
-                        <button id="btn-submit-quiz" class="w-full py-2.5 bg-brand-600 text-white font-bold rounded-xl text-xs active:scale-95 transition shadow-md hover:bg-brand-500">Get My Tailored Verse</button>
-                    </div>
-
-                    <div id="quiz-completed-banner" class="hidden p-3 rounded-2xl bg-brand-50 dark:bg-brand-950/60 border border-brand-200 dark:border-brand-800/50 text-xs text-brand-900 dark:text-brand-200 flex items-center justify-between">
-                        <div class="flex items-center space-x-2">
-                            <i data-lucide="check-circle-2" class="w-4 h-4 text-accent-600 dark:text-accent-500 flex-shrink-0"></i>
-                            <span>You've completed your reflection check for today.</span>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -463,33 +430,6 @@
             </div>
         </div>
 
-        <!-- REAL-WORLD EXPLANATION MODAL -->
-        <div id="modal-explanation" class="fixed inset-0 bg-black/60 dark:bg-black/75 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
-            <div class="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-sm max-h-[85vh] overflow-y-auto p-5 space-y-4 animate-fade-in shadow-2xl border border-slate-200 dark:border-slate-800 smooth-scroll">
-                <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-3">
-                    <div class="flex items-center space-x-2">
-                        <i data-lucide="lightbulb" class="w-5 h-5 text-amber-500"></i>
-                        <h3 class="font-bold text-slate-900 dark:text-slate-100 text-lg">What Does This Mean?</h3>
-                    </div>
-                    <button id="btn-close-explanation" class="p-1 text-slate-400 hover:text-slate-200"><i data-lucide="x" class="w-5 h-5"></i></button>
-                </div>
-
-                <div class="p-3.5 bg-brand-50 dark:bg-slate-800/80 border border-brand-200 dark:border-slate-700/60 rounded-2xl">
-                    <span id="explanation-range-title" class="font-bold text-sm text-brand-600 dark:text-brand-400 block mb-1"></span>
-                    <p id="explanation-range-snippets" class="font-scripture text-lg italic text-slate-800 dark:text-slate-200 leading-snug selectable-text"></p>
-                </div>
-
-                <div class="space-y-1.5">
-                    <h4 class="text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">The Big Picture</h4>
-                    <p id="expl-big-picture" class="text-sm text-slate-800 dark:text-slate-200 leading-relaxed font-sans selectable-text"></p>
-                </div>
-
-                <button id="btn-dismiss-explanation" class="w-full py-3 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl text-sm shadow-lg active:scale-95 transition">
-                    Got It
-                </button>
-            </div>
-        </div>
-
         <!-- VERSE OF THE DAY CONTEXT MODAL -->
         <div id="modal-votd-context" class="fixed inset-0 bg-black/60 dark:bg-black/75 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
             <div class="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-sm max-h-[85vh] overflow-y-auto p-5 space-y-4 animate-fade-in shadow-2xl border border-slate-200 dark:border-slate-800 smooth-scroll">
@@ -513,14 +453,6 @@
                     <p id="context-background-text" class="text-sm text-slate-800 dark:text-slate-200 leading-relaxed font-sans selectable-text"></p>
                 </div>
 
-                <div class="p-3.5 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 rounded-2xl space-y-1.5">
-                    <h4 class="text-xs font-bold uppercase tracking-wider text-accent-600 dark:text-accent-500 flex items-center space-x-1.5">
-                        <i data-lucide="heart-handshake" class="w-3.5 h-3.5"></i>
-                        <span>What It Means For You Today</span>
-                    </h4>
-                    <p id="context-application-text" class="text-sm text-slate-800 dark:text-slate-200 leading-relaxed font-sans selectable-text"></p>
-                </div>
-
                 <div class="pt-1 flex flex-col space-y-2">
                     <button id="btn-context-jump-reader" class="w-full py-3 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl text-xs flex items-center justify-center space-x-2 shadow-lg active:scale-95 transition">
                         <span>Read Full Chapter in Reader</span>
@@ -537,17 +469,14 @@
 
     <!-- SCRIPT APPLICATION LOGIC -->
     <script>
-        // DYNAMIC IOS ADDRESS BAR POSITION DETECTION ENGINE
         function detectIOSAddressBar() {
             const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
             const htmlEl = document.documentElement;
 
             if (isIOS) {
-                // Test for bottom address bar presence
                 const windowHeight = window.innerHeight;
                 const visualHeight = window.visualViewport ? window.visualViewport.height : windowHeight;
                 
-                // Read inset value via computed style trick
                 const div = document.createElement('div');
                 div.style.paddingBottom = 'env(safe-area-inset-bottom, 0px)';
                 div.style.position = 'fixed';
@@ -558,12 +487,10 @@
                 document.body.removeChild(div);
 
                 if (insetBottomPx > 15 || (windowHeight - visualHeight) > 20) {
-                    // Address bar is at the BOTTOM
                     htmlEl.classList.add('safari-bar-bottom');
                     htmlEl.classList.remove('safari-bar-top');
                     document.documentElement.style.setProperty('--ios-bottom-offset', `${Math.max(insetBottomPx, 20)}px`);
                 } else {
-                    // Address bar is at the TOP (or in Standalone / PWA mode)
                     htmlEl.classList.add('safari-bar-top');
                     htmlEl.classList.remove('safari-bar-bottom');
                     document.documentElement.style.setProperty('--ios-bottom-offset', '0px');
@@ -664,33 +591,16 @@
             { name: "Revelation", testament: "NT", chapters: 22 }
         ];
 
-        const TAILORED_VERSES = {
-            "anxious_comfort": [
-                {
-                    book: "Philippians", chapter: 4, verse: 6, ref: "Philippians 4:6",
-                    text: "Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God.",
-                    context: "Paul wrote this while chained in a Roman prison, encouraging believers not to let worry paralyze them.",
-                    app_anxious: "Because you're feeling anxious today, trade mental worry for direct prayer. Pair that request with gratitude.",
-                    app_default: "Bring your stress straight to God in simple, honest prayer."
-                },
-                {
-                    book: "Psalms", chapter: 94, verse: 19, ref: "Psalms 94:19",
-                    text: "In the multitude of my thoughts within me thy comforts delight my soul.",
-                    context: "The psalmist acknowledges how racing thoughts can overwhelm the mind.",
-                    app_anxious: "When racing thoughts pile up today, step back and let scripture refocus your attention on lasting comfort.",
-                    app_default: "Let your thoughts find rest in God's promises throughout the day."
-                }
-            ],
-            "default": [
-                {
-                    book: "John", chapter: 3, verse: 16, ref: "John 3:16",
-                    text: "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.",
-                    context: "Jesus explaining God's plan of redemption to Nicodemus.",
-                    app_seeking: "Anchor your self-worth in God's love rather than productivity.",
-                    app_default: "Walk through every situation knowing you are valued by God."
-                }
-            ]
-        };
+        const RANDOM_VERSES = [
+            { book: "John", chapter: 3, verse: 16, ref: "John 3:16", text: "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.", context: "Jesus explaining God's plan of redemption to Nicodemus." },
+            { book: "Philippians", chapter: 4, verse: 6, ref: "Philippians 4:6", text: "Be anxious for nothing, but in everything by prayer and supplication, with thanksgiving, let your requests be made known to God.", context: "Paul encourages believers to trade anxiety for prayer." },
+            { book: "Psalms", chapter: 23, verse: 1, ref: "Psalms 23:1", text: "The LORD is my shepherd; I shall not want.", context: "David expressing absolute faith in God's guidance and provision." },
+            { book: "Proverbs", chapter: 3, verse: 5, ref: "Proverbs 3:5", text: "Trust in the LORD with all your heart, and lean not on your own understanding.", context: "Solomon instructing on living with faith and wisdom." },
+            { book: "Romans", chapter: 8, verse: 28, ref: "Romans 8:28", text: "And we know that all things work together for good to those who love God, to those who are the called according to His purpose.", context: "Paul reassuring believers of God's overarching purpose in suffering." },
+            { book: "Isaiah", chapter: 40, verse: 31, ref: "Isaiah 40:31", text: "But those who wait on the LORD shall renew their strength; they shall mount up with wings like eagles.", context: "Isaiah offering comfort and hope to weary believers." },
+            { book: "Jeremiah", chapter: 29, verse: 11, ref: "Jeremiah 29:11", text: "For I know the thoughts that I think toward you, says the LORD, thoughts of peace and not of evil, to give you a future and a hope.", context: "God's promise of ultimate hope to Israel during captivity." },
+            { book: "Joshua", chapter: 1, verse: 9, ref: "Joshua 1:9", text: "Have I not commanded you? Be strong and of good courage; do not be afraid, nor be dismayed, for the LORD your God is with you wherever you go.", context: "God commanding Joshua as he prepares to lead Israel." }
+        ];
 
         const versionMap = { 'KJV': 'kjv', 'NKJV': 'kjv', 'ASV': 'asv', 'ESV': 'web', 'CSB': 'web', 'NIV': 'web', 'NASB': 'asv', 'TLB': 'web', 'NRSVUE': 'web', 'LSV': 'asv' };
 
@@ -699,17 +609,12 @@
             version: localStorage.getItem('pb_version') || 'CSB',
             book: null,
             chapter: null,
-            targetVerse: null,
             redLetter: true,
             theme: localStorage.getItem('pb_theme') || 'system',
             fontSize: 22,
             selectedTestament: 'OT',
             selectedVerses: [],
-            crossRefSource: null,
-            quizAns1: null,
-            quizAns2: null,
             currentVotd: JSON.parse(localStorage.getItem('pb_votd') || 'null'),
-            quizCompletedDate: localStorage.getItem('pb_quiz_completed_date') || null,
             highlights: JSON.parse(localStorage.getItem('pb_highlights') || '{}'),
             bookmarks: JSON.parse(localStorage.getItem('pb_bookmarks') || '[]')
         };
@@ -720,25 +625,21 @@
         const settingsPanel = document.getElementById('settings-panel');
         const modalPicker = document.getElementById('modal-picker');
         const modalVotdContext = document.getElementById('modal-votd-context');
-        const modalExplanation = document.getElementById('modal-explanation');
         const multiVerseDock = document.getElementById('multi-verse-dock');
         const pickerBooks = document.getElementById('picker-books');
         const pickerChapters = document.getElementById('picker-chapters');
         const viewOverlay = document.getElementById('view-overlay');
         const floatingChapNav = document.getElementById('floating-chap-nav');
-        const returnCrossRefBanner = document.getElementById('return-crossref-banner');
-        const returnCrossRefLabel = document.getElementById('return-crossref-label');
         const readerContainer = document.getElementById('reader-container');
 
         function getShownVerseHistory() { return JSON.parse(localStorage.getItem('pb_shown_verses') || '[]'); }
 
-        function getNonRepeatingVerse(poolKey) {
-            const pool = TAILORED_VERSES[poolKey] || TAILORED_VERSES['default'];
+        function getNonRepeatingVerse() {
             let history = getShownVerseHistory();
-            let unshownVerses = pool.filter(v => !history.includes(v.ref));
+            let unshownVerses = RANDOM_VERSES.filter(v => !history.includes(v.ref));
             if (unshownVerses.length === 0) {
-                history = history.filter(ref => !pool.some(v => v.ref === ref));
-                unshownVerses = [...pool];
+                history = [];
+                unshownVerses = [...RANDOM_VERSES];
             }
             const selectedVerse = unshownVerses[Math.floor(Math.random() * unshownVerses.length)];
             history.push(selectedVerse.ref);
@@ -770,77 +671,25 @@
             if (versionSelect) versionSelect.value = state.version;
             if (versionAbbrPill) versionAbbrPill.textContent = state.version;
 
-            checkDailyVotdAndQuizState();
-            
-            if (!state.book) {
-                labelPassage.textContent = "Choose a Book";
-                chapterContent.innerHTML = `<div class="text-center py-20 space-y-3">
-                    <i data-lucide="book-open" class="w-12 h-12 mx-auto text-slate-400"></i>
-                    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200">No Passage Selected</h3>
-                    <p class="text-xs text-slate-500 max-w-xs mx-auto">Tap the "Choose a Book" button at the top left to pick a book and chapter to start reading.</p>
-                </div>`;
-                lucide.createIcons();
-            } else {
-                renderPassage();
-            }
-
+            initializeDailyVotd();
             setupEventListeners();
             setupTouchSwipeGestures();
             handleTabSwitch('home');
         });
 
-        function setupTouchSwipeGestures() {
-            let touchStartX = 0, touchStartY = 0, touchEndX = 0, touchEndY = 0;
-
-            readerContainer.addEventListener('touchstart', (e) => {
-                touchStartX = e.changedTouches[0].screenX;
-                touchStartY = e.changedTouches[0].screenY;
-            }, { passive: true });
-
-            readerContainer.addEventListener('touchend', (e) => {
-                touchEndX = e.changedTouches[0].screenX;
-                touchEndY = e.changedTouches[0].screenY;
-                handleSwipeGesture();
-            }, { passive: true });
-
-            function handleSwipeGesture() {
-                const diffX = touchEndX - touchStartX;
-                const diffY = touchEndY - touchStartY;
-                if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
-                    if (diffX < 0) {
-                        triggerHaptic();
-                        navigateChapter(1);
-                    } else {
-                        triggerHaptic();
-                        navigateChapter(-1);
-                    }
-                }
-            }
-        }
-
-        async function checkDailyVotdAndQuizState() {
+        async function initializeDailyVotd() {
             const today = new Date().toDateString();
-            if (state.quizCompletedDate === today) showQuizCompletedState();
-            else showQuizQuestionsState();
-
             if (state.currentVotd && state.currentVotd.date === today) {
                 await updateVotdCard(state.currentVotd);
             } else {
-                const freshVerse = getNonRepeatingVerse('default');
-                await updateVotdCard({ date: today, ...freshVerse });
+                await refreshVotd();
             }
         }
 
-        function showQuizCompletedState() {
-            document.getElementById('quiz-questions-view').classList.add('hidden');
-            document.getElementById('quiz-completed-banner').classList.remove('hidden');
-            document.getElementById('btn-reopen-quiz').classList.remove('hidden');
-        }
-
-        function showQuizQuestionsState() {
-            document.getElementById('quiz-questions-view').classList.remove('hidden');
-            document.getElementById('quiz-completed-banner').classList.add('hidden');
-            document.getElementById('btn-reopen-quiz').classList.add('hidden');
+        async function refreshVotd() {
+            const today = new Date().toDateString();
+            const freshVerse = getNonRepeatingVerse();
+            await updateVotdCard({ date: today, ...freshVerse });
         }
 
         async function updateVotdCard(votdObj) {
@@ -925,7 +774,7 @@
 
         function updateMultiVerseDock() {
             const count = state.selectedVerses.length;
-            if (count > 0) {
+            if (count > 0 && state.activeTab === 'reader') {
                 multiVerseDock.classList.remove('hidden');
                 document.getElementById('selected-count-badge').textContent = count;
             } else {
@@ -942,6 +791,21 @@
         }
 
         function setupEventListeners() {
+            document.getElementById('btn-refresh-votd').addEventListener('click', async () => {
+                triggerHaptic();
+                await refreshVotd();
+            });
+
+            document.getElementById('btn-read-context').addEventListener('click', () => {
+                triggerHaptic();
+                if (state.currentVotd) {
+                    state.book = state.currentVotd.book;
+                    state.chapter = state.currentVotd.chapter;
+                    renderPassage();
+                    handleTabSwitch('reader');
+                }
+            });
+
             document.getElementById('version-select').addEventListener('change', async (e) => {
                 triggerHaptic();
                 state.version = e.target.value;
@@ -1122,23 +986,54 @@
 
             if (tabName === 'reader') {
                 viewOverlay.classList.add('hidden');
+                readerContainer.classList.remove('hidden');
                 if (state.book) floatingChapNav.classList.remove('hidden');
                 if (state.selectedVerses.length > 0) multiVerseDock.classList.remove('hidden');
                 return;
             }
 
+            readerContainer.classList.add('hidden');
             floatingChapNav.classList.add('hidden');
             multiVerseDock.classList.add('hidden');
             viewOverlay.classList.remove('hidden');
             document.querySelectorAll('.tab-view').forEach(v => v.classList.add('hidden'));
             document.getElementById(`tab-content-${tabName}`).classList.remove('hidden');
         }
+
+        function setupTouchSwipeGestures() {
+            let touchStartX = 0, touchStartY = 0, touchEndX = 0, touchEndY = 0;
+
+            readerContainer.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+                touchStartY = e.changedTouches[0].screenY;
+            }, { passive: true });
+
+            readerContainer.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                touchEndY = e.changedTouches[0].screenY;
+                handleSwipeGesture();
+            }, { passive: true });
+
+            function handleSwipeGesture() {
+                const diffX = touchEndX - touchStartX;
+                const diffY = touchEndY - touchStartY;
+                if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                    if (diffX < 0) {
+                        triggerHaptic();
+                        navigateChapter(1);
+                    } else {
+                        triggerHaptic();
+                        navigateChapter(-1);
+                    }
+                }
+            }
+        }
     </script>
 
     <!-- Service Worker Registration with Cache Busting & Auto-Update Handler -->
     <script>
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js?v=8').then(reg => {
+        navigator.serviceWorker.register('sw.js?v=9').then(reg => {
           reg.onupdatefound = () => {
             const installingWorker = reg.installing;
             installingWorker.onstatechange = () => {
