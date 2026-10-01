@@ -406,7 +406,7 @@
             </button>
         </div>
 
-        <!-- STREAMLINED MULTI-VERSE ACTION DOCK -->
+        <!-- STREAMLINED MULTI-VERSE ACTION DOCK WITH READ & SPARKLE BUTTONS -->
         <div id="multi-verse-dock" class="fixed left-3 right-3 z-50 hidden transition-all transform animate-fade-in">
             <div class="bg-slate-900/95 backdrop-blur-xl text-white px-3 py-2.5 rounded-2xl shadow-2xl border border-slate-700/80 flex items-center justify-between space-x-1.5">
                 <div class="flex items-center space-x-1.5 flex-shrink-0">
@@ -422,6 +422,16 @@
                 </div>
 
                 <div class="flex items-center space-x-1 flex-shrink-0">
+                    <!-- READ TO ME BUTTON -->
+                    <button id="dock-act-speak" class="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl shadow-md flex items-center space-x-1 text-xs font-bold active:scale-95 transition" title="Read Selected Verses Out Loud">
+                        <i data-lucide="volume-2" class="w-3.5 h-3.5" id="speak-btn-icon"></i>
+                        <span id="speak-btn-label">Read</span>
+                    </button>
+                    <!-- SPARKLE ANALYZE BUTTON -->
+                    <button id="dock-act-sparkle" class="px-2.5 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl shadow-md flex items-center space-x-1 text-xs font-bold active:scale-95 transition" title="Analyze & Explain Scripture">
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                        <span>Explain</span>
+                    </button>
                     <button id="dock-act-crossref" class="px-2.5 py-1.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl shadow-md flex items-center space-x-1 text-xs font-bold active:scale-95 transition" title="Cross-Reference">
                         <i data-lucide="git-fork" class="w-3.5 h-3.5"></i>
                         <span>Cross Ref</span>
@@ -476,6 +486,23 @@
                 </div>
                 <div id="picker-books" class="grid grid-cols-2 gap-2 overflow-y-auto max-h-64 p-1 no-scrollbar smooth-scroll"></div>
                 <div id="picker-chapters" class="hidden grid grid-cols-5 gap-2 overflow-y-auto max-h-64 p-1 no-scrollbar smooth-scroll"></div>
+            </div>
+        </div>
+
+        <!-- SCRIPTURE EXPLANATION MODAL (SPARKLE RESULT) -->
+        <div id="modal-explanation" class="fixed inset-0 bg-black/50 dark:bg-black/70 backdrop-blur-sm z-50 hidden flex flex-col justify-end nav-safe">
+            <div class="bg-white dark:bg-slate-900 rounded-t-3xl max-h-[85vh] flex flex-col p-6 space-y-4 animate-fade-in border-t border-slate-200 dark:border-slate-800 shadow-2xl overflow-y-auto no-scrollbar">
+                <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="sparkles" class="w-5 h-5 text-amber-500"></i>
+                        <h3 class="font-bold text-slate-900 dark:text-slate-100 text-base" id="explanation-title">Scripture Explanation</h3>
+                    </div>
+                    <button id="btn-close-explanation" class="p-1 text-slate-400 hover:text-slate-200"><i data-lucide="x" class="w-6 h-6"></i></button>
+                </div>
+                
+                <div id="explanation-content" class="space-y-4 text-slate-800 dark:text-slate-200 leading-relaxed text-sm">
+                    <!-- Dynamic analysis injected here -->
+                </div>
             </div>
         </div>
 
@@ -565,63 +592,63 @@
                 chapter: 3, 
                 verse: 16, 
                 ref: "John 3:16", 
-                context: "John 3:16 stands as one of the clearest descriptions of the Gospel in all of Scripture. Spoken during a late-night conversation with Nicodemus—a religious leader seeking truth—Jesus reveals that God's motivation toward humanity is unconditional love, not condemnation. The ultimate expression of this love was giving His only Son so that anyone who trusts in Him can receive eternal life. It emphasizes that salvation is a gift received through faith rather than earned through perfection." 
+                context: "God's love for humanity is expressed by sending His Son so that everyone who believes in Him receives eternal life rather than destruction. Salvation is offered as a gift accessed through faith." 
             },
             { 
                 book: "Philippians", 
                 chapter: 4, 
                 verse: 6, 
                 ref: "Philippians 4:6", 
-                context: "Written by the apostle Paul while under Roman guard, this verse gives a practical framework for overcoming anxiety. Rather than suppressing worry or letting it consume our thoughts, Paul instructs believers to transform anxiety into active prayer. By intentionally combining specific requests with heartfelt gratitude for past blessings, our minds shift away from uncertainty and anchor in God's peaceful presence." 
+                context: "Anxiety is overcome by shifting worries into prayer and thanksgiving. Bringing requests to God replaces uncertainty with internal peace." 
             },
             { 
                 book: "Philippians", 
                 chapter: 4, 
                 verse: 13, 
                 ref: "Philippians 4:13", 
-                context: "Often quoted during times of trial or physical competition, the deeper context of this verse is about learning contentment. Paul describes how he mastered surviving both in moments of abundance and in deep poverty or prison. Through Christ, he found the inner spiritual fortitude required to endure whatever hardships life brought, proving that divine strength enables us to persevere through any season." 
+                context: "Endurance and contentment in every circumstance come through divine strength rather than personal effort alone." 
             },
             { 
                 book: "Psalms", 
                 chapter: 23, 
                 verse: 1, 
                 ref: "Psalms 23:1", 
-                context: "David draws on his personal youthful experience as a shepherd to describe God's tender care. A sheep is entirely dependent on its shepherd for guidance, food, water, and protection from predators. By stating 'the Lord is my shepherd; I shall not want,' David expresses complete confidence that God actively watches over every detail of our lives, ensuring our true spiritual and emotional needs are fulfilled." 
+                context: "God guides, protects, and provides for His people as a faithful shepherd cares for sheep, ensuring spiritual and practical needs are met." 
             },
             { 
                 book: "Proverbs", 
                 chapter: 3, 
                 verse: 5, 
                 ref: "Proverbs 3:5", 
-                context: "This proverb addresses the human tendency to rely exclusively on logic, feelings, or limited personal experiences. While intelligence is a gift, human understanding is inherently finite and susceptible to blind spots. Solomon urges us to ground our life decisions in wholehearted trust in God, acknowledging His wisdom even when life's path appears unclear or challenging." 
+                context: "Relying on God's wisdom above limited human understanding establishes a firm foundation when life's direction feels unclear." 
             },
             { 
                 book: "Romans", 
                 chapter: 8, 
                 verse: 28, 
                 ref: "Romans 8:28", 
-                context: "Paul provides deep comfort by assuring believers that suffering and trials are never wasted. This passage does not suggest that every event is inherently good, but rather that God possesses the divine ability to weave together all life experiences—both joyful and painful—to accomplish an ultimate purpose, shaping us spiritually and guiding us toward His good plans." 
+                context: "God works through all circumstances, including hardship, to bring about good and fulfill His ultimate purpose for believers." 
             },
             { 
                 book: "Isaiah", 
                 chapter: 40, 
                 verse: 31, 
                 ref: "Isaiah 40:31", 
-                context: "Spoken to a weary nation enduring exile and uncertainty, Isaiah uses soaring poetic language to promise physical and spiritual renewal. Waiting on the Lord requires patient trust rather than passive waiting. Those who anchor their hope in God receive a fresh reserve of strength, enabling them to navigate long journeys without fainting and rise above life's heaviest burdens." 
+                context: "Patient trust in God brings spiritual and emotional renewal, enabling perseverance through long trials without losing heart." 
             },
             { 
                 book: "Jeremiah", 
                 chapter: 29, 
                 verse: 11, 
                 ref: "Jeremiah 29:11", 
-                context: "Originally written as a letter to Jewish captives living under Babylonian exile, God delivered this promise to remind His people that their current hardship was not the end of their story. Even during decades of waiting and transition, God maintained intentional, loving plans for their ultimate spiritual restoration, safety, and future hope." 
+                context: "God maintains intentional plans aimed at safety, restoration, and hope for His people, even during seasons of exile or waiting." 
             },
             { 
                 book: "Joshua", 
                 chapter: 1, 
                 verse: 9, 
                 ref: "Joshua 1:9", 
-                context: "As Joshua prepared to lead the Israelites into the Promised Land following Moses' death, he faced monumental responsibilities and fear of the unknown. God repeatedly commanded him to be strong and courageous, reminding him that true bravery isn't the complete absence of fear, but the unwavering certainty that God's presence accompanies us wherever we step." 
+                context: "Courage in daunting situations rests on the promise that God's presence remains constant wherever life leads." 
             }
         ];
 
@@ -692,7 +719,10 @@
             activeCrossRefs: [],
             currentVotd: JSON.parse(localStorage.getItem('pb_votd') || 'null'),
             highlights: JSON.parse(localStorage.getItem('pb_highlights') || '{}'),
-            bookmarks: JSON.parse(localStorage.getItem('pb_bookmarks') || '[]')
+            bookmarks: JSON.parse(localStorage.getItem('pb_bookmarks') || '[]'),
+            analysisCache: JSON.parse(localStorage.getItem('pb_analysis_cache') || '{}'),
+            isSpeaking: false,
+            availableVoices: []
         };
 
         const dockedPassageLabel = document.getElementById('docked-passage-label');
@@ -700,6 +730,9 @@
         const spinner = document.getElementById('loading-spinner');
         const settingsPanel = document.getElementById('settings-panel');
         const modalPicker = document.getElementById('modal-picker');
+        const modalExplanation = document.getElementById('modal-explanation');
+        const explanationTitle = document.getElementById('explanation-title');
+        const explanationContent = document.getElementById('explanation-content');
         const multiVerseDock = document.getElementById('multi-verse-dock');
         const bottomPickerDock = document.getElementById('bottom-picker-dock');
         const pickerBooks = document.getElementById('picker-books');
@@ -737,9 +770,22 @@
             return "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.";
         }
 
+        function loadVoices() {
+            if ('speechSynthesis' in window) {
+                state.availableVoices = window.speechSynthesis.getVoices();
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
             applyTheme(state.theme);
+
+            if ('speechSynthesis' in window) {
+                loadVoices();
+                if (window.speechSynthesis.onvoiceschanged !== undefined) {
+                    window.speechSynthesis.onvoiceschanged = loadVoices;
+                }
+            }
             
             window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
                 if (state.theme === 'system') applyTheme('system');
@@ -872,6 +918,7 @@
                 bottomPickerDock.classList.add('hidden');
                 document.getElementById('selected-count-badge').textContent = count;
             } else {
+                stopSpeech();
                 multiVerseDock.classList.add('hidden');
                 bottomPickerDock.classList.remove('hidden');
             }
@@ -879,6 +926,7 @@
 
         function clearVerseSelections() {
             triggerHaptic();
+            stopSpeech();
             state.selectedVerses = [];
             const activeClasses = ['ring-2', 'ring-brand-600', 'dark:ring-brand-400', 'bg-indigo-50', 'dark:bg-indigo-950/60'];
             document.querySelectorAll('.verse-item').forEach(el => el.classList.remove(...activeClasses));
@@ -899,6 +947,173 @@
             localStorage.setItem('pb_highlights', JSON.stringify(state.highlights));
             renderPassage();
             clearVerseSelections();
+        }
+
+        // FIND BEST HUMAN NEURAL VOICE AVAILABLE ON DEVICE
+        function getBestHumanVoice() {
+            const voices = state.availableVoices.length > 0 ? state.availableVoices : window.speechSynthesis.getVoices();
+            const englishVoices = voices.filter(v => v.lang.startsWith('en'));
+
+            // Top-tier neural and high-quality voice identifiers across iOS, macOS, Android, Windows
+            const preferredKeywords = [
+                'premium', 'enhanced', 'neural', 'siri', 'google us english', 
+                'samantha', 'ava', 'alex', 'natural', 'jenny', 'guy', 'aria', 'oliver'
+            ];
+
+            for (const keyword of preferredKeywords) {
+                const matched = englishVoices.find(v => v.name.toLowerCase().includes(keyword));
+                if (matched) return matched;
+            }
+
+            return englishVoices.find(v => v.default) || englishVoices[0] || null;
+        }
+
+        // ENHANCED HUMAN-LIKE TEXT-TO-SPEECH (READ TO ME)
+        function speakSelectedVerses() {
+            if (state.selectedVerses.length === 0) return;
+            triggerHaptic();
+
+            if (!('speechSynthesis' in window)) {
+                alert("Text-to-speech is not supported on this device/browser.");
+                return;
+            }
+
+            const speakBtnLabel = document.getElementById('speak-btn-label');
+
+            if (state.isSpeaking) {
+                stopSpeech();
+                return;
+            }
+
+            window.speechSynthesis.cancel();
+
+            const sorted = [...state.selectedVerses].sort((a, b) => a.verse - b.verse);
+            
+            // Format text with natural commas and pauses between verse numbers and scripture body
+            const passageText = sorted.map(v => `Verse ${v.verse}. ${v.text.trim()}`).join(' ... ');
+            const utterance = new SpeechSynthesisUtterance(passageText);
+
+            // Select highest-quality human voice
+            const bestVoice = getBestHumanVoice();
+            if (bestVoice) {
+                utterance.voice = bestVoice;
+            }
+
+            // Fine-tuned cadence parameters for natural speech rhythm
+            utterance.rate = 0.92;
+            utterance.pitch = 1.0;
+            utterance.volume = 1.0;
+
+            utterance.onstart = () => {
+                state.isSpeaking = true;
+                speakBtnLabel.textContent = "Stop";
+            };
+
+            utterance.onend = () => {
+                state.isSpeaking = false;
+                speakBtnLabel.textContent = "Read";
+            };
+
+            utterance.onerror = () => {
+                state.isSpeaking = false;
+                speakBtnLabel.textContent = "Read";
+            };
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function stopSpeech() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+            state.isSpeaking = false;
+            const speakBtnLabel = document.getElementById('speak-btn-label');
+            if (speakBtnLabel) speakBtnLabel.textContent = "Read";
+        }
+
+        // GENERATE DIRECT EXPLANATION (SINGLE OR COMBINED FOR MULTIPLE VERSES)
+        function analyzeSelectedVerses() {
+            if (state.selectedVerses.length === 0) return;
+            triggerHaptic();
+
+            const sorted = [...state.selectedVerses].sort((a, b) => a.verse - b.verse);
+            const first = sorted[0];
+            const isSingle = sorted.length === 1;
+
+            let refTitle = "";
+            if (isSingle) {
+                refTitle = `${first.book} ${first.chapter}:${first.verse}`;
+            } else {
+                const vNums = sorted.map(v => v.verse).join(', ');
+                refTitle = `${first.book} ${first.chapter}:${vNums}`;
+            }
+
+            const passageKey = `${first.book}_${first.chapter}_${sorted.map(v => v.verse).join('-')}`;
+
+            explanationTitle.textContent = refTitle;
+            modalExplanation.classList.remove('hidden');
+            explanationContent.innerHTML = `<div class="flex justify-center py-8"><div class="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-500"></div></div>`;
+
+            setTimeout(() => {
+                let explanationText = state.analysisCache[passageKey];
+
+                if (!explanationText) {
+                    explanationText = generateCombinedExplanation(sorted);
+                    state.analysisCache[passageKey] = explanationText;
+                    localStorage.setItem('pb_analysis_cache', JSON.stringify(state.analysisCache));
+                }
+
+                const fullTextQuote = sorted.map(v => v.text.trim()).join(' ');
+
+                explanationContent.innerHTML = `
+                    <div class="p-4 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 rounded-2xl space-y-3">
+                        <p class="font-scripture italic text-xs text-slate-500 dark:text-slate-400">"${fullTextQuote}"</p>
+                        <p class="text-sm text-slate-800 dark:text-slate-100 font-sans leading-relaxed pt-1">${explanationText}</p>
+                    </div>
+                `;
+                lucide.createIcons();
+            }, 250);
+        }
+
+        // SYNTHESIZES A SINGLE UNIFIED EXPLANATION FOR SINGLE OR COMBINED VERSES WITHOUT FILLER PHRASES
+        function generateCombinedExplanation(verseArray) {
+            const combinedText = verseArray.map(v => v.text.trim()).join(' ').toLowerCase();
+            const first = verseArray[0];
+            const isMultiple = verseArray.length > 1;
+
+            if (combinedText.includes("love") || combinedText.includes("loved")) {
+                return isMultiple 
+                    ? `This passage demonstrates God's unconditional love and salvation. Together, these verses show that divine love is expressed through direct action, offering eternal hope and demanding a response of faith and compassion.`
+                    : `God's unconditional love is the driving force behind salvation. Believers are invited to accept this gift by faith and extend that same active compassion toward others.`;
+            } else if (combinedText.includes("fear") || combinedText.includes("afraid") || combinedText.includes("anxious") || combinedText.includes("anxiety")) {
+                return isMultiple 
+                    ? `This passage addresses human worry and uncertainty as a connected whole. It provides a blueprint for releasing fear by replacing anxious thoughts with active prayer, resting in divine protection.`
+                    : `Anxiety and fear are overcome by anchoring confidence in God's active presence and willingness to carry personal burdens.`;
+            } else if (combinedText.includes("pray") || combinedText.includes("ask") || combinedText.includes("seek")) {
+                return isMultiple 
+                    ? `These verses collectively outline the nature of continuous prayer and spiritual seeking. God invites persistent, honest requests and promises attentive care to those who draw near.`
+                    : `Direct and open communication with God brings personal requests before a attentive creator who responds with wisdom.`;
+            } else if (combinedText.includes("light") || combinedText.includes("path") || combinedText.includes("way") || combinedText.includes("word")) {
+                return isMultiple 
+                    ? `This selection uses light and pathways to describe moral and spiritual guidance. Taken as a whole, the text emphasizes that truth illuminates life's decisions and prevents stumbling in times of confusion.`
+                    : `Spiritual truth serves as a practical guide, providing direction when personal choices or future outcomes are uncertain.`;
+            } else if (combinedText.includes("strength") || combinedText.includes("power") || combinedText.includes("wait") || combinedText.includes("weary")) {
+                return isMultiple 
+                    ? `These verses focus on spiritual endurance and renewed energy. Together they illustrate that human strength is finite, but waiting patiently on God unlocks internal resilience to overcome fatigue and hardship.`
+                    : `Human strength is limited, but trusting in God provides fresh spiritual energy to endure ongoing trials.`;
+            } else if (combinedText.includes("heart") || combinedText.includes("trust") || combinedText.includes("mind")) {
+                return isMultiple 
+                    ? `This passage teaches wholehearted devotion and mental alignment. The combined message urges believers to surrender personal self-reliance in favor of God's complete wisdom.`
+                    : `Aligning mind and heart with divine wisdom creates steady internal stability through changing life circumstances.`;
+            } else if (combinedText.includes("peace") || combinedText.includes("rest") || combinedText.includes("burden")) {
+                return isMultiple 
+                    ? `These verses describe a deeper spiritual rest that transcends human understanding. Combined, they instruct believers to lay down heavy burdens and accept divine peace.`
+                    : `True mental and spiritual peace is achieved by surrendering control of circumstances to God.`;
+            } else {
+                return isMultiple
+                    ? `${first.book} ${first.chapter} presents a unified message of faith, intentional living, and divine instruction. The selected verses work together to emphasize alignment with God's enduring truth and practical guidance for daily life.`
+                    : `${first.book} ${first.chapter}:${first.verse} focuses on living with purposeful faith and accepting God's wisdom as the foundation for daily decisions.`;
+            }
         }
 
         function renderCrossRefCards() {
@@ -998,6 +1213,9 @@
                 }
             });
 
+            document.getElementById('dock-act-speak').addEventListener('click', speakSelectedVerses);
+            document.getElementById('dock-act-sparkle').addEventListener('click', analyzeSelectedVerses);
+
             document.getElementById('dock-act-crossref').addEventListener('click', () => {
                 triggerHaptic();
                 triggerDockCrossRef();
@@ -1056,6 +1274,7 @@
 
             document.getElementById('btn-docked-picker').addEventListener('click', () => { triggerHaptic(); openPicker(); });
             document.getElementById('btn-close-picker').addEventListener('click', () => { triggerHaptic(); modalPicker.classList.add('hidden'); });
+            document.getElementById('btn-close-explanation').addEventListener('click', () => { triggerHaptic(); modalExplanation.classList.add('hidden'); });
 
             document.getElementById('tab-ot').addEventListener('click', () => { triggerHaptic(); switchTestament('OT'); });
             document.getElementById('tab-nt').addEventListener('click', () => { triggerHaptic(); switchTestament('NT'); });
@@ -1247,7 +1466,7 @@
     <!-- Service Worker Registration with Cache Busting & Auto-Update Handler -->
     <script>
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js?v=31').then(reg => {
+        navigator.serviceWorker.register('sw.js?v=34').then(reg => {
           reg.onupdatefound = () => {
             const installingWorker = reg.installing;
             installingWorker.onstatechange = () => {
