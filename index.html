@@ -191,7 +191,7 @@
         }
 
         #floating-chap-nav {
-            bottom: calc(9.5rem + var(--ios-bottom-offset));
+            bottom: calc(11.5rem + var(--ios-bottom-offset));
         }
 
         #bottom-picker-dock {
@@ -406,40 +406,49 @@
             </button>
         </div>
 
-        <!-- STREAMLINED MULTI-VERSE ACTION DOCK WITH READ & SPARKLE BUTTONS -->
+        <!-- RESTRUCTURED MULTI-VERSE ACTION DOCK -->
         <div id="multi-verse-dock" class="fixed left-3 right-3 z-50 hidden transition-all transform animate-fade-in">
-            <div class="bg-slate-900/95 backdrop-blur-xl text-white px-3 py-2.5 rounded-2xl shadow-2xl border border-slate-700/80 flex items-center justify-between space-x-1.5">
-                <div class="flex items-center space-x-1.5 flex-shrink-0">
-                    <div class="w-6 h-6 rounded-full bg-brand-600 flex items-center justify-center text-xs font-bold shadow-md text-white" id="selected-count-badge">0</div>
+            <div class="bg-slate-900/95 backdrop-blur-xl text-white px-3.5 py-3 rounded-2xl shadow-2xl border border-slate-700/80 flex flex-col space-y-2.5">
+                
+                <!-- TOP ROW: SELECTION COUNTER, ENLARGED & CENTERED HIGHLIGHT COLORS, AND CLEAR BUTTON -->
+                <div class="flex items-center justify-between w-full">
+                    <!-- COUNT BADGE -->
+                    <div class="w-7 h-7 rounded-full bg-brand-600 flex items-center justify-center text-xs font-bold shadow-md text-white flex-shrink-0" id="selected-count-badge">0</div>
+
+                    <!-- ENLARGED & CENTERED COLOR PALETTE -->
+                    <div class="flex items-center space-x-2.5 bg-slate-800/80 px-3 py-1.5 rounded-xl border border-slate-700/80">
+                        <button data-color="yellow" class="dock-hl-color w-7 h-7 rounded-full bg-yellow-400 active:scale-95 transition shadow-md" title="Yellow"></button>
+                        <button data-color="green"  class="dock-hl-color w-7 h-7 rounded-full bg-emerald-400 active:scale-95 transition shadow-md" title="Green"></button>
+                        <button data-color="blue"   class="dock-hl-color w-7 h-7 rounded-full bg-sky-400 active:scale-95 transition shadow-md" title="Blue"></button>
+                        <button data-color="pink"   class="dock-hl-color w-7 h-7 rounded-full bg-pink-400 active:scale-95 transition shadow-md" title="Pink"></button>
+                        <button data-color="clear"  class="dock-hl-color w-7 h-7 rounded-full bg-slate-700 flex items-center justify-center text-sm font-bold text-slate-300 shadow-md" title="Clear Highlight">×</button>
+                    </div>
+
+                    <!-- CLOSE / CLEAR SELECTION BUTTON -->
+                    <button id="btn-clear-selection" class="p-1.5 text-slate-400 hover:text-white rounded-xl bg-slate-800 border border-slate-700 transition active:scale-95 flex-shrink-0" title="Clear Selection">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>
                 </div>
 
-                <div class="flex items-center space-x-1 bg-slate-800/80 p-1 rounded-xl border border-slate-700/80 flex-shrink-0">
-                    <button data-color="yellow" class="dock-hl-color w-5 h-5 rounded-full bg-yellow-400 active:scale-95 transition shadow-sm" title="Yellow"></button>
-                    <button data-color="green"  class="dock-hl-color w-5 h-5 rounded-full bg-emerald-400 active:scale-95 transition shadow-sm" title="Green"></button>
-                    <button data-color="blue"   class="dock-hl-color w-5 h-5 rounded-full bg-sky-400 active:scale-95 transition shadow-sm" title="Blue"></button>
-                    <button data-color="pink"   class="dock-hl-color w-5 h-5 rounded-full bg-pink-400 active:scale-95 transition shadow-sm" title="Pink"></button>
-                    <button data-color="clear"  class="dock-hl-color w-5 h-5 rounded-full bg-slate-700 flex items-center justify-center text-xs font-bold text-slate-300 shadow-sm" title="Clear">×</button>
-                </div>
-
-                <div class="flex items-center space-x-1 flex-shrink-0">
+                <!-- BOTTOM ROW: READ, EXPLAIN, AND CROSS REFERENCE BUTTONS -->
+                <div class="grid grid-cols-3 gap-2 w-full pt-0.5">
                     <!-- READ TO ME BUTTON -->
-                    <button id="dock-act-speak" class="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl shadow-md flex items-center space-x-1 text-xs font-bold active:scale-95 transition" title="Read Selected Verses Out Loud">
+                    <button id="dock-act-speak" class="py-2 px-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl shadow-md flex items-center justify-center space-x-1.5 text-xs font-bold active:scale-95 transition" title="Read Selected Verses Out Loud">
                         <i data-lucide="volume-2" class="w-3.5 h-3.5" id="speak-btn-icon"></i>
                         <span id="speak-btn-label">Read</span>
                     </button>
                     <!-- SPARKLE ANALYZE BUTTON -->
-                    <button id="dock-act-sparkle" class="px-2.5 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl shadow-md flex items-center space-x-1 text-xs font-bold active:scale-95 transition" title="Analyze & Explain Scripture">
+                    <button id="dock-act-sparkle" class="py-2 px-2 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl shadow-md flex items-center justify-center space-x-1.5 text-xs font-bold active:scale-95 transition" title="Analyze & Explain Scripture">
                         <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
                         <span>Explain</span>
                     </button>
-                    <button id="dock-act-crossref" class="px-2.5 py-1.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl shadow-md flex items-center space-x-1 text-xs font-bold active:scale-95 transition" title="Cross-Reference">
+                    <!-- CROSS REFERENCE BUTTON -->
+                    <button id="dock-act-crossref" class="py-2 px-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl shadow-md flex items-center justify-center space-x-1.5 text-xs font-bold active:scale-95 transition" title="Cross-Reference">
                         <i data-lucide="git-fork" class="w-3.5 h-3.5"></i>
                         <span>Cross Ref</span>
                     </button>
-                    <button id="btn-clear-selection" class="p-1.5 text-slate-400 hover:text-white rounded-xl bg-slate-800 border border-slate-700 transition active:scale-95" title="Clear">
-                        <i data-lucide="x" class="w-4 h-4"></i>
-                    </button>
                 </div>
+
             </div>
         </div>
 
@@ -954,7 +963,6 @@
             const voices = state.availableVoices.length > 0 ? state.availableVoices : window.speechSynthesis.getVoices();
             const englishVoices = voices.filter(v => v.lang.startsWith('en'));
 
-            // Top-tier neural and high-quality voice identifiers across iOS, macOS, Android, Windows
             const preferredKeywords = [
                 'premium', 'enhanced', 'neural', 'siri', 'google us english', 
                 'samantha', 'ava', 'alex', 'natural', 'jenny', 'guy', 'aria', 'oliver'
@@ -989,17 +997,14 @@
 
             const sorted = [...state.selectedVerses].sort((a, b) => a.verse - b.verse);
             
-            // Format text with natural commas and pauses between verse numbers and scripture body
             const passageText = sorted.map(v => `Verse ${v.verse}. ${v.text.trim()}`).join(' ... ');
             const utterance = new SpeechSynthesisUtterance(passageText);
 
-            // Select highest-quality human voice
             const bestVoice = getBestHumanVoice();
             if (bestVoice) {
                 utterance.voice = bestVoice;
             }
 
-            // Fine-tuned cadence parameters for natural speech rhythm
             utterance.rate = 0.92;
             utterance.pitch = 1.0;
             utterance.volume = 1.0;
@@ -1181,7 +1186,6 @@
             document.getElementById('crossref-source-ref').textContent = refStr;
             document.getElementById('crossref-source-text').textContent = `"${combinedText}"`;
 
-            // Determine specific cross-references based on selected verse's book
             if (THEMATIC_CROSS_REFS[first.book]) {
                 state.activeCrossRefs = THEMATIC_CROSS_REFS[first.book];
             } else {
@@ -1466,7 +1470,7 @@
     <!-- Service Worker Registration with Cache Busting & Auto-Update Handler -->
     <script>
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js?v=34').then(reg => {
+        navigator.serviceWorker.register('sw.js?v=35').then(reg => {
           reg.onupdatefound = () => {
             const installingWorker = reg.installing;
             installingWorker.onstatechange = () => {
