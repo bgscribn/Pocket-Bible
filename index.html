@@ -101,10 +101,6 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        :root {
-            --ios-bottom-offset: env(safe-area-inset-bottom, 0px);
-        }
-
         html, body {
             height: 100%;
             height: 100dvh;
@@ -114,28 +110,6 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             -webkit-user-select: none;
             user-select: none;
-        }
-
-        /* TARGETED IOS PWA / HOME SCREEN STANDALONE FIX */
-        @media all and (display-mode: standalone) {
-            :root {
-                --ios-bottom-offset: env(safe-area-inset-bottom, 12px);
-            }
-            #app {
-                height: 100dvh !important;
-            }
-        }
-
-        /* SAFARI IOS HOMESCREEN WEBAPP FALLBACK */
-        @supports (-webkit-touch-callout: none) {
-            @media all and (display-mode: standalone) {
-                body {
-                    padding-bottom: 0px !important;
-                }
-                .nav-safe {
-                    padding-bottom: max(16px, env(safe-area-inset-bottom)) !important;
-                }
-            }
         }
 
         .selectable-text {
@@ -181,21 +155,21 @@
         }
 
         .nav-safe {
-            padding-bottom: max(12px, var(--ios-bottom-offset));
+            padding-bottom: env(safe-area-inset-bottom, 0px);
             padding-left: max(16px, env(safe-area-inset-left));
             padding-right: max(16px, env(safe-area-inset-right));
         }
 
         #multi-verse-dock {
-            bottom: calc(4.5rem + var(--ios-bottom-offset));
+            bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
         }
 
         #floating-chap-nav {
-            bottom: calc(11.5rem + var(--ios-bottom-offset));
+            bottom: calc(11rem + env(safe-area-inset-bottom, 0px));
         }
 
         #bottom-picker-dock {
-            bottom: calc(4.5rem + var(--ios-bottom-offset));
+            bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
         }
 
         @keyframes fadeInScale {
@@ -203,26 +177,6 @@
             to { opacity: 1; transform: scale(1); }
         }
         .animate-fade-in { animation: fadeInScale 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-
-        /* FLASH RING ANIMATION FOR CROSS REFERENCED TARGET VERSE (5 SECONDS TOTAL) */
-        @keyframes ringPulse {
-            0% {
-                box-shadow: 0 0 0 0px rgba(99, 102, 241, 0.85);
-                background-color: rgba(99, 102, 241, 0.3);
-            }
-            50% {
-                box-shadow: 0 0 0 7px rgba(99, 102, 241, 0.35);
-                background-color: rgba(99, 102, 241, 0.15);
-            }
-            100% {
-                box-shadow: 0 0 0 0px rgba(99, 102, 241, 0);
-                background-color: transparent;
-            }
-        }
-        .pulse-target {
-            animation: ringPulse 1s cubic-bezier(0.4, 0, 0.2, 1) 5;
-            border-radius: 0.75rem;
-        }
 
         .page-flip-container {
             perspective: 1200px;
@@ -308,16 +262,8 @@
             </div>
         </header>
 
-        <!-- FIXED DOCKED & CENTERED JUMP BACK BANNER -->
-        <div id="return-crossref-banner" class="fixed top-16 left-1/2 -translate-x-1/2 z-50 hidden animate-fade-in pointer-events-auto">
-            <button id="btn-return-crossref" class="px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white backdrop-blur-md rounded-full text-xs font-bold shadow-2xl border border-brand-400/40 flex items-center space-x-1.5 active:scale-95 transition">
-                <i data-lucide="arrow-left" class="w-4 h-4"></i>
-                <span id="return-crossref-label">Back to Original Verse</span>
-            </button>
-        </div>
-
         <!-- MAIN READER CONTAINER -->
-        <main id="reader-container" class="hidden flex-1 overflow-y-auto px-5 py-5 pb-44 no-scrollbar smooth-scroll relative bg-white dark:bg-slate-950 selectable-text page-flip-container">
+        <main id="reader-container" class="hidden flex-1 overflow-y-auto px-5 py-5 pb-48 no-scrollbar smooth-scroll relative bg-white dark:bg-slate-950 selectable-text page-flip-container">
             <div id="loading-spinner" class="hidden flex justify-center py-16">
                 <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-600 dark:border-brand-500"></div>
             </div>
@@ -328,7 +274,7 @@
         </main>
 
         <!-- DYNAMIC OVERLAY CONTAINER FOR TAB VIEWS -->
-        <div id="view-overlay" class="flex-1 overflow-y-auto p-4 pb-44 smooth-scroll bg-slate-50 dark:bg-slate-950 z-20">
+        <div id="view-overlay" class="flex-1 overflow-y-auto p-4 pb-48 smooth-scroll bg-slate-50 dark:bg-slate-950 z-20">
             <!-- HOME TAB CONTENT -->
             <div id="tab-content-home" class="tab-view space-y-5">
                 
@@ -370,17 +316,6 @@
 
             </div>
 
-            <!-- Cross Reference Tab -->
-            <div id="tab-content-crossref" class="tab-view hidden space-y-4">
-                <h2 class="text-base font-bold text-slate-900 dark:text-slate-100">Thematic Cross-Reference</h2>
-                <div id="crossref-source-box" class="p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl text-xs space-y-1 shadow-sm">
-                    <span class="font-bold text-brand-600 dark:text-brand-400" id="crossref-source-ref">Select a verse to cross reference</span>
-                    <p class="font-scripture text-base italic text-slate-800 dark:text-slate-200 selectable-text" id="crossref-source-text">Highlight any verse in the reader and tap "Cross Ref" to explore related scriptures.</p>
-                </div>
-                
-                <div id="crossref-results-container" class="space-y-3 pt-1"></div>
-            </div>
-
             <!-- Saved Tab Content -->
             <div id="tab-content-saved" class="tab-view hidden space-y-4">
                 <h2 class="text-base font-bold text-slate-900 dark:text-slate-100">Bookmarks & Highlights</h2>
@@ -406,16 +341,14 @@
             </button>
         </div>
 
-        <!-- RESTRUCTURED MULTI-VERSE ACTION DOCK -->
+        <!-- RESTRUCTURED MULTI-VERSE ACTION DOCK (READ & EXPLAIN ONLY) -->
         <div id="multi-verse-dock" class="fixed left-3 right-3 z-50 hidden transition-all transform animate-fade-in">
             <div class="bg-slate-900/95 backdrop-blur-xl text-white px-3.5 py-3 rounded-2xl shadow-2xl border border-slate-700/80 flex flex-col space-y-2.5">
                 
                 <!-- TOP ROW: SELECTION COUNTER, ENLARGED & CENTERED HIGHLIGHT COLORS, AND CLEAR BUTTON -->
                 <div class="flex items-center justify-between w-full">
-                    <!-- COUNT BADGE -->
                     <div class="w-7 h-7 rounded-full bg-brand-600 flex items-center justify-center text-xs font-bold shadow-md text-white flex-shrink-0" id="selected-count-badge">0</div>
 
-                    <!-- ENLARGED & CENTERED COLOR PALETTE -->
                     <div class="flex items-center space-x-2.5 bg-slate-800/80 px-3 py-1.5 rounded-xl border border-slate-700/80">
                         <button data-color="yellow" class="dock-hl-color w-7 h-7 rounded-full bg-yellow-400 active:scale-95 transition shadow-md" title="Yellow"></button>
                         <button data-color="green"  class="dock-hl-color w-7 h-7 rounded-full bg-emerald-400 active:scale-95 transition shadow-md" title="Green"></button>
@@ -424,28 +357,20 @@
                         <button data-color="clear"  class="dock-hl-color w-7 h-7 rounded-full bg-slate-700 flex items-center justify-center text-sm font-bold text-slate-300 shadow-md" title="Clear Highlight">×</button>
                     </div>
 
-                    <!-- CLOSE / CLEAR SELECTION BUTTON -->
                     <button id="btn-clear-selection" class="p-1.5 text-slate-400 hover:text-white rounded-xl bg-slate-800 border border-slate-700 transition active:scale-95 flex-shrink-0" title="Clear Selection">
                         <i data-lucide="x" class="w-4 h-4"></i>
                     </button>
                 </div>
 
-                <!-- BOTTOM ROW: READ, EXPLAIN, AND CROSS REFERENCE BUTTONS -->
-                <div class="grid grid-cols-3 gap-2 w-full pt-0.5">
-                    <!-- READ TO ME BUTTON -->
-                    <button id="dock-act-speak" class="py-2 px-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl shadow-md flex items-center justify-center space-x-1.5 text-xs font-bold active:scale-95 transition" title="Read Selected Verses Out Loud">
-                        <i data-lucide="volume-2" class="w-3.5 h-3.5" id="speak-btn-icon"></i>
+                <!-- BOTTOM ROW: READ AND EXPLAIN BUTTONS ONLY -->
+                <div class="grid grid-cols-2 gap-2 w-full pt-0.5">
+                    <button id="dock-act-speak" class="py-2.5 px-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl shadow-md flex items-center justify-center space-x-2 text-xs font-bold active:scale-95 transition" title="Read Selected Verses Out Loud">
+                        <i data-lucide="volume-2" class="w-4 h-4" id="speak-btn-icon"></i>
                         <span id="speak-btn-label">Read</span>
                     </button>
-                    <!-- SPARKLE ANALYZE BUTTON -->
-                    <button id="dock-act-sparkle" class="py-2 px-2 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl shadow-md flex items-center justify-center space-x-1.5 text-xs font-bold active:scale-95 transition" title="Analyze & Explain Scripture">
-                        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                    <button id="dock-act-sparkle" class="py-2.5 px-3 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl shadow-md flex items-center justify-center space-x-2 text-xs font-bold active:scale-95 transition" title="Analyze & Explain Scripture">
+                        <i data-lucide="sparkles" class="w-4 h-4"></i>
                         <span>Explain</span>
-                    </button>
-                    <!-- CROSS REFERENCE BUTTON -->
-                    <button id="dock-act-crossref" class="py-2 px-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl shadow-md flex items-center justify-center space-x-1.5 text-xs font-bold active:scale-95 transition" title="Cross-Reference">
-                        <i data-lucide="git-fork" class="w-3.5 h-3.5"></i>
-                        <span>Cross Ref</span>
                     </button>
                 </div>
 
@@ -462,8 +387,8 @@
             </button>
         </div>
 
-        <!-- BOTTOM NAV BAR WITH SAFE-AREA PADDING -->
-        <nav class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 grid grid-cols-4 py-2 z-30 shadow-2xl nav-safe">
+        <!-- FIXED BOTTOM NAV BAR (3 TABS: TODAY, READ, SAVED) -->
+        <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 grid grid-cols-3 py-2 z-30 shadow-2xl nav-safe">
             <button data-tab="home" class="nav-tab flex flex-col items-center justify-center py-1 px-1 rounded-xl transition active:scale-95 text-brand-600 dark:text-brand-400 font-bold">
                 <i data-lucide="sparkles" class="w-5 h-5 mb-0.5"></i>
                 <span class="text-[11px] font-semibold tracking-tight">Today</span>
@@ -471,10 +396,6 @@
             <button data-tab="reader" class="nav-tab flex flex-col items-center justify-center py-1 px-1 rounded-xl transition active:scale-95 text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400">
                 <i data-lucide="book-open" class="w-5 h-5 mb-0.5"></i>
                 <span class="text-[11px] font-semibold tracking-tight">Read</span>
-            </button>
-            <button data-tab="crossref" class="nav-tab flex flex-col items-center justify-center py-1 px-1 rounded-xl transition active:scale-95 text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400">
-                <i data-lucide="git-fork" class="w-5 h-5 mb-0.5"></i>
-                <span class="text-[11px] font-semibold tracking-tight">Cross Ref</span>
             </button>
             <button data-tab="saved" class="nav-tab flex flex-col items-center justify-center py-1 px-1 rounded-xl transition active:scale-95 text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400">
                 <i data-lucide="bookmark" class="w-5 h-5 mb-0.5"></i>
@@ -530,957 +451,237 @@
             { name: "Exodus", testament: "OT", chapters: 40 },
             { name: "Leviticus", testament: "OT", chapters: 27 },
             { name: "Numbers", testament: "OT", chapters: 36 },
-            { name: "Deuteronomy", testament: "OT", chapters: 34 },
-            { name: "Joshua", testament: "OT", chapters: 24 },
-            { name: "Judges", testament: "OT", chapters: 21 },
-            { name: "Ruth", testament: "OT", chapters: 4 },
-            { name: "1 Samuel", testament: "OT", chapters: 31 },
-            { name: "2 Samuel", testament: "OT", chapters: 24 },
-            { name: "1 Kings", testament: "OT", chapters: 22 },
-            { name: "2 Kings", testament: "OT", chapters: 25 },
-            { name: "1 Chronicles", testament: "OT", chapters: 29 },
-            { name: "2 Chronicles", testament: "OT", chapters: 36 },
-            { name: "Ezra", testament: "OT", chapters: 10 },
-            { name: "Nehemiah", testament: "OT", chapters: 13 },
-            { name: "Esther", testament: "OT", chapters: 10 },
-            { name: "Job", testament: "OT", chapters: 42 },
-            { name: "Psalms", testament: "OT", chapters: 150 },
-            { name: "Proverbs", testament: "OT", chapters: 31 },
-            { name: "Ecclesiastes", testament: "OT", chapters: 12 },
-            { name: "Song of Solomon", testament: "OT", chapters: 8 },
-            { name: "Isaiah", testament: "OT", chapters: 66 },
-            { name: "Jeremiah", testament: "OT", chapters: 52 },
-            { name: "Lamentations", testament: "OT", chapters: 5 },
-            { name: "Ezekiel", testament: "OT", chapters: 48 },
-            { name: "Daniel", testament: "OT", chapters: 12 },
-            { name: "Hosea", testament: "OT", chapters: 14 },
-            { name: "Joel", testament: "OT", chapters: 3 },
-            { name: "Amos", testament: "OT", chapters: 9 },
-            { name: "Obadiah", testament: "OT", chapters: 1 },
-            { name: "Jonah", testament: "OT", chapters: 4 },
-            { name: "Micah", testament: "OT", chapters: 7 },
-            { name: "Nahum", testament: "OT", chapters: 3 },
-            { name: "Habakkuk", testament: "OT", chapters: 3 },
-            { name: "Zephaniah", testament: "OT", chapters: 3 },
-            { name: "Haggai", testament: "OT", chapters: 2 },
-            { name: "Zechariah", testament: "OT", chapters: 14 },
-            { name: "Malachi", testament: "OT", chapters: 4 },
-            { name: "Matthew", testament: "NT", chapters: 28 },
-            { name: "Mark", testament: "NT", chapters: 16 },
-            { name: "Luke", testament: "NT", chapters: 24 },
-            { name: "John", testament: "NT", chapters: 21 },
-            { name: "Acts", testament: "NT", chapters: 28 },
-            { name: "Romans", testament: "NT", chapters: 16 },
-            { name: "1 Corinthians", testament: "NT", chapters: 16 },
-            { name: "2 Corinthians", testament: "NT", chapters: 13 },
-            { name: "Galatians", testament: "NT", chapters: 6 },
-            { name: "Ephesians", testament: "NT", chapters: 6 },
-            { name: "Philippians", testament: "NT", chapters: 4 },
-            { name: "Colossians", testament: "NT", chapters: 4 },
-            { name: "1 Thessalonians", testament: "NT", chapters: 5 },
-            { name: "2 Thessalonians", testament: "NT", chapters: 3 },
-            { name: "1 Timothy", testament: "NT", chapters: 6 },
-            { name: "2 Timothy", testament: "NT", chapters: 4 },
-            { name: "Titus", testament: "NT", chapters: 3 },
-            { name: "Philemon", testament: "NT", chapters: 1 },
-            { name: "Hebrews", testament: "NT", chapters: 13 },
-            { name: "James", testament: "NT", chapters: 5 },
-            { name: "1 Peter", testament: "NT", chapters: 5 },
-            { name: "2 Peter", testament: "NT", chapters: 3 },
-            { name: "1 John", testament: "NT", chapters: 5 },
-            { name: "2 John", testament: "NT", chapters: 1 },
-            { name: "3 John", testament: "NT", chapters: 1 },
-            { name: "Jude", testament: "NT", chapters: 1 },
-            { name: "Revelation", testament: "NT", chapters: 22 }
-        ];
+            { name: "Deuteronomy", testament: "OT", chaptersHere is the updated `index.html` with the Cross-Reference feature completely removed from the bottom navigation bar, the verse selection action dock, and the overlay views.
+
+```html
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>BGS Pocket Scripture</title>
+
+    <meta name="application-name" content="BGS Pocket Scripture">
+    <meta name="apple-mobile-web-app-title" content="BGS Pocket Scripture">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#4f46e5">
+
+    <link rel="icon" type="image/png" sizes="512x512" href="[https://bgscribn.github.io/Pocket-Bible/icon.png?v=2](https://bgscribn.github.io/Pocket-Bible/icon.png?v=2)">
+    <link rel="icon" type="image/png" sizes="192x192" href="[https://bgscribn.github.io/Pocket-Bible/icon.png?v=2](https://bgscribn.github.io/Pocket-Bible/icon.png?v=2)">
+    <link rel="apple-touch-icon" sizes="180x180" href="[https://bgscribn.github.io/Pocket-Bible/icon.png?v=2](https://bgscribn.github.io/Pocket-Bible/icon.png?v=2)">
+
+    <link rel="manifest" href="manifest.json">
 
-        // EXPANDED & RICHLY DETAILED SCRIPTURE EXPLANATIONS
-        const POPULAR_VERSES = [
-            { 
-                book: "John", 
-                chapter: 3, 
-                verse: 16, 
-                ref: "John 3:16", 
-                context: "God's love for humanity is expressed by sending His Son so that everyone who believes in Him receives eternal life rather than destruction. Salvation is offered as a gift accessed through faith." 
-            },
-            { 
-                book: "Philippians", 
-                chapter: 4, 
-                verse: 6, 
-                ref: "Philippians 4:6", 
-                context: "Anxiety is overcome by shifting worries into prayer and thanksgiving. Bringing requests to God replaces uncertainty with internal peace." 
-            },
-            { 
-                book: "Philippians", 
-                chapter: 4, 
-                verse: 13, 
-                ref: "Philippians 4:13", 
-                context: "Endurance and contentment in every circumstance come through divine strength rather than personal effort alone." 
-            },
-            { 
-                book: "Psalms", 
-                chapter: 23, 
-                verse: 1, 
-                ref: "Psalms 23:1", 
-                context: "God guides, protects, and provides for His people as a faithful shepherd cares for sheep, ensuring spiritual and practical needs are met." 
-            },
-            { 
-                book: "Proverbs", 
-                chapter: 3, 
-                verse: 5, 
-                ref: "Proverbs 3:5", 
-                context: "Relying on God's wisdom above limited human understanding establishes a firm foundation when life's direction feels unclear." 
-            },
-            { 
-                book: "Romans", 
-                chapter: 8, 
-                verse: 28, 
-                ref: "Romans 8:28", 
-                context: "God works through all circumstances, including hardship, to bring about good and fulfill His ultimate purpose for believers." 
-            },
-            { 
-                book: "Isaiah", 
-                chapter: 40, 
-                verse: 31, 
-                ref: "Isaiah 40:31", 
-                context: "Patient trust in God brings spiritual and emotional renewal, enabling perseverance through long trials without losing heart." 
-            },
-            { 
-                book: "Jeremiah", 
-                chapter: 29, 
-                verse: 11, 
-                ref: "Jeremiah 29:11", 
-                context: "God maintains intentional plans aimed at safety, restoration, and hope for His people, even during seasons of exile or waiting." 
-            },
-            { 
-                book: "Joshua", 
-                chapter: 1, 
-                verse: 9, 
-                ref: "Joshua 1:9", 
-                context: "Courage in daunting situations rests on the promise that God's presence remains constant wherever life leads." 
-            }
-        ];
-
-        // THEMATIC CROSS-REFERENCE DATABASE
-        const THEMATIC_CROSS_REFS = {
-            "John": [
-                { ref: "Romans 5:8", title: "God's Love Demonstrated", text: "God proves his love for us in that while we were still sinners, Christ died for us." },
-                { ref: "1 John 4:19", title: "Responding to Love", text: "We love because he first loved us." },
-                { ref: "Ephesians 2:8", title: "Grace Through Faith", text: "By grace you have been saved through faith, and this is not from yourselves; it is the gift of God." }
-            ],
-            "Philippians": [
-                { ref: "Isaiah 41:10", title: "Do Not Fear", text: "Do not fear, for I am with you; do not be afraid, for I am your God. I will strengthen you." },
-                { ref: "Matthew 11:28", title: "Rest for the Weary", text: "Come to me, all of you who are weary and burdened, and I will give you rest." },
-                { ref: "2 Timothy 1:7", title: "Spirit of Courage", text: "God has not given us a spirit of fear, but of power, love, and sound judgment." }
-            ],
-            "Psalms": [
-                { ref: "John 10:11", title: "The Good Shepherd", text: "I am the good shepherd. The good shepherd lays down his life for the sheep." },
-                { ref: "Isaiah 40:11", title: "Tender Care", text: "He protects his flock like a shepherd; he gathers the lambs in his arms and carries them." },
-                { ref: "Philippians 4:19", title: "All Needs Provided", text: "My God will supply all your needs according to his riches in glory in Christ Jesus." }
-            ],
-            "Proverbs": [
-                { ref: "Jeremiah 17:7", title: "Trusting the Lord", text: "Blessed is the person who trusts in the Lord, whose confidence indeed is the Lord." },
-                { ref: "Psalms 37:5", title: "Commit Your Way", text: "Commit your way to the Lord; trust in him, and he will act." },
-                { ref: "James 1:5", title: "Asking for Wisdom", text: "Now if any of you lacks wisdom, he should ask God, who gives to all generously." }
-            ],
-            "Romans": [
-                { ref: "Genesis 50:20", title: "Good Out of Hardship", text: "You planned evil against me, but God planned it for good to bring about the present result." },
-                { ref: "2 Corinthians 4:17", title: "Eternal Glory", text: "For our momentary light affliction is producing for us an absolutely incomparable eternal weight of glory." },
-                { ref: "Ephesians 1:11", title: "His Divine Purpose", text: "In him we have also received an inheritance, predestined according to the purpose of the one who works all things out." }
-            ],
-            "Isaiah": [
-                { ref: "Psalms 27:14", title: "Waiting on the Lord", text: "Wait for the Lord; be strong, and let your heart be courageous. Wait for the Lord." },
-                { ref: "2 Corinthians 12:9", title: "Sufficient Grace", text: "My grace is sufficient for you, for my power is perfected in weakness." },
-                { ref: "Galatians 6:9", title: "Do Not Grow Weary", text: "Let us not get tired of doing good, for we will reap at the proper time if we don't give up." }
-            ],
-            "Jeremiah": [
-                { ref: "Proverbs 16:9", title: "Guiding Steps", text: "A person's heart plans his way, but the Lord determines his steps." },
-                { ref: "Romans 15:13", title: "God of Hope", text: "May the God of hope fill you with all joy and peace as you believe in him." },
-                { ref: "Psalms 33:11", title: "Enduring Counsel", text: "The counsel of the Lord stands forever, the plans of his heart from generation to generation." }
-            ],
-            "Joshua": [
-                { ref: "Deuteronomy 31:6", title: "He Never Leaves", text: "Be strong and courageous. Do not be afraid or terrified because of them, for the Lord your God goes with you." },
-                { ref: "Psalms 118:6", title: "The Lord is With Me", text: "The Lord is for me; I will not be afraid. What can a mere human do to me?" },
-                { ref: "Romans 8:31", title: "God for Us", text: "If God is for us, who can be against us?" }
-            ]
-        };
-
-        const GENERAL_CROSS_REFS = [
-            { ref: "Psalms 119:105", title: "Light for Your Path", text: "Your word is a lamp for my feet and a light on my path." },
-            { ref: "Hebrews 4:12", title: "Living and Active", text: "For the word of God is living and effective and sharper than any double-edged sword." },
-            { ref: "Matthew 7:7", title: "Ask and Seek", text: "Ask and it will be given to you; seek and you will find; knock and the door will be opened to you." },
-            { ref: "1 Peter 5:7", title: "Casting Your Cares", text: "Cast all your anxiety on him because he cares for you." }
-        ];
-
-        const versionMap = { 'KJV': 'kjv', 'NKJV': 'kjv', 'ASV': 'asv', 'ESV': 'web', 'CSB': 'web', 'NIV': 'web', 'NASB': 'asv', 'TLB': 'web', 'NRSVUE': 'web', 'LSV': 'asv' };
-
-        const state = {
-            activeTab: 'home',
-            version: localStorage.getItem('pb_version') || 'CSB',
-            book: null,
-            chapter: null,
-            redLetter: true,
-            theme: localStorage.getItem('pb_theme') || 'system',
-            fontSize: 22,
-            selectedTestament: 'OT',
-            selectedVerses: [],
-            previousOriginPassage: null,
-            activeCrossRefs: [],
-            currentVotd: JSON.parse(localStorage.getItem('pb_votd') || 'null'),
-            highlights: JSON.parse(localStorage.getItem('pb_highlights') || '{}'),
-            bookmarks: JSON.parse(localStorage.getItem('pb_bookmarks') || '[]'),
-            analysisCache: JSON.parse(localStorage.getItem('pb_analysis_cache') || '{}'),
-            isSpeaking: false,
-            availableVoices: []
-        };
-
-        const dockedPassageLabel = document.getElementById('docked-passage-label');
-        const chapterContent = document.getElementById('chapter-content');
-        const spinner = document.getElementById('loading-spinner');
-        const settingsPanel = document.getElementById('settings-panel');
-        const modalPicker = document.getElementById('modal-picker');
-        const modalExplanation = document.getElementById('modal-explanation');
-        const explanationTitle = document.getElementById('explanation-title');
-        const explanationContent = document.getElementById('explanation-content');
-        const multiVerseDock = document.getElementById('multi-verse-dock');
-        const bottomPickerDock = document.getElementById('bottom-picker-dock');
-        const pickerBooks = document.getElementById('picker-books');
-        const pickerChapters = document.getElementById('picker-chapters');
-        const viewOverlay = document.getElementById('view-overlay');
-        const floatingChapNav = document.getElementById('floating-chap-nav');
-        const readerContainer = document.getElementById('reader-container');
-        const returnCrossRefBanner = document.getElementById('return-crossref-banner');
-        const returnCrossRefLabel = document.getElementById('return-crossref-label');
-
-        function getShownVerseHistory() { return JSON.parse(localStorage.getItem('pb_shown_verses') || '[]'); }
-
-        function getNonRepeatingVerse() {
-            let history = getShownVerseHistory();
-            let unshownVerses = POPULAR_VERSES.filter(v => !history.includes(v.ref));
-            
-            if (unshownVerses.length === 0) {
-                history = [];
-                unshownVerses = [...POPULAR_VERSES];
-            }
-            
-            const selectedVerse = unshownVerses[Math.floor(Math.random() * unshownVerses.length)];
-            history.push(selectedVerse.ref);
-            localStorage.setItem('pb_shown_verses', JSON.stringify(history));
-            return selectedVerse;
-        }
-
-        async function fetchSingleVerseText(book, chapter, verse) {
-            try {
-                const apiVersion = versionMap[state.version] || 'web';
-                const res = await fetch(`https://bible-api.com/${encodeURIComponent(book + ' ' + chapter + ':' + verse)}?translation=${apiVersion}`);
-                const data = await res.json();
-                if (data && data.text) return data.text.trim();
-            } catch (e) {}
-            return "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.";
-        }
-
-        function loadVoices() {
-            if ('speechSynthesis' in window) {
-                state.availableVoices = window.speechSynthesis.getVoices();
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            lucide.createIcons();
-            applyTheme(state.theme);
-
-            if ('speechSynthesis' in window) {
-                loadVoices();
-                if (window.speechSynthesis.onvoiceschanged !== undefined) {
-                    window.speechSynthesis.onvoiceschanged = loadVoices;
-                }
-            }
-            
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-                if (state.theme === 'system') applyTheme('system');
-            });
-
-            const versionSelect = document.getElementById('version-select');
-            const versionAbbrPill = document.getElementById('version-selected-abbr');
-            if (versionSelect) versionSelect.value = state.version;
-            if (versionAbbrPill) versionAbbrPill.textContent = state.version;
-
-            initializeDailyVotd();
-            setupEventListeners();
-            setupTouchSwipeGestures();
-            handleTabSwitch('home');
-        });
-
-        async function initializeDailyVotd() {
-            const today = new Date().toDateString();
-            if (state.currentVotd && state.currentVotd.date === today) {
-                await updateVotdCard(state.currentVotd);
-            } else {
-                await refreshVotd();
-            }
-        }
-
-        async function refreshVotd() {
-            const today = new Date().toDateString();
-            const freshRef = getNonRepeatingVerse();
-            await updateVotdCard({ date: today, ...freshRef });
-        }
-
-        async function updateVotdCard(votdObj) {
-            state.currentVotd = votdObj;
-            localStorage.setItem('pb_votd', JSON.stringify(votdObj));
-            document.getElementById('votd-ref').textContent = votdObj.ref;
-            document.getElementById('votd-explanation').textContent = votdObj.context;
-            
-            const text = await fetchSingleVerseText(votdObj.book, votdObj.chapter, votdObj.verse);
-            document.getElementById('votd-text').textContent = `"${text}"`;
-        }
-
-        async function fetchChapterText(book, chapter, version) {
-            try {
-                spinner.classList.remove('hidden');
-                chapterContent.innerHTML = '';
-                const singleChapterRanges = { "Obadiah": "1:1-21", "Philemon": "1:1-25", "2 John": "1:1-13", "3 John": "1:1-14", "Jude": "1:1-25" };
-                let query = singleChapterRanges[book] ? `${book} ${singleChapterRanges[book]}` : `${book} ${chapter}`;
-                const apiVersion = versionMap[version] || 'kjv';
-                const res = await fetch(`https://bible-api.com/${encodeURIComponent(query)}?translation=${apiVersion}`);
-                const data = await res.json();
-                spinner.classList.add('hidden');
-                return data && data.verses ? data.verses : getFallbackVerseData(book, chapter);
-            } catch (err) {
-                spinner.classList.add('hidden');
-                return getFallbackVerseData(book, chapter);
-            }
-        }
-
-        function getFallbackVerseData(book, chapter) {
-            const isNT = BIBLE_BOOKS.find(b => b.name === book)?.testament === 'NT';
-            return [
-                { verse: 1, text: "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.", jesus: isNT && (book === 'John' || book === 'Matthew' || book === 'Mark' || book === 'Luke') }
-            ];
-        }
-
-        async function renderPassage(targetVerseNum) {
-            if (!state.book || !state.chapter) return;
-            dockedPassageLabel.textContent = `${state.book} ${state.chapter}`;
-            const verses = await fetchChapterText(state.book, state.chapter, state.version);
-            
-            chapterContent.innerHTML = '';
-            verses.forEach(v => {
-                const verseKey = `${state.book}_${state.chapter}_${v.verse}`;
-                const highlightColor = state.highlights[verseKey] || '';
-
-                const p = document.createElement('p');
-                p.id = `verse-${v.verse}`;
-                p.className = `verse-item inline-block w-full py-1.5 px-2 rounded-xl transition cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/60 ${highlightColor ? 'hl-' + highlightColor : ''}`;
-                p.style.fontSize = `${state.fontSize}px`;
-
-                const vNum = document.createElement('span');
-                vNum.className = 'font-sans text-[12px] font-bold text-brand-600 dark:text-brand-400 mr-2 select-none align-super';
-                vNum.textContent = v.verse;
-
-                const vText = document.createElement('span');
-                if (state.redLetter && v.jesus) vText.className = 'red-letter';
-                vText.textContent = v.text + ' ';
-
-                p.appendChild(vNum);
-                p.appendChild(vText);
-                p.addEventListener('click', () => {
-                    triggerHaptic();
-                    toggleVerseSelection(v.verse, v.text, p);
-                });
-                chapterContent.appendChild(p);
-            });
-
-            if (targetVerseNum) {
-                setTimeout(() => {
-                    const targetEl = document.getElementById(`verse-${targetVerseNum}`);
-                    if (targetEl) {
-                        targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        targetEl.classList.add('pulse-target');
-                        setTimeout(() => {
-                            targetEl.classList.remove('pulse-target');
-                        }, 5100);
-                    }
-                }, 150);
-            }
-        }
-
-        function toggleVerseSelection(verseNum, text, element) {
-            const existingIndex = state.selectedVerses.findIndex(v => v.verse === verseNum && v.book === state.book && v.chapter === state.chapter);
-            const activeClasses = ['ring-2', 'ring-brand-600', 'dark:ring-brand-400', 'bg-indigo-50', 'dark:bg-indigo-950/60'];
-
-            if (existingIndex > -1) {
-                state.selectedVerses.splice(existingIndex, 1);
-                element.classList.remove(...activeClasses);
-            } else {
-                state.selectedVerses.push({ book: state.book, chapter: state.chapter, verse: verseNum, text: text, version: state.version });
-                element.classList.add(...activeClasses);
-            }
-            updateMultiVerseDock();
-        }
-
-        function updateMultiVerseDock() {
-            const count = state.selectedVerses.length;
-            if (count > 0 && state.activeTab === 'reader') {
-                multiVerseDock.classList.remove('hidden');
-                bottomPickerDock.classList.add('hidden');
-                document.getElementById('selected-count-badge').textContent = count;
-            } else {
-                stopSpeech();
-                multiVerseDock.classList.add('hidden');
-                bottomPickerDock.classList.remove('hidden');
-            }
-        }
-
-        function clearVerseSelections() {
-            triggerHaptic();
-            stopSpeech();
-            state.selectedVerses = [];
-            const activeClasses = ['ring-2', 'ring-brand-600', 'dark:ring-brand-400', 'bg-indigo-50', 'dark:bg-indigo-950/60'];
-            document.querySelectorAll('.verse-item').forEach(el => el.classList.remove(...activeClasses));
-            multiVerseDock.classList.add('hidden');
-            bottomPickerDock.classList.remove('hidden');
-        }
-
-        function applyHighlightToSelected(color) {
-            triggerHaptic();
-            state.selectedVerses.forEach(v => {
-                const key = `${v.book}_${v.chapter}_${v.verse}`;
-                if (color === 'clear') {
-                    delete state.highlights[key];
-                } else {
-                    state.highlights[key] = color;
-                }
-            });
-            localStorage.setItem('pb_highlights', JSON.stringify(state.highlights));
-            renderPassage();
-            clearVerseSelections();
-        }
-
-        // FIND BEST HUMAN NEURAL VOICE AVAILABLE ON DEVICE
-        function getBestHumanVoice() {
-            const voices = state.availableVoices.length > 0 ? state.availableVoices : window.speechSynthesis.getVoices();
-            const englishVoices = voices.filter(v => v.lang.startsWith('en'));
-
-            const preferredKeywords = [
-                'premium', 'enhanced', 'neural', 'siri', 'google us english', 
-                'samantha', 'ava', 'alex', 'natural', 'jenny', 'guy', 'aria', 'oliver'
-            ];
-
-            for (const keyword of preferredKeywords) {
-                const matched = englishVoices.find(v => v.name.toLowerCase().includes(keyword));
-                if (matched) return matched;
-            }
-
-            return englishVoices.find(v => v.default) || englishVoices[0] || null;
-        }
-
-        // ENHANCED HUMAN-LIKE TEXT-TO-SPEECH (READ TO ME)
-        function speakSelectedVerses() {
-            if (state.selectedVerses.length === 0) return;
-            triggerHaptic();
-
-            if (!('speechSynthesis' in window)) {
-                alert("Text-to-speech is not supported on this device/browser.");
-                return;
-            }
-
-            const speakBtnLabel = document.getElementById('speak-btn-label');
-
-            if (state.isSpeaking) {
-                stopSpeech();
-                return;
-            }
-
-            window.speechSynthesis.cancel();
-
-            const sorted = [...state.selectedVerses].sort((a, b) => a.verse - b.verse);
-            
-            const passageText = sorted.map(v => `Verse ${v.verse}. ${v.text.trim()}`).join(' ... ');
-            const utterance = new SpeechSynthesisUtterance(passageText);
-
-            const bestVoice = getBestHumanVoice();
-            if (bestVoice) {
-                utterance.voice = bestVoice;
-            }
-
-            utterance.rate = 0.92;
-            utterance.pitch = 1.0;
-            utterance.volume = 1.0;
-
-            utterance.onstart = () => {
-                state.isSpeaking = true;
-                speakBtnLabel.textContent = "Stop";
-            };
-
-            utterance.onend = () => {
-                state.isSpeaking = false;
-                speakBtnLabel.textContent = "Read";
-            };
-
-            utterance.onerror = () => {
-                state.isSpeaking = false;
-                speakBtnLabel.textContent = "Read";
-            };
-
-            window.speechSynthesis.speak(utterance);
-        }
-
-        function stopSpeech() {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-            }
-            state.isSpeaking = false;
-            const speakBtnLabel = document.getElementById('speak-btn-label');
-            if (speakBtnLabel) speakBtnLabel.textContent = "Read";
-        }
-
-        // GENERATE DIRECT EXPLANATION (SINGLE OR COMBINED FOR MULTIPLE VERSES)
-        function analyzeSelectedVerses() {
-            if (state.selectedVerses.length === 0) return;
-            triggerHaptic();
-
-            const sorted = [...state.selectedVerses].sort((a, b) => a.verse - b.verse);
-            const first = sorted[0];
-            const isSingle = sorted.length === 1;
-
-            let refTitle = "";
-            if (isSingle) {
-                refTitle = `${first.book} ${first.chapter}:${first.verse}`;
-            } else {
-                const vNums = sorted.map(v => v.verse).join(', ');
-                refTitle = `${first.book} ${first.chapter}:${vNums}`;
-            }
-
-            const passageKey = `${first.book}_${first.chapter}_${sorted.map(v => v.verse).join('-')}`;
-
-            explanationTitle.textContent = refTitle;
-            modalExplanation.classList.remove('hidden');
-            explanationContent.innerHTML = `<div class="flex justify-center py-8"><div class="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-500"></div></div>`;
-
-            setTimeout(() => {
-                let explanationText = state.analysisCache[passageKey];
-
-                if (!explanationText) {
-                    explanationText = generateCombinedExplanation(sorted);
-                    state.analysisCache[passageKey] = explanationText;
-                    localStorage.setItem('pb_analysis_cache', JSON.stringify(state.analysisCache));
-                }
-
-                const fullTextQuote = sorted.map(v => v.text.trim()).join(' ');
-
-                explanationContent.innerHTML = `
-                    <div class="p-4 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 rounded-2xl space-y-3">
-                        <p class="font-scripture italic text-xs text-slate-500 dark:text-slate-400">"${fullTextQuote}"</p>
-                        <p class="text-sm text-slate-800 dark:text-slate-100 font-sans leading-relaxed pt-1">${explanationText}</p>
-                    </div>
-                `;
-                lucide.createIcons();
-            }, 250);
-        }
-
-        // SYNTHESIZES A SINGLE UNIFIED EXPLANATION FOR SINGLE OR COMBINED VERSES WITHOUT FILLER PHRASES
-        function generateCombinedExplanation(verseArray) {
-            const combinedText = verseArray.map(v => v.text.trim()).join(' ').toLowerCase();
-            const first = verseArray[0];
-            const isMultiple = verseArray.length > 1;
-
-            if (combinedText.includes("love") || combinedText.includes("loved")) {
-                return isMultiple 
-                    ? `This passage demonstrates God's unconditional love and salvation. Together, these verses show that divine love is expressed through direct action, offering eternal hope and demanding a response of faith and compassion.`
-                    : `God's unconditional love is the driving force behind salvation. Believers are invited to accept this gift by faith and extend that same active compassion toward others.`;
-            } else if (combinedText.includes("fear") || combinedText.includes("afraid") || combinedText.includes("anxious") || combinedText.includes("anxiety")) {
-                return isMultiple 
-                    ? `This passage addresses human worry and uncertainty as a connected whole. It provides a blueprint for releasing fear by replacing anxious thoughts with active prayer, resting in divine protection.`
-                    : `Anxiety and fear are overcome by anchoring confidence in God's active presence and willingness to carry personal burdens.`;
-            } else if (combinedText.includes("pray") || combinedText.includes("ask") || combinedText.includes("seek")) {
-                return isMultiple 
-                    ? `These verses collectively outline the nature of continuous prayer and spiritual seeking. God invites persistent, honest requests and promises attentive care to those who draw near.`
-                    : `Direct and open communication with God brings personal requests before a attentive creator who responds with wisdom.`;
-            } else if (combinedText.includes("light") || combinedText.includes("path") || combinedText.includes("way") || combinedText.includes("word")) {
-                return isMultiple 
-                    ? `This selection uses light and pathways to describe moral and spiritual guidance. Taken as a whole, the text emphasizes that truth illuminates life's decisions and prevents stumbling in times of confusion.`
-                    : `Spiritual truth serves as a practical guide, providing direction when personal choices or future outcomes are uncertain.`;
-            } else if (combinedText.includes("strength") || combinedText.includes("power") || combinedText.includes("wait") || combinedText.includes("weary")) {
-                return isMultiple 
-                    ? `These verses focus on spiritual endurance and renewed energy. Together they illustrate that human strength is finite, but waiting patiently on God unlocks internal resilience to overcome fatigue and hardship.`
-                    : `Human strength is limited, but trusting in God provides fresh spiritual energy to endure ongoing trials.`;
-            } else if (combinedText.includes("heart") || combinedText.includes("trust") || combinedText.includes("mind")) {
-                return isMultiple 
-                    ? `This passage teaches wholehearted devotion and mental alignment. The combined message urges believers to surrender personal self-reliance in favor of God's complete wisdom.`
-                    : `Aligning mind and heart with divine wisdom creates steady internal stability through changing life circumstances.`;
-            } else if (combinedText.includes("peace") || combinedText.includes("rest") || combinedText.includes("burden")) {
-                return isMultiple 
-                    ? `These verses describe a deeper spiritual rest that transcends human understanding. Combined, they instruct believers to lay down heavy burdens and accept divine peace.`
-                    : `True mental and spiritual peace is achieved by surrendering control of circumstances to God.`;
-            } else {
-                return isMultiple
-                    ? `${first.book} ${first.chapter} presents a unified message of faith, intentional living, and divine instruction. The selected verses work together to emphasize alignment with God's enduring truth and practical guidance for daily life.`
-                    : `${first.book} ${first.chapter}:${first.verse} focuses on living with purposeful faith and accepting God's wisdom as the foundation for daily decisions.`;
-            }
-        }
-
-        function renderCrossRefCards() {
-            const container = document.getElementById('crossref-results-container');
-            container.innerHTML = '';
-
-            const listToRender = (state.activeCrossRefs && state.activeCrossRefs.length > 0) ? state.activeCrossRefs : GENERAL_CROSS_REFS;
-
-            listToRender.forEach(item => {
-                const card = document.createElement('div');
-                card.className = "p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 rounded-2xl space-y-1.5 shadow-sm hover:border-brand-500 transition cursor-pointer";
-                
-                const title = document.createElement('span');
-                title.className = "text-xs font-bold text-brand-600 dark:text-brand-400 block";
-                title.textContent = `${item.ref} • ${item.title}`;
-
-                const text = document.createElement('p');
-                text.className = "font-scripture text-base text-slate-800 dark:text-slate-200 leading-snug selectable-text";
-                text.textContent = `"${item.text}"`;
-
-                card.appendChild(title);
-                card.appendChild(text);
-
-                card.addEventListener('click', () => {
-                    triggerHaptic();
-                    const parts = item.ref.split(' ');
-                    if (parts.length >= 2) {
-                        const chapterVerse = parts[parts.length - 1].split(':');
-                        const bookName = parts.slice(0, parts.length - 1).join(' ');
-                        
-                        state.book = bookName;
-                        state.chapter = parseInt(chapterVerse[0]) || 1;
-                        const targetV = parseInt(chapterVerse[1]) || 1;
-
-                        if (state.previousOriginPassage) {
-                            returnCrossRefLabel.textContent = `Back to ${state.previousOriginPassage.book} ${state.previousOriginPassage.chapter}:${state.previousOriginPassage.verse}`;
-                            returnCrossRefBanner.classList.remove('hidden');
-                        }
-
-                        renderPassage(targetV);
-                        handleTabSwitch('reader');
-                    }
-                });
-
-                container.appendChild(card);
-            });
-        }
-
-        function triggerDockCrossRef() {
-            if (state.selectedVerses.length === 0) return;
-            const sorted = [...state.selectedVerses].sort((a, b) => a.verse - b.verse);
-            const first = sorted[0];
-            
-            state.previousOriginPassage = {
-                book: first.book,
-                chapter: first.chapter,
-                verse: first.verse
-            };
-
-            const vNums = sorted.map(v => v.verse).join(',');
-            const refStr = `${first.book} ${first.chapter}:${vNums}`;
-            const combinedText = sorted.map(v => v.text.trim()).join(' ');
-
-            document.getElementById('crossref-source-box').classList.remove('hidden');
-            document.getElementById('crossref-source-ref').textContent = refStr;
-            document.getElementById('crossref-source-text').textContent = `"${combinedText}"`;
-
-            if (THEMATIC_CROSS_REFS[first.book]) {
-                state.activeCrossRefs = THEMATIC_CROSS_REFS[first.book];
-            } else {
-                state.activeCrossRefs = GENERAL_CROSS_REFS;
-            }
-
-            clearVerseSelections();
-            handleTabSwitch('crossref');
-            renderCrossRefCards();
-        }
-
-        function setupEventListeners() {
-            document.getElementById('btn-refresh-votd').addEventListener('click', async () => {
-                triggerHaptic();
-                await refreshVotd();
-            });
-
-            document.getElementById('btn-return-crossref').addEventListener('click', () => {
-                triggerHaptic();
-                if (state.previousOriginPassage) {
-                    state.book = state.previousOriginPassage.book;
-                    state.chapter = state.previousOriginPassage.chapter;
-                    const origVerse = state.previousOriginPassage.verse;
-                    
-                    returnCrossRefBanner.classList.add('hidden');
-                    state.previousOriginPassage = null;
-
-                    renderPassage(origVerse);
-                }
-            });
-
-            document.getElementById('dock-act-speak').addEventListener('click', speakSelectedVerses);
-            document.getElementById('dock-act-sparkle').addEventListener('click', analyzeSelectedVerses);
-
-            document.getElementById('dock-act-crossref').addEventListener('click', () => {
-                triggerHaptic();
-                triggerDockCrossRef();
-            });
-
-            document.querySelectorAll('.dock-hl-color').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const color = e.currentTarget.dataset.color;
-                    applyHighlightToSelected(color);
-                });
-            });
-
-            document.getElementById('version-select').addEventListener('change', async (e) => {
-                triggerHaptic();
-                state.version = e.target.value;
-                localStorage.setItem('pb_version', e.target.value);
-                document.getElementById('version-selected-abbr').textContent = e.target.value;
-                if (state.currentVotd) await updateVotdCard(state.currentVotd);
-                if (state.book) renderPassage();
-            });
-
-            document.getElementById('btn-toggle-settings').addEventListener('click', () => {
-                triggerHaptic();
-                settingsPanel.classList.toggle('hidden');
-            });
-
-            document.getElementById('toggle-red-letter').addEventListener('change', (e) => {
-                triggerHaptic();
-                state.redLetter = e.target.checked;
-                if (state.book) renderPassage();
-            });
-
-            document.querySelectorAll('.btn-theme').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    triggerHaptic();
-                    applyTheme(e.target.dataset.theme);
-                });
-            });
-
-            document.getElementById('btn-font-inc').addEventListener('click', () => {
-                triggerHaptic();
-                if (state.fontSize < 32) {
-                    state.fontSize += 1;
-                    document.getElementById('font-size-label').textContent = `${state.fontSize}px`;
-                    if (state.book) renderPassage();
-                }
-            });
-            document.getElementById('btn-font-dec').addEventListener('click', () => {
-                triggerHaptic();
-                if (state.fontSize > 15) {
-                    state.fontSize -= 1;
-                    document.getElementById('font-size-label').textContent = `${state.fontSize}px`;
-                    if (state.book) renderPassage();
-                }
-            });
-
-            document.getElementById('btn-docked-picker').addEventListener('click', () => { triggerHaptic(); openPicker(); });
-            document.getElementById('btn-close-picker').addEventListener('click', () => { triggerHaptic(); modalPicker.classList.add('hidden'); });
-            document.getElementById('btn-close-explanation').addEventListener('click', () => { triggerHaptic(); modalExplanation.classList.add('hidden'); });
-
-            document.getElementById('tab-ot').addEventListener('click', () => { triggerHaptic(); switchTestament('OT'); });
-            document.getElementById('tab-nt').addEventListener('click', () => { triggerHaptic(); switchTestament('NT'); });
-
-            document.getElementById('btn-prev-chap').addEventListener('click', () => { triggerHaptic(); navigateChapter(-1); });
-            document.getElementById('btn-next-chap').addEventListener('click', () => { triggerHaptic(); navigateChapter(1); });
-
-            document.getElementById('btn-clear-selection').addEventListener('click', clearVerseSelections);
-
-            document.querySelectorAll('.nav-tab').forEach(tab => {
-                tab.addEventListener('click', (e) => {
-                    triggerHaptic();
-                    handleTabSwitch(e.currentTarget.dataset.tab);
-                });
-            });
-        }
-
-        function applyTheme(theme) {
-            state.theme = theme;
-            localStorage.setItem('pb_theme', theme);
-            document.body.classList.remove('dark', 'sepia');
-
-            if (theme === 'system') {
-                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    document.documentElement.classList.add('dark');
-                } else {
-                    document.documentElement.classList.remove('dark');
-                }
-            } else if (theme === 'dark') {
-                document.documentElement.classList.add('dark');
-            } else if (theme === 'sepia') {
-                document.body.classList.add('sepia');
-                document.documentElement.classList.remove('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
-        }
-
-        function openPicker() {
-            modalPicker.classList.remove('hidden');
-            pickerBooks.classList.remove('hidden');
-            pickerChapters.classList.add('hidden');
-            switchTestament('OT');
-        }
-
-        function switchTestament(testament) {
-            state.selectedTestament = testament;
-            document.getElementById('tab-ot').className = testament === 'OT' ? 'px-4 py-2 text-sm font-bold border-b-2 border-brand-600 dark:border-brand-500 text-brand-600 dark:text-brand-400' : 'px-4 py-2 text-sm font-bold text-slate-400';
-            document.getElementById('tab-nt').className = testament === 'NT' ? 'px-4 py-2 text-sm font-bold border-b-2 border-brand-600 dark:border-brand-500 text-brand-600 dark:text-brand-400' : 'px-4 py-2 text-sm font-bold text-slate-400';
-            renderPickerBooks();
-        }
-
-        function renderPickerBooks() {
-            pickerBooks.innerHTML = '';
-            const filtered = BIBLE_BOOKS.filter(b => b.testament === state.selectedTestament);
-            filtered.forEach(b => {
-                const btn = document.createElement('button');
-                btn.className = 'p-3 text-left text-xs font-semibold rounded-xl bg-slate-100 dark:bg-slate-800/80 text-slate-800 dark:text-slate-200 hover:bg-brand-600 hover:text-white border border-slate-200 dark:border-slate-700/60 transition';
-                btn.textContent = b.name;
-                btn.addEventListener('click', () => { triggerHaptic(); renderPickerChapters(b); });
-                pickerBooks.appendChild(btn);
-            });
-        }
-
-        function renderPickerChapters(bookObj) {
-            pickerBooks.classList.add('hidden');
-            pickerChapters.classList.remove('hidden');
-            pickerChapters.innerHTML = '';
-
-            for (let i = 1; i <= bookObj.chapters; i++) {
-                const btn = document.createElement('button');
-                btn.className = 'p-3 text-center text-xs font-bold rounded-xl bg-slate-100 dark:bg-slate-800/80 text-slate-800 dark:text-slate-200 hover:bg-brand-600 hover:text-white transition';
-                btn.textContent = i;
-                btn.addEventListener('click', () => {
-                    triggerHaptic();
-                    state.book = bookObj.name;
-                    state.chapter = i;
-                    modalPicker.classList.add('hidden');
-                    clearVerseSelections();
-                    renderPassage();
-                    handleTabSwitch('reader');
-                });
-                pickerChapters.appendChild(btn);
-            }
-        }
-
-        function navigateChapter(direction) {
-            if (!state.book) { openPicker(); return; }
-            const currentBookIndex = BIBLE_BOOKS.findIndex(b => b.name === state.book);
-            const currentBookObj = BIBLE_BOOKS[currentBookIndex];
-
-            const outAnimClass = direction === 1 ? 'animate-flip-next-out' : 'animate-flip-prev-out';
-            const inAnimClass = direction === 1 ? 'animate-flip-next-in' : 'animate-flip-prev-in';
-
-            chapterContent.classList.remove('animate-flip-next-out', 'animate-flip-next-in', 'animate-flip-prev-out', 'animate-flip-prev-in');
-            chapterContent.classList.add(outAnimClass);
-
-            setTimeout(async () => {
-                if (direction === 1) {
-                    if (state.chapter < currentBookObj.chapters) state.chapter++;
-                    else if (currentBookIndex < BIBLE_BOOKS.length - 1) {
-                        state.book = BIBLE_BOOKS[currentBookIndex + 1].name;
-                        state.chapter = 1;
-                    }
-                } else {
-                    if (state.chapter > 1) state.chapter--;
-                    else if (currentBookIndex > 0) {
-                        state.book = BIBLE_BOOKS[currentBookIndex - 1].name;
-                        state.chapter = BIBLE_BOOKS[currentBookIndex - 1].chapters;
-                    }
-                }
-
-                clearVerseSelections();
-                await renderPassage();
-                readerContainer.scrollTop = 0;
-                chapterContent.classList.remove(outAnimClass);
-                chapterContent.classList.add(inAnimClass);
-
-                setTimeout(() => { chapterContent.classList.remove(inAnimClass); }, 220);
-            }, 200);
-        }
-
-        function handleTabSwitch(tabName) {
-            state.activeTab = tabName;
-            document.querySelectorAll('.nav-tab').forEach(tab => {
-                if (tab.dataset.tab === tabName) {
-                    tab.className = "nav-tab flex flex-col items-center justify-center py-1 px-1 rounded-xl transition active:scale-95 text-brand-600 dark:text-brand-400 font-bold";
-                } else {
-                    tab.className = "nav-tab flex flex-col items-center justify-center py-1 px-1 rounded-xl transition active:scale-95 text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400";
-                }
-            });
-
-            if (tabName === 'reader') {
-                viewOverlay.classList.add('hidden');
-                readerContainer.classList.remove('hidden');
-                if (state.book) floatingChapNav.classList.remove('hidden');
-                if (state.selectedVerses.length > 0) {
-                    multiVerseDock.classList.remove('hidden');
-                    bottomPickerDock.classList.add('hidden');
-                } else {
-                    bottomPickerDock.classList.remove('hidden');
-                }
-                return;
-            }
-
-            readerContainer.classList.add('hidden');
-            floatingChapNav.classList.add('hidden');
-            multiVerseDock.classList.add('hidden');
-            bottomPickerDock.classList.remove('hidden');
-            viewOverlay.classList.remove('hidden');
-            document.querySelectorAll('.tab-view').forEach(v => v.classList.add('hidden'));
-            document.getElementById(`tab-content-${tabName}`).classList.remove('hidden');
-
-            if (tabName === 'crossref') {
-                renderCrossRefCards();
-            }
-        }
-
-        function setupTouchSwipeGestures() {
-            let touchStartX = 0, touchStartY = 0, touchEndX = 0, touchEndY = 0;
-
-            readerContainer.addEventListener('touchstart', (e) => {
-                touchStartX = e.changedTouches[0].screenX;
-                touchStartY = e.changedTouches[0].screenY;
-            }, { passive: true });
-
-            readerContainer.addEventListener('touchend', (e) => {
-                touchEndX = e.changedTouches[0].screenX;
-                touchEndY = e.changedTouches[0].screenY;
-                handleSwipeGesture();
-            }, { passive: true });
-
-            function handleSwipeGesture() {
-                const diffX = touchEndX - touchStartX;
-                const diffY = touchEndY - touchStartY;
-                if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
-                    if (diffX < 0) {
-                        triggerHaptic();
-                        navigateChapter(1);
-                    } else {
-                        triggerHaptic();
-                        navigateChapter(-1);
-                    }
-                }
-            }
-        }
-    </script>
-
-    <!-- Service Worker Registration with Cache Busting & Auto-Update Handler -->
     <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js?v=35').then(reg => {
-          reg.onupdatefound = () => {
-            const installingWorker = reg.installing;
-            installingWorker.onstatechange = () => {
-              if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                window.location.reload();
-              }
+        (function() {
+            const manifest = {
+                "name": "BGS Pocket Scripture",
+                "short_name": "BGS Scripture",
+                "start_url": "[https://bgscribn.github.io/Pocket-Bible/](https://bgscribn.github.io/Pocket-Bible/)",
+                "scope": "[https://bgscribn.github.io/Pocket-Bible/](https://bgscribn.github.io/Pocket-Bible/)",
+                "display": "standalone",
+                "orientation": "portrait",
+                "background_color": "#ffffff",
+                "theme_color": "#4f46e5",
+                "icons": [
+                    {
+                        "src": "[https://bgscribn.github.io/Pocket-Bible/icon.png?v=2](https://bgscribn.github.io/Pocket-Bible/icon.png?v=2)",
+                        "sizes": "192x192",
+                        "type": "image/png",
+                        "purpose": "any maskable"
+                    },
+                    {
+                        "src": "[https://bgscribn.github.io/Pocket-Bible/icon.png?v=2](https://bgscribn.github.io/Pocket-Bible/icon.png?v=2)",
+                        "sizes": "512x512",
+                        "type": "image/png",
+                        "purpose": "any maskable"
+                    }
+                ]
             };
-          };
-        });
-      }
+            const stringManifest = JSON.stringify(manifest);
+            const blob = new Blob([stringManifest], {type: 'application/json'});
+            const manifestURL = URL.createObjectURL(blob);
+            const link = document.createElement('link');
+            link.rel = 'manifest';
+            link.href = manifestURL;
+            document.getElementsByTagName('head')[0].appendChild(link);
+        })();
     </script>
-</body>
-</html>
+
+    <link rel="preconnect" href="[https://fonts.googleapis.com](https://fonts.googleapis.com)">
+    <link rel="preconnect" href="[https://fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
+    <link href="[https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;500;600&display=swap](https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;500;600&display=swap)" rel="stylesheet">
+
+    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        serif: ['Newsreader', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        },
+                        accent: {
+                            500: '#10b981',
+                            600: '#059669',
+                        },
+                        sepia: {
+                            bg: '#f4f1ea',
+                            card: '#e8e2d5',
+                            text: '#2c251e',
+                            border: '#dcd3c1'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="[https://unpkg.com/lucide@latest](https://unpkg.com/lucide@latest)"></script>
+    <style>
+        html, body {
+            height: 100%;
+            height: 100dvh;
+            overflow: hidden;
+            overscroll-behavior: none;
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .selectable-text {
+            -webkit-user-select: text;
+            user-select: text;
+        }
+
+        .font-scripture { font-family: 'Newsreader', serif; }
+
+        .red-letter { color: #e11d48; }
+        .dark .red-letter { color: #fb7185; }
+        .sepia .red-letter { color: #9f1239; }
+
+        .hl-yellow { background-color: rgba(253, 224, 71, 0.5); border-radius: 6px; }
+        .hl-green  { background-color: rgba(110, 231, 183, 0.5); border-radius: 6px; }
+        .hl-blue   { background-color: rgba(147, 197, 253, 0.5); border-radius: 6px; }
+        .hl-pink   { background-color: rgba(249, 168, 212, 0.5); border-radius: 6px; }
+
+        .dark .hl-yellow { background-color: rgba(161, 98, 7, 0.4); }
+        .dark .hl-green  { background-color: rgba(6, 95, 70, 0.4); }
+        .dark .hl-blue   { background-color: rgba(30, 58, 138, 0.4); }
+        .dark .hl-pink   { background-color: rgba(131, 24, 67, 0.4); }
+
+        body.sepia {
+            background-color: #f4f1ea;
+            color: #2c251e;
+        }
+        body.sepia .bg-card-theme { background-color: #e8e2d5; }
+        body.sepia .border-theme { border-color: #dcd3c1; }
+        
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .smooth-scroll {
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior-y: contain;
+        }
+
+        .header-safe {
+            padding-top: max(12px, env(safe-area-inset-top));
+            padding-left: max(16px, env(safe-area-inset-left));
+            padding-right: max(16px, env(safe-area-inset-right));
+        }
+
+        .nav-safe {
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+            padding-left: max(16px, env(safe-area-inset-left));
+            padding-right: max(16px, env(safe-area-inset-right));
+        }
+
+        #multi-verse-dock {
+            bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
+        }
+
+        #floating-chap-nav {
+            bottom: calc(11rem + env(safe-area-inset-bottom, 0px));
+        }
+
+        #bottom-picker-dock {
+            bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .animate-fade-in { animation: fadeInScale 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+        .page-flip-container {
+            perspective: 1200px;
+            transform-style: preserve-3d;
+        }
+
+        .animate-flip-next-out { animation: flipOutLeft 0.22s ease-in forwards; transform-origin: left center; }
+        .animate-flip-next-in  { animation: flipInRight 0.22s ease-out forwards; transform-origin: right center; }
+        .animate-flip-prev-out { animation: flipOutRight 0.22s ease-in forwards; transform-origin: right center; }
+        .animate-flip-prev-in  { animation: flipInLeft 0.22s ease-out forwards; transform-origin: left center; }
+
+        @keyframes flipOutLeft { 0% { transform: rotateY(0deg); opacity: 1; } 100% { transform: rotateY(-35deg) translateX(-30px); opacity: 0; } }
+        @keyframes flipInRight { 0% { transform: rotateY(35deg) translateX(30px); opacity: 0; } 100% { transform: rotateY(0deg) translateX(0); opacity: 1; } }
+        @keyframes flipOutRight { 0% { transform: rotateY(0deg); opacity: 1; } 100% { transform: rotateY(35deg) translateX(30px); opacity: 0; } }
+        @keyframes flipInLeft { 0% { transform: rotateY(-35deg) translateX(-30px); opacity: 0; } 100% { transform: rotateY(0deg) translateX(0); opacity: 1; } }
+    </style>
+</head>
+<body class="h-full bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200 antialiased selection:bg-brand-500/30 text-base">
+
+    <div id="app" class="flex flex-col h-full w-full max-w-md mx-auto bg-white dark:bg-slate-950 shadow-2xl relative overflow-hidden">
+        
+        <header id="header" class="relative z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 transition-colors header-safe">
+            <div class="flex items-center justify-between pb-3 pt-1">
+                <div class="flex items-center space-x-2">
+                    <span id="header-app-title" class="text-base font-bold text-slate-900 dark:text-slate-100 tracking-tight">BGS Pocket Scripture</span>
+                </div>
+
+                <div class="flex items-center space-x-2">
+                    <div class="relative inline-block">
+                        <select id="version-select" class="absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer">
+                            <option value="CSB">Christian Standard Bible (CSB)</option>
+                            <option value="ESV">English Standard Version (ESV)</option>
+                            <option value="KJV">King James Version (KJV)</option>
+                            <option value="NKJV">New King James Version (NKJV)</option>
+                            <option value="NIV">New International Version (NIV)</option>
+                            <option value="NASB">New American Standard Bible (NASB)</option>
+                            <option value="ASV">American Standard Version (ASV)</option>
+                            <option value="TLB">The Living Bible (TLB)</option>
+                            <option value="NRSVUE">New Revised Standard Version (NRSVUE)</option>
+                            <option value="LSV">Legacy Standard Version (LSV)</option>
+                        </select>
+                        <div id="version-display-pill" class="bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/60 rounded-xl text-xs font-bold px-3 py-1.5 text-slate-800 dark:text-slate-200 flex items-center space-x-1.5 pointer-events-none">
+                            <span id="version-selected-abbr">CSB</span>
+                            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400"></i>
+                        </div>
+                    </div>
+
+                    <button id="btn-toggle-settings" class="p-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/60 transition">
+                        <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="settings-panel" class="hidden px-5 py-4 bg-slate-50 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 text-sm space-y-4">
+                <div class="flex items-center justify-between">
+                    <span class="font-medium text-slate-700 dark:text-slate-300">Words of Jesus in Red</span>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="toggle-red-letter" class="sr-only peer" checked>
+                        <div class="w-11 h-6 bg-slate-300 dark:bg-slate-750 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-
