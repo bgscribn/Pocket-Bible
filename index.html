@@ -959,20 +959,33 @@ function setupEvents() {
 
             state.selectedVerses.forEach((text, verse) => {
                 const key = `${state.currentBook.name}_${state.currentChapter}_${verse}`;
+                const el = $(`verse-${verse}`);
 
                 if (color === "clear") {
                     delete state.selectedHighlights[key];
+                    if (el) el.classList.remove("hl-yellow", "hl-green", "hl-blue", "hl-pink");
                 } else {
                     state.selectedHighlights[key] = {
                         reference: `${state.currentBook.name} ${state.currentChapter}:${verse}`,
                         text: text,
                         color: color
                     };
+                    if (el) {
+                        el.classList.remove("hl-yellow", "hl-green", "hl-blue", "hl-pink");
+                        el.classList.add(`hl-${color}`);
+                    }
+                }
+
+                if (el) {
+                    el.classList.remove("ring-2", "ring-brand-600", "bg-indigo-50", "dark:bg-indigo-950/60");
                 }
             });
 
             localStorage.setItem("bgs-highlights", JSON.stringify(state.selectedHighlights));
-            loadChapter(state.currentBook, state.currentChapter);
+
+            // Clear active selections and hide the dock without forcing a page reload
+            state.selectedVerses.clear();
+            updateSelectionDock();
         });
     });
 
