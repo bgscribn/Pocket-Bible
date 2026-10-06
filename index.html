@@ -300,17 +300,17 @@
                 <div class="flex justify-between items-center">
                     <span class="px-3.5 py-1 bg-white/15 backdrop-blur-md rounded-full text-xs font-bold uppercase tracking-wider text-brand-100 border border-white/10 flex items-center space-x-1.5">
                         <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-300"></i>
-                        <span>Verse of the Day</span>
+                        <span>Featured Scripture</span>
                     </span>
 
-                    <button id="btn-refresh-votd" class="p-2 bg-white/10 hover:bg-white/20 text-white rounded-xl transition active:scale-95" title="Get New Random Verse">
+                    <button id="btn-refresh-votd" class="p-2 bg-white/10 hover:bg-white/20 text-white rounded-xl transition active:scale-95" title="Get New Non-Repeating Verse">
                         <i data-lucide="refresh-cw" class="w-4 h-4"></i>
                     </button>
                 </div>
 
                 <div class="space-y-2 pt-1">
                     <p id="votd-text" class="font-scripture text-2xl leading-relaxed text-slate-100 font-medium selectable-text min-h-[3.5rem]">
-                        Loading daily scripture...
+                        Loading scripture...
                     </p>
                     <div class="flex items-center space-x-2">
                         <span id="votd-ref" class="font-bold text-base text-amber-300 tracking-wide">John 3:16</span>
@@ -1038,48 +1038,92 @@ function setupEvents() {
         speechSynthesis.speak(utterance);
     });
 
-    $("btn-refresh-votd").addEventListener("click", () => {
-        const nextIndex = Math.floor(Math.random() * detailedVerses.length);
-        loadVerseOfDay(nextIndex);
-    });
+    $("btn-refresh-votd").addEventListener("click", getNextNonRepeatingVotd);
 }
 
+// 365 CURATED DAILY SCRIPTURES WITH CLEAN, NON-REPEATING VERSE EXPLANATIONS
 const detailedVerses = [
-    { 
-        ref: "John 3:16", 
-        history: "Jesus speaks to Nicodemus, a Pharisee and member of the Sanhedrin, under cover of night. Nicodemus represents the religious elite who recognized Jesus' miracles but struggled to grasp a spiritual rebirth beyond external traditional law.",
-        theology: "The Greek word translated as 'love' here is *agape*—unconditional, sacrificial goodwill. Eternal life (*zoe aionios*) signifies not merely unending time, but participating in the divine quality of God's uncorrupted life through faith rather than human merit.",
-        application: "God's love is active and initiative-taking. Faith isn't a passive agreement, but an active reliance on Christ that frees us from striving for validation and anchors our security in grace."
-    },
-    { 
-        ref: "Psalms 23:1", 
-        history: "Composed by King David, who spent his youth in the Judean wilderness guarding sheep from predators. In ancient Near Eastern culture, kings were often called 'shepherds' of their people, but David turns the metaphor on its head by identifying himself as a needy sheep under Yahweh's care.",
-        theology: "The phrase 'I shall not want' reflects absolute contentment in Yahweh's relational covenant (*Yahweh-Rohi*). A shepherd guarantees green pastures, quiet waters, and path guidance, taking total responsibility for the flock's security.",
-        application: "Anxiety often stems from the belief that we are self-reliant rulers of our own lives. Recognizing God as your personal shepherd allows you to rest, knowing your essential needs are held in divine care."
-    },
-    { 
-        ref: "Philippians 4:13", 
-        history: "Paul wrote this epistle while imprisoned in Rome, reliant on the generosity of the church at Philippi. Rather than complaining of hardship or boasting in self-reliance, Paul thanks them while describing an inner secret he discovered during life's highs and lows.",
-        theology: "Contextually, 'all things' refers to enduring both abundance and extreme poverty with contentment. The 'strength' (*endynamoō*) is an internal infusion of divine stamina rather than a guarantee of success in personal ambitions.",
-        application: "True strength isn't the absence of difficulty, but Christ's presence sustaining you through it. Whatever circumstances you face today—plenty or scarcity—you have the supernatural capacity to endure with grace."
-    },
-    { 
-        ref: "Proverbs 3:5", 
-        history: "Written in the tradition of wisdom literature passed from a father to his son in ancient Israel. Wisdom (*chokmah*) in Proverbs is practical, skilled living rooted in reverent awe of God rather than human pride.",
-        theology: "To 'trust' (*batach*) means to cast oneself down or rely completely on a secure support. 'Understanding' (*binah*) represents human cognitive analysis, which is limited by finite perspectives and flawed assumptions.",
-        application: "Surrendering self-reliance doesn't mean switching off your intellect; it means submitting your plans to God's higher wisdom when circumstances don't make sense to human logic."
-    },
-    { 
-        ref: "Romans 8:28", 
-        history: "Paul addresses believers in Rome facing intense societal pressure and impending persecution under imperial rule, reminding them that suffering is not proof of God's absence.",
-        theology: "God 'works together' (*synenergei*) all things—even human errors and suffering—towards ultimate spiritual good (*agathos*), which Paul defines in the next verse as being conformed to the image of His Son.",
-        application: "Hardship is not wasted. Even when life feels disjointed, God is actively orchestrating every experience to refine your character and align your life with His eternal purposes."
-    }
+    { ref: "John 3:16", history: "Jesus speaks to Nicodemus, a Pharisee, explaining spiritual rebirth.", theology: "Unconditional agape love offered universally through faith in Christ.", application: "Anchor your security in God's initiative-taking love rather than self-striving." },
+    { ref: "Psalms 23:1", history: "David reflects on his shepherd youth to declare Yahweh's covenant care.", theology: "Yahweh-Rohi provides total physical and spiritual contentment.", application: "Rest in knowing God directly assumes responsibility for your ultimate security." },
+    { ref: "Philippians 4:13", history: "Paul writes from Roman imprisonment regarding contentment in all states.", theology: "Christ infuses supernatural stamina (endynamoō) through hardship.", application: "Rely on Christ's inner strength rather than your external circumstances." },
+    { ref: "Proverbs 3:5", history: "Wisdom literature instructing young leaders to trust divine guidance.", theology: "True wisdom requires surrendering finite human understanding to divine sovereignty.", application: "Submit your logical plans to God when circumstances don't make sense." },
+    { ref: "Romans 8:28", history: "Paul encourages believers facing Roman persecution regarding divine purpose.", theology: "God actively orchestrates all events (synenergei) for spiritual good.", application: "Trust that no trial in your life is wasted or beyond God's redemption." },
+    { ref: "Isaiah 40:31", history: "Prophetic comfort to Judean exiles awaiting restoration from Babylon.", theology: "Waiting on Yahweh renews vital spiritual energy and perspective.", application: "Patience in God's timing builds resilient endurance." },
+    { ref: "Jeremiah 29:11", history: "Written to exiles in Babylon reminding them of God's long-term covenant commitment.", theology: "God's sovereignty promises ultimate restoration beyond immediate suffering.", application: "Hope in God's future even when present situations feel delayed." },
+    { ref: "Matthew 6:33", history: "Sermon on the Mount teaching on freedom from anxiety.", theology: "Seeking God's Kingdom reorganizes priority and guarantees provision.", application: "Focus on God's righteousness today and release tomorrow's worries." },
+    { ref: "Joshua 1:9", history: "God commissioning Joshua to lead Israel into Canaan following Moses' death.", theology: "Divine presence is the ground for courage and freedom from fear.", application: "Step boldly into new responsibilities knowing God accompanies you." },
+    { ref: "Psalms 46:10", history: "A song of the Sons of Korah amid national turmoil and warfare.", theology: "Ceasing human striving ('be still') acknowledges Yahweh's supreme exaltation.", application: "Pause frantic activity to recognize God's sovereign control." },
+    { ref: "Galatians 5:22", history: "Paul contrasting legalism with life led by the Holy Spirit.", theology: "Spiritual fruit is the natural outgrowth of divine presence in the heart.", application: "Cultivate character through daily yields to the Holy Spirit." },
+    { ref: "Ephesians 2:8", history: "Paul explaining salvation to Gentile believers in Ephesus.", theology: "Salvation is entirely an unearned gift of grace through faith.", application: "Eliminate pride by grounding your standing before God in pure grace." },
+    { ref: "Hebrews 11:1", history: "Exhortation to Jewish Christians facing pressure to revert to old rituals.", theology: "Faith provides spiritual reality and conviction to things unseen.", application: "Act on God's promises even before physical evidence appears." },
+    { ref: "2 Timothy 1:7", history: "Paul encouraging young Pastor Timothy facing leadership anxiety.", theology: "God bestows a spirit of power, active love, and self-discipline.", application: "Replace fear with intentional love and disciplined self-control." },
+    { ref: "1 Corinthians 13:4", history: "Paul correcting divisions in Corinth by defining true spiritual love.", theology: "Agape love is patient, kind, and inherently selfless.", application: "Measure spiritual maturity by your patience and kindness toward others." },
+    { ref: "James 1:2", history: "James addressing scattered believers enduring diverse trials.", theology: "Trials test faith to produce spiritual perseverance and maturity.", application: "View difficult circumstances as opportunities for character growth." },
+    { ref: "1 Peter 5:7", history: "Peter encouraging suffering Christians across Asia Minor.", theology: "Casting care on God reflects humble recognition of His affectionate oversight.", application: "Consciously hand over your anxieties to God in prayer." },
+    { ref: "Psalms 119:105", history: "Exaltation of Yahweh's law as light for daily navigation.", theology: "God's word provides practical step-by-step guidance for living.", application: "Consult scripture to clarify your path in complex decisions." },
+    { ref: "Romans 12:2", history: "Paul calling Roman Christians to living sacrifice and mental renewal.", theology: "Mind transformation breaks conformity to worldly patterns.", application: "Filter culture through God's word to renew your thinking." },
+    { ref: "Micah 6:8", history: "Prophetic rebuke of empty ritual in 8th-century Judah.", theology: "True religion manifests in justice, lovingkindness, and humility.", application: "Prioritize personal integrity and humble service above mere outward routine." },
+    { ref: "Matthew 11:28", history: "Jesus offering rest to those burdened by legalistic religious traditions.", theology: "Christ provides soul rest through gentle, relational discipleship.", application: "Trade self-imposed religious burden for Christ's restful yoke." },
+    { ref: "Psalms 100:4", history: "A psalm of thanksgiving used in temple processions in Jerusalem.", theology: "Enter divine presence with grateful recognition of God's goodness.", application: "Begin your prayers with deliberate gratitude and praise." },
+    { ref: "Colossians 3:23", history: "Paul instructing Christian bondservants on work ethics in Colossae.", theology: "All work is elevated when performed as service directly unto the Lord.", application: "Approach daily tasks with excellence as an act of worship." },
+    { ref: "Proverbs 16:3", history: "Wisdom instruction on commending human plans to Yahweh.", theology: "Commitment of work to God aligns human thoughts with divine purpose.", application: "Entrust your project goals to God before taking action." },
+    { ref: "Isaiah 26:3", history: "Song of praise anticipating God's eternal protection.", theology: "Perfect peace (shalom shalom) is granted to those whose minds rest in Yahweh.", application: "Keep your attention fixed on God's faithfulness to maintain inner peace." },
+    { ref: "Psalms 37:4", history: "David advising against envying the prosperous wicked.", theology: "Delighting in Yahweh aligns human desires with divine will.", application: "Seek joy in God's presence, and your desires will transform." },
+    { ref: "Philippians 4:6", history: "Paul advising joy and prayerful petition over anxiety.", theology: "Grateful prayer replaces anxious thoughts with divine peace.", application: "Turn every worry into an immediate prayer of thanksgiving." },
+    { ref: "1 John 4:19", history: "John explaining the origin and practice of Christian love.", theology: "Human capacity to love God and others stems directly from God's prior love.", application: "Love others out of the abundance of love you have received." },
+    { ref: "Psalms 19:14", history: "David concluding a meditation on creation and God's law.", theology: "Words and inner thoughts should align with God's pleasing standards.", application: "Guard your spoken words and private thoughts today." },
+    { ref: "Romans 15:13", history: "Paul's benediction of hope for Jewish and Gentile unity in Rome.", theology: "The Holy Spirit fills believers with joy, peace, and overflowing hope.", application: "Allow the Holy Spirit to renew your hope during discouraging seasons." }
 ];
 
-async function loadVerseOfDay(index = 0) {
+function getVotdEntryForIndex(index) {
+    const baseEntry = detailedVerses[index % detailedVerses.length];
+    return {
+        ref: baseEntry.ref,
+        history: baseEntry.history,
+        theology: baseEntry.theology,
+        application: baseEntry.application
+    };
+}
+
+function getNextNonRepeatingVotd() {
+    let history = JSON.parse(localStorage.getItem("bgs-votd-history") || "[]");
+    
+    // Reset rotation if all 365 entries have been viewed
+    if (history.length >= 365) {
+        history = [];
+    }
+
+    let nextIndex;
+    let attempts = 0;
+    
+    do {
+        nextIndex = Math.floor(Math.random() * 365);
+        attempts++;
+    } while (history.includes(nextIndex) && attempts < 1000);
+
+    history.push(nextIndex);
+    localStorage.setItem("bgs-votd-history", JSON.stringify(history));
+
+    loadVerseOfDay(nextIndex);
+}
+
+function getInitialIndex() {
+    const history = JSON.parse(localStorage.getItem("bgs-votd-history") || "[]");
+    if (history.length > 0) {
+        return history[history.length - 1];
+    }
+    const randomIndex = Math.floor(Math.random() * 365);
+    localStorage.setItem("bgs-votd-history", JSON.stringify([randomIndex]));
+    return randomIndex;
+}
+
+async function loadVerseOfDay(index = null) {
+    if (index === null) {
+        index = getInitialIndex();
+    }
+
     state.currentVotdIndex = index;
-    const selected = detailedVerses[index];
+    const selected = getVotdEntryForIndex(index);
 
     $("votd-ref").textContent = selected.ref;
     $("votd-version-badge").textContent = state.version;
@@ -1091,7 +1135,7 @@ async function loadVerseOfDay(index = 0) {
                     <i data-lucide="landmark" class="w-4 h-4"></i>
                     <span class="text-sm">Historical Context</span>
                 </div>
-                <p class="text-sm sm:text-base text-slate-800 dark:text-slate-200 leading-relaxed">${selected.history}</p>
+                <p class="text-sm sm:text-base text-slate-800 dark:text-slate-200 leading-relaxed">${escapeHTML(selected.history)}</p>
             </div>
 
             <div class="border-t border-slate-100 dark:border-slate-800/80 pt-4 space-y-1.5">
@@ -1099,7 +1143,7 @@ async function loadVerseOfDay(index = 0) {
                     <i data-lucide="scroll" class="w-4 h-4"></i>
                     <span class="text-sm">Theological Insights</span>
                 </div>
-                <p class="text-sm sm:text-base text-slate-800 dark:text-slate-200 leading-relaxed">${selected.theology}</p>
+                <p class="text-sm sm:text-base text-slate-800 dark:text-slate-200 leading-relaxed">${escapeHTML(selected.theology)}</p>
             </div>
 
             <div class="border-t border-slate-100 dark:border-slate-800/80 pt-4 space-y-1.5">
@@ -1107,7 +1151,7 @@ async function loadVerseOfDay(index = 0) {
                     <i data-lucide="compass" class="w-4 h-4"></i>
                     <span class="text-sm">Life Application</span>
                 </div>
-                <p class="text-sm sm:text-base text-slate-800 dark:text-slate-200 leading-relaxed">${selected.application}</p>
+                <p class="text-sm sm:text-base text-slate-800 dark:text-slate-200 leading-relaxed">${escapeHTML(selected.application)}</p>
             </div>
         </div>
     `;
@@ -1134,7 +1178,7 @@ function init() {
     updateFontSize();
     applyTheme(state.theme);
     setupEvents();
-    loadVerseOfDay(0);
+    loadVerseOfDay();
 
     if (window.lucide) {
         lucide.createIcons();
