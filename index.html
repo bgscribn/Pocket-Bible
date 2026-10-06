@@ -325,10 +325,10 @@
                     <div class="p-2 rounded-xl bg-brand-50 dark:bg-brand-900/40 text-brand-600 dark:text-brand-400">
                         <i data-lucide="book-open-check" class="w-5 h-5"></i>
                     </div>
-                    <h3 class="font-bold text-base text-slate-900 dark:text-slate-100">Understanding This Scripture</h3>
+                    <h3 class="font-bold text-lg text-slate-900 dark:text-slate-100">Understanding This Scripture</h3>
                 </div>
 
-                <div id="votd-explanation" class="space-y-4 text-sm leading-relaxed text-slate-700 dark:text-slate-200 selectable-text">
+                <div id="votd-explanation" class="space-y-5 text-base leading-relaxed text-slate-800 dark:text-slate-200 selectable-text">
                     <div class="animate-pulse space-y-3">
                         <div class="h-4 bg-slate-200 dark:bg-slate-800 rounded w-3/4"></div>
                         <div class="h-4 bg-slate-200 dark:bg-slate-800 rounded w-full"></div>
@@ -457,22 +457,22 @@
         </div>
     </div>
 
-    <!-- EXPLANATION MODAL -->
-    <div id="modal-explanation" class="fixed inset-0 bg-black/50 dark:bg-black/70 backdrop-blur-sm z-50 hidden flex flex-col justify-end nav-safe">
-        <div class="bg-white dark:bg-slate-900 rounded-t-3xl max-h-[85vh] flex flex-col p-6 space-y-4 animate-fade-in border-t border-slate-200 dark:border-slate-800 shadow-2xl overflow-y-auto no-scrollbar">
+    <!-- EXPLANATION MODAL (FLOATING IN CENTER) -->
+    <div id="modal-explanation" class="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl max-h-[82vh] w-full max-w-sm flex flex-col p-6 space-y-4 animate-fade-in border border-slate-200 dark:border-slate-800 shadow-2xl overflow-y-auto no-scrollbar">
 
             <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
                 <div class="flex items-center space-x-2">
                     <i data-lucide="sparkles" class="w-5 h-5 text-amber-500"></i>
-                    <h3 id="explanation-title" class="font-bold text-base">Scripture Explanation</h3>
+                    <h3 id="explanation-title" class="font-bold text-lg text-slate-900 dark:text-slate-100">Scripture Explanation</h3>
                 </div>
 
-                <button id="btn-close-explanation" class="p-1 text-slate-400">
+                <button id="btn-close-explanation" class="p-1 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition">
                     <i data-lucide="x" class="w-6 h-6"></i>
                 </button>
             </div>
 
-            <div id="explanation-content" class="space-y-4 leading-relaxed text-sm">
+            <div id="explanation-content" class="space-y-5 leading-relaxed text-base text-slate-800 dark:text-slate-200">
                 Select one or more verses and tap Explain.
             </div>
         </div>
@@ -819,35 +819,35 @@ function analyzeVersesDirectly(verseArray, bookName, chapter) {
     const lifeApplication = `Meditation on ${rangeLabel} calls for active reliance on God's truth rather than self-directed effort. Let the core truth of this passage inform how you respond to uncertainty, ground your choices, and navigate daily interactions.`;
 
     return `
-        <div class="space-y-4">
-            <div class="p-3 bg-brand-50 dark:bg-brand-950/40 rounded-2xl border border-brand-100 dark:border-brand-900/60 space-y-1">
+        <div class="space-y-5">
+            <div class="p-3.5 bg-brand-50 dark:bg-brand-950/40 rounded-2xl border border-brand-100 dark:border-brand-900/60 space-y-1">
                 <span class="text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400 block">${escapeHTML(rangeLabel)}</span>
-                <p class="font-scripture italic text-xs text-slate-700 dark:text-slate-300">"${escapeHTML(fullText)}"</p>
+                <p class="font-scripture italic text-sm sm:text-base text-slate-800 dark:text-slate-200">"${escapeHTML(fullText)}"</p>
             </div>
 
-            <div class="space-y-4 pt-1">
-                <div class="space-y-1">
+            <div class="space-y-5 pt-1">
+                <div class="space-y-1.5">
                     <div class="flex items-center space-x-1.5 text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">
-                        <i data-lucide="landmark" class="w-3.5 h-3.5"></i>
-                        <span>Historical Context</span>
+                        <i data-lucide="landmark" class="w-4 h-4"></i>
+                        <span class="text-sm">Historical Context</span>
                     </div>
-                    <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">${escapeHTML(historicalContext)}</p>
+                    <p class="text-sm sm:text-base text-slate-800 dark:text-slate-200 leading-relaxed">${escapeHTML(historicalContext)}</p>
                 </div>
 
-                <div class="border-t border-slate-100 dark:border-slate-800/80 pt-3 space-y-1">
+                <div class="border-t border-slate-100 dark:border-slate-800/80 pt-4 space-y-1.5">
                     <div class="flex items-center space-x-1.5 text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">
-                        <i data-lucide="scroll" class="w-3.5 h-3.5"></i>
-                        <span>Theological Insights</span>
+                        <i data-lucide="scroll" class="w-4 h-4"></i>
+                        <span class="text-sm">Theological Insights</span>
                     </div>
-                    <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">${escapeHTML(theologicalInsights)}</p>
+                    <p class="text-sm sm:text-base text-slate-800 dark:text-slate-200 leading-relaxed">${escapeHTML(theologicalInsights)}</p>
                 </div>
 
-                <div class="border-t border-slate-100 dark:border-slate-800/80 pt-3 space-y-1">
+                <div class="border-t border-slate-100 dark:border-slate-800/80 pt-4 space-y-1.5">
                     <div class="flex items-center space-x-1.5 text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-                        <i data-lucide="compass" class="w-3.5 h-3.5"></i>
-                        <span>Life Application</span>
+                        <i data-lucide="compass" class="w-4 h-4"></i>
+                        <span class="text-sm">Life Application</span>
                     </div>
-                    <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">${escapeHTML(lifeApplication)}</p>
+                    <p class="text-sm sm:text-base text-slate-800 dark:text-slate-200 leading-relaxed">${escapeHTML(lifeApplication)}</p>
                 </div>
             </div>
         </div>
@@ -866,7 +866,7 @@ function showExplanation() {
         const verseArray = Array.from(state.selectedVerses.entries()).map(([num, text]) => ({ num, text }));
         $("explanation-content").innerHTML = analyzeVersesDirectly(verseArray, state.currentBook.name, state.currentChapter);
     } else {
-        $("explanation-content").innerHTML = `<p class="text-slate-500">Select one or more verses first in the reader view.</p>`;
+        $("explanation-content").innerHTML = `<p class="text-slate-500 text-base">Select one or more verses first in the reader view.</p>`;
     }
 
     if (window.lucide) {
@@ -1072,29 +1072,29 @@ async function loadVerseOfDay(index = 0) {
     $("votd-version-badge").textContent = state.version;
 
     $("votd-explanation").innerHTML = `
-        <div class="space-y-4">
-            <div class="space-y-1">
+        <div class="space-y-5">
+            <div class="space-y-1.5">
                 <div class="flex items-center space-x-1.5 text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">
-                    <i data-lucide="landmark" class="w-3.5 h-3.5"></i>
-                    <span>Historical Context</span>
+                    <i data-lucide="landmark" class="w-4 h-4"></i>
+                    <span class="text-sm">Historical Context</span>
                 </div>
-                <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">${selected.history}</p>
+                <p class="text-sm sm:text-base text-slate-800 dark:text-slate-200 leading-relaxed">${selected.history}</p>
             </div>
 
-            <div class="border-t border-slate-100 dark:border-slate-800/80 pt-3 space-y-1">
+            <div class="border-t border-slate-100 dark:border-slate-800/80 pt-4 space-y-1.5">
                 <div class="flex items-center space-x-1.5 text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">
-                    <i data-lucide="scroll" class="w-3.5 h-3.5"></i>
-                    <span>Theological Insights</span>
+                    <i data-lucide="scroll" class="w-4 h-4"></i>
+                    <span class="text-sm">Theological Insights</span>
                 </div>
-                <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">${selected.theology}</p>
+                <p class="text-sm sm:text-base text-slate-800 dark:text-slate-200 leading-relaxed">${selected.theology}</p>
             </div>
 
-            <div class="border-t border-slate-100 dark:border-slate-800/80 pt-3 space-y-1">
+            <div class="border-t border-slate-100 dark:border-slate-800/80 pt-4 space-y-1.5">
                 <div class="flex items-center space-x-1.5 text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-                    <i data-lucide="compass" class="w-3.5 h-3.5"></i>
-                    <span>Life Application</span>
+                    <i data-lucide="compass" class="w-4 h-4"></i>
+                    <span class="text-sm">Life Application</span>
                 </div>
-                <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">${selected.application}</p>
+                <p class="text-sm sm:text-base text-slate-800 dark:text-slate-200 leading-relaxed">${selected.application}</p>
             </div>
         </div>
     `;
