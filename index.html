@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>BGS Pocket Scripture</title>
 
-    <!-- App Name & Theme Settings -->
     <meta name="application-name" content="BGS Pocket Scripture">
     <meta name="apple-mobile-web-app-title" content="BGS Pocket Scripture">
     <meta name="mobile-web-app-capable" content="yes">
@@ -13,93 +12,89 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#4f46e5">
 
-    <!-- Direct Favicon & Mobile Web Clip Icons -->
-    <link rel="icon" type="image/png" sizes="512x512" href="https://bgscribn.github.io/Pocket-Bible/icon.png?v=2">
-    <link rel="icon" type="image/png" sizes="192x192" href="https://bgscribn.github.io/Pocket-Bible/icon.png?v=2">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://bgscribn.github.io/Pocket-Bible/icon.png?v=2">
+    <link rel="icon" type="image/png" sizes="512x512" href="icon.png?v=2">
+    <link rel="icon" type="image/png" sizes="192x192" href="icon.png?v=2">
+    <link rel="apple-touch-icon" sizes="180x180" href="icon.png?v=2">
 
-    <!-- Static Web App Manifest Link -->
-    <link rel="manifest" href="manifest.json">
-
-    <!-- Dynamic Web App Manifest Generation -->
+    <!-- Dynamic manifest injection using relative URL paths -->
     <script>
-        (function() {
+        (() => {
+            const basePath = window.location.origin + window.location.pathname;
             const manifest = {
-                "name": "BGS Pocket Scripture",
-                "short_name": "BGS Scripture",
-                "start_url": "https://bgscribn.github.io/Pocket-Bible/",
-                "scope": "https://bgscribn.github.io/Pocket-Bible/",
-                "display": "standalone",
-                "orientation": "portrait",
-                "background_color": "#ffffff",
-                "theme_color": "#4f46e5",
-                "icons": [
+                name: "BGS Pocket Scripture",
+                short_name: "BGS Scripture",
+                start_url: basePath,
+                scope: basePath,
+                display: "standalone",
+                orientation: "portrait",
+                background_color: "#ffffff",
+                theme_color: "#4f46e5",
+                icons: [
                     {
-                        "src": "https://bgscribn.github.io/Pocket-Bible/icon.png?v=2",
-                        "sizes": "192x192",
-                        "type": "image/png",
-                        "purpose": "any maskable"
+                        src: new URL("icon.png?v=2", basePath).href,
+                        sizes: "192x192",
+                        type: "image/png",
+                        purpose: "any maskable"
                     },
                     {
-                        "src": "https://bgscribn.github.io/Pocket-Bible/icon.png?v=2",
-                        "sizes": "512x512",
-                        "type": "image/png",
-                        "purpose": "any maskable"
+                        src: new URL("icon.png?v=2", basePath).href,
+                        sizes: "512x512",
+                        type: "image/png",
+                        purpose: "any maskable"
                     }
                 ]
             };
-            const stringManifest = JSON.stringify(manifest);
-            const blob = new Blob([stringManifest], {type: 'application/json'});
+
+            const blob = new Blob([JSON.stringify(manifest)], { type: "application/json" });
             const manifestURL = URL.createObjectURL(blob);
-            const link = document.createElement('link');
-            link.rel = 'manifest';
+            const link = document.createElement("link");
+            link.rel = "manifest";
             link.href = manifestURL;
-            document.getElementsByTagName('head')[0].appendChild(link);
+            document.head.appendChild(link);
         })();
     </script>
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;500;600&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            darkMode: 'class',
+            darkMode: "class",
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                        serif: ['Newsreader', 'serif'],
+                        sans: ["Plus Jakarta Sans", "sans-serif"],
+                        serif: ["Newsreader", "serif"]
                     },
                     colors: {
                         brand: {
-                            50: '#eef2ff',
-                            100: '#e0e7ff',
-                            500: '#6366f1',
-                            600: '#4f46e5',
-                            700: '#4338ca',
-                            900: '#312e81',
+                            50: "#eef2ff",
+                            100: "#e0e7ff",
+                            500: "#6366f1",
+                            600: "#4f46e5",
+                            700: "#4338ca",
+                            900: "#312e81"
                         },
                         accent: {
-                            500: '#10b981',
-                            600: '#059669',
+                            500: "#10b981",
+                            600: "#059669"
                         },
                         sepia: {
-                            bg: '#f4f1ea',
-                            card: '#e8e2d5',
-                            text: '#2c251e',
-                            border: '#dcd3c1'
+                            bg: "#f4f1ea",
+                            card: "#e8e2d5",
+                            text: "#2c251e",
+                            border: "#dcd3c1"
                         }
                     }
                 }
             }
-        }
+        };
     </script>
-    <!-- Lucide Icons -->
+
     <script src="https://unpkg.com/lucide@latest"></script>
+
     <style>
         html, body {
             height: 100%;
@@ -107,7 +102,7 @@
             overflow: hidden;
             overscroll-behavior: none;
             -webkit-tap-highlight-color: transparent;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: "Plus Jakarta Sans", sans-serif;
             -webkit-user-select: none;
             user-select: none;
         }
@@ -117,31 +112,53 @@
             user-select: text;
         }
 
-        .font-scripture { font-family: 'Newsreader', serif; }
+        .font-scripture {
+            font-family: "Newsreader", serif;
+        }
 
-        .red-letter { color: #e11d48; }
-        .dark .red-letter { color: #fb7185; }
-        .sepia .red-letter { color: #9f1239; }
+        .red-letter {
+            color: #e11d48;
+        }
 
-        .hl-yellow { background-color: rgba(253, 224, 71, 0.5); border-radius: 6px; }
-        .hl-green  { background-color: rgba(110, 231, 183, 0.5); border-radius: 6px; }
-        .hl-blue   { background-color: rgba(147, 197, 253, 0.5); border-radius: 6px; }
-        .hl-pink   { background-color: rgba(249, 168, 212, 0.5); border-radius: 6px; }
+        .dark .red-letter {
+            color: #fb7185;
+        }
 
-        .dark .hl-yellow { background-color: rgba(161, 98, 7, 0.4); }
-        .dark .hl-green  { background-color: rgba(6, 95, 70, 0.4); }
-        .dark .hl-blue   { background-color: rgba(30, 58, 138, 0.4); }
-        .dark .hl-pink   { background-color: rgba(131, 24, 67, 0.4); }
+        .sepia .red-letter {
+            color: #9f1239;
+        }
+
+        .hl-yellow { background-color: rgba(253, 224, 71, .5); border-radius: 6px; }
+        .hl-green  { background-color: rgba(110, 231, 183, .5); border-radius: 6px; }
+        .hl-blue   { background-color: rgba(147, 197, 253, .5); border-radius: 6px; }
+        .hl-pink   { background-color: rgba(249, 168, 212, .5); border-radius: 6px; }
+
+        .dark .hl-yellow { background-color: rgba(161, 98, 7, .4); }
+        .dark .hl-green  { background-color: rgba(6, 95, 70, .4); }
+        .dark .hl-blue   { background-color: rgba(30, 58, 138, .4); }
+        .dark .hl-pink   { background-color: rgba(131, 24, 67, .4); }
 
         body.sepia {
             background-color: #f4f1ea;
             color: #2c251e;
         }
-        body.sepia .bg-card-theme { background-color: #e8e2d5; }
-        body.sepia .border-theme { border-color: #dcd3c1; }
-        
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        body.sepia .bg-card-theme {
+            background-color: #e8e2d5;
+        }
+
+        body.sepia .border-theme {
+            border-color: #dcd3c1;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
 
         .smooth-scroll {
             -webkit-overflow-scrolling: touch;
@@ -160,528 +177,961 @@
             padding-right: max(16px, env(safe-area-inset-right));
         }
 
-        #multi-verse-dock {
-            bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
+        #multi-verse-dock,
+        #bottom-picker-dock,
+        #home-floating-picker {
+            bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
         }
 
         #floating-chap-nav {
             bottom: calc(11rem + env(safe-area-inset-bottom, 0px));
         }
 
-        #bottom-picker-dock {
-            bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
-        @keyframes fadeInScale {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
+        .animate-fade-in {
+            animation: fadeInScale .2s cubic-bezier(.16, 1, .3, 1) forwards;
         }
-        .animate-fade-in { animation: fadeInScale 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
         .page-flip-container {
             perspective: 1200px;
             transform-style: preserve-3d;
         }
-
-        .animate-flip-next-out { animation: flipOutLeft 0.22s ease-in forwards; transform-origin: left center; }
-        .animate-flip-next-in  { animation: flipInRight 0.22s ease-out forwards; transform-origin: right center; }
-        .animate-flip-prev-out { animation: flipOutRight 0.22s ease-in forwards; transform-origin: right center; }
-        .animate-flip-prev-in  { animation: flipInLeft 0.22s ease-out forwards; transform-origin: left center; }
-
-        @keyframes flipOutLeft { 0% { transform: rotateY(0deg); opacity: 1; } 100% { transform: rotateY(-35deg) translateX(-30px); opacity: 0; } }
-        @keyframes flipInRight { 0% { transform: rotateY(35deg) translateX(30px); opacity: 0; } 100% { transform: rotateY(0deg) translateX(0); opacity: 1; } }
-        @keyframes flipOutRight { 0% { transform: rotateY(0deg); opacity: 1; } 100% { transform: rotateY(35deg) translateX(30px); opacity: 0; } }
-        @keyframes flipInLeft { 0% { transform: rotateY(-35deg) translateX(-30px); opacity: 0; } 100% { transform: rotateY(0deg) translateX(0); opacity: 1; } }
     </style>
 </head>
+
 <body class="h-full bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200 antialiased selection:bg-brand-500/30 text-base">
 
-    <div id="app" class="flex flex-col h-full w-full max-w-md mx-auto bg-white dark:bg-slate-950 shadow-2xl relative overflow-hidden">
-        
-        <!-- HEADER WITH DYNAMIC SAFE-AREA SPACING -->
-        <header id="header" class="relative z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 transition-colors header-safe">
-            <div class="flex items-center justify-between pb-3 pt-1">
-                <div class="flex items-center space-x-2">
-                    <span id="header-app-title" class="text-base font-bold text-slate-900 dark:text-slate-100 tracking-tight">BGS Pocket Scripture</span>
+<div id="app" class="flex flex-col h-full w-full max-w-md mx-auto bg-white dark:bg-slate-950 shadow-2xl relative overflow-hidden">
+
+    <!-- HEADER -->
+    <header id="header" class="relative z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 transition-colors header-safe">
+        <div class="flex items-center justify-between pb-3 pt-1">
+            <div class="flex items-center space-x-2">
+                <span id="header-app-title" class="text-base font-bold text-slate-900 dark:text-slate-100 tracking-tight">
+                    BGS Pocket Scripture
+                </span>
+            </div>
+
+            <div class="flex items-center space-x-2">
+                <div class="relative inline-block">
+                    <select id="version-select" class="absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">
+                        <option value="CSB" class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">Christian Standard Bible (CSB)</option>
+                        <option value="ESV" class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">English Standard Version (ESV)</option>
+                        <option value="KJV" class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">King James Version (KJV)</option>
+                        <option value="NKJV" class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">New King James Version (NKJV)</option>
+                        <option value="NIV" class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">New International Version (NIV)</option>
+                        <option value="NASB" class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">New American Standard Bible (NASB)</option>
+                        <option value="ASV" class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">American Standard Version (ASV)</option>
+                        <option value="TLB" class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">The Living Bible (TLB)</option>
+                        <option value="NRSVUE" class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">New Revised Standard Version (NRSVUE)</option>
+                        <option value="LSV" class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">Legacy Standard Version (LSV)</option>
+                        <option value="WEB" class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">World English Bible (WEB)</option>
+                    </select>
+
+                    <div id="version-display-pill" class="bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/60 rounded-xl text-xs font-bold px-3 py-1.5 text-slate-800 dark:text-slate-200 flex items-center space-x-1.5 pointer-events-none">
+                        <span id="version-selected-abbr">CSB</span>
+                        <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400"></i>
+                    </div>
                 </div>
 
-                <div class="flex items-center space-x-2">
-                    <div class="relative inline-block">
-                        <select id="version-select" class="absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer">
-                            <option value="CSB">Christian Standard Bible (CSB)</option>
-                            <option value="ESV">English Standard Version (ESV)</option>
-                            <option value="KJV">King James Version (KJV)</option>
-                            <option value="NKJV">New King James Version (NKJV)</option>
-                            <option value="NIV">New International Version (NIV)</option>
-                            <option value="NASB">New American Standard Bible (NASB)</option>
-                            <option value="ASV">American Standard Version (ASV)</option>
-                            <option value="TLB">The Living Bible (TLB)</option>
-                            <option value="NRSVUE">New Revised Standard Version (NRSVUE)</option>
-                            <option value="LSV">Legacy Standard Version (LSV)</option>
-                        </select>
-                        <div id="version-display-pill" class="bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/60 rounded-xl text-xs font-bold px-3 py-1.5 text-slate-800 dark:text-slate-200 flex items-center space-x-1.5 pointer-events-none">
-                            <span id="version-selected-abbr">CSB</span>
-                            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400"></i>
-                        </div>
-                    </div>
+                <button id="btn-toggle-settings" class="p-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/60 transition">
+                    <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
 
-                    <button id="btn-toggle-settings" class="p-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/60 transition">
-                        <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
+        <!-- SETTINGS -->
+        <div id="settings-panel" class="hidden px-5 py-4 bg-slate-50 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 text-sm space-y-4">
+            <div class="flex items-center justify-between">
+                <span class="font-medium text-slate-700 dark:text-slate-300">Words of Jesus in Red</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" id="toggle-red-letter" class="sr-only peer" checked>
+                    <div class="w-11 h-6 bg-slate-300 dark:bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-600"></div>
+                </label>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <span class="font-medium text-slate-700 dark:text-slate-300">Theme</span>
+                <div class="flex bg-slate-200 dark:bg-slate-800 rounded-xl p-1 space-x-1 border border-slate-300 dark:border-slate-700/60">
+                    <button data-theme="system" class="btn-theme px-3 py-1 rounded-lg text-xs font-semibold transition text-slate-700 dark:text-slate-300">System</button>
+                    <button data-theme="light" class="btn-theme px-3 py-1 rounded-lg text-xs font-semibold transition text-slate-700 dark:text-slate-300">Light</button>
+                    <button data-theme="sepia" class="btn-theme px-3 py-1 rounded-lg text-xs font-semibold transition text-slate-700 dark:text-slate-300">Sepia</button>
+                    <button data-theme="dark" class="btn-theme px-3 py-1 rounded-lg text-xs font-semibold transition text-slate-700 dark:text-slate-300">Dark</button>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <span class="font-medium text-slate-700 dark:text-slate-300">Text Size</span>
+                <div class="flex items-center space-x-2">
+                    <button id="btn-font-dec" class="w-8 h-8 bg-white dark:bg-slate-800 rounded-lg border border-slate-300 dark:border-slate-700 font-bold flex items-center justify-center">−</button>
+                    <span id="font-size-label" class="text-xs font-semibold w-9 text-center">22px</span>
+                    <button id="btn-font-inc" class="w-8 h-8 bg-white dark:bg-slate-800 rounded-lg border border-slate-300 dark:border-slate-700 font-bold flex items-center justify-center">+</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- READER -->
+    <main id="reader-container" class="hidden flex-1 overflow-y-auto px-5 py-5 pb-48 no-scrollbar smooth-scroll relative bg-white dark:bg-slate-950 selectable-text page-flip-container">
+        <div id="loading-spinner" class="hidden flex justify-center py-16">
+            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-600"></div>
+        </div>
+
+        <div id="chapter-content" class="space-y-4 leading-relaxed font-scripture text-xl text-slate-900 dark:text-slate-100 pt-2"></div>
+    </main>
+
+    <!-- HOME / SAVED -->
+    <div id="view-overlay" class="flex-1 overflow-y-auto p-4 pb-48 smooth-scroll bg-slate-50 dark:bg-slate-950 z-20">
+
+        <div id="tab-content-home" class="tab-view space-y-5">
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-700 via-brand-600 to-brand-900 p-6 text-white shadow-xl border border-brand-500/30 space-y-4">
+                <div class="absolute -right-4 -bottom-4 w-32 h-32 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
+
+                <div class="flex justify-between items-center">
+                    <span class="px-3.5 py-1 bg-white/15 backdrop-blur-md rounded-full text-xs font-bold uppercase tracking-wider text-brand-100 border border-white/10 flex items-center space-x-1.5">
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-300"></i>
+                        <span>Verse of the Day</span>
+                    </span>
+
+                    <button id="btn-refresh-votd" class="p-2 bg-white/10 hover:bg-white/20 text-white rounded-xl transition active:scale-95" title="Get New Random Verse">
+                        <i data-lucide="refresh-cw" class="w-4 h-4"></i>
                     </button>
                 </div>
-            </div>
 
-            <!-- SETTINGS PANEL -->
-            <div id="settings-panel" class="hidden px-5 py-4 bg-slate-50 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 text-sm space-y-4">
-                <div class="flex items-center justify-between">
-                    <span class="font-medium text-slate-700 dark:text-slate-300">Words of Jesus in Red</span>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" id="toggle-red-letter" class="sr-only peer" checked>
-                        <div class="w-11 h-6 bg-slate-300 dark:bg-slate-750 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-600"></div>
-                    </label>
-                </div>
-
-                <div class="flex items-center justify-between">
-                    <span class="font-medium text-slate-700 dark:text-slate-300">Theme</span>
-                    <div class="flex bg-slate-200 dark:bg-slate-800 rounded-xl p-1 space-x-1 border border-slate-300 dark:border-slate-700/60">
-                        <button data-theme="system" class="btn-theme px-3 py-1 rounded-lg text-xs font-semibold transition text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">System</button>
-                        <button data-theme="light" class="btn-theme px-3 py-1 rounded-lg text-xs font-semibold transition text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">Light</button>
-                        <button data-theme="sepia" class="btn-theme px-3 py-1 rounded-lg text-xs font-semibold transition text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">Sepia</button>
-                        <button data-theme="dark" class="btn-theme px-3 py-1 rounded-lg text-xs font-semibold transition text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">Dark</button>
-                    </div>
-                </div>
-
-                <div class="flex items-center justify-between">
-                    <span class="font-medium text-slate-700 dark:text-slate-300">Text Size</span>
-                    <div class="flex items-center space-x-2">
-                        <button id="btn-font-dec" class="w-8 h-8 bg-white dark:bg-slate-800 rounded-lg border border-slate-300 dark:border-slate-700 font-bold flex items-center justify-center text-slate-700 dark:text-slate-200 shadow-sm">-</button>
-                        <span id="font-size-label" class="text-xs font-semibold w-9 text-center text-slate-700 dark:text-slate-200">22px</span>
-                        <button id="btn-font-inc" class="w-8 h-8 bg-white dark:bg-slate-800 rounded-lg border border-slate-300 dark:border-slate-700 font-bold flex items-center justify-center text-slate-700 dark:text-slate-200 shadow-sm">+</button>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <!-- MAIN READER CONTAINER -->
-        <main id="reader-container" class="hidden flex-1 overflow-y-auto px-5 py-5 pb-48 no-scrollbar smooth-scroll relative bg-white dark:bg-slate-950 selectable-text page-flip-container">
-            <div id="loading-spinner" class="hidden flex justify-center py-16">
-                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-600 dark:border-brand-500"></div>
-            </div>
-            
-            <div id="chapter-content" class="space-y-4 leading-relaxed font-scripture text-xl text-slate-900 dark:text-slate-100 pt-2">
-                <!-- Scripture content dynamically injected here -->
-            </div>
-        </main>
-
-        <!-- DYNAMIC OVERLAY CONTAINER FOR TAB VIEWS -->
-        <div id="view-overlay" class="flex-1 overflow-y-auto p-4 pb-48 smooth-scroll bg-slate-50 dark:bg-slate-950 z-20">
-            <!-- HOME TAB CONTENT -->
-            <div id="tab-content-home" class="tab-view space-y-5">
-                
-                <!-- VERSE OF THE DAY CONTAINER -->
-                <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-700 via-brand-600 to-brand-900 p-6 text-white shadow-xl border border-brand-500/30 space-y-4">
-                    <div class="absolute -right-4 -bottom-4 w-32 h-32 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
-                    
-                    <div class="flex justify-between items-center">
-                        <span class="px-3.5 py-1 bg-white/15 backdrop-blur-md rounded-full text-xs font-bold uppercase tracking-wider text-brand-100 border border-white/10 flex items-center space-x-1.5">
-                            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-300"></i>
-                            <span>Verse of the Day</span>
-                        </span>
-                        <button id="btn-refresh-votd" class="p-2 bg-white/10 hover:bg-white/20 text-white rounded-xl transition active:scale-95" title="Get New Random Verse">
-                            <i data-lucide="refresh-cw" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-
-                    <div class="space-y-2 pt-1">
-                        <p id="votd-text" class="font-scripture text-2xl leading-relaxed text-slate-100 font-medium selectable-text min-h-[3.5rem]">
-                            Loading daily scripture...
-                        </p>
-                        <span id="votd-ref" class="font-bold text-base text-amber-300 block tracking-wide">John 3:16</span>
-                    </div>
-                </div>
-
-                <!-- PROMINENT & EXPANDED SCRIPTURE UNDERSTANDING CARD -->
-                <div class="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-md space-y-3">
-                    <div class="flex items-center space-x-2 border-b border-slate-100 dark:border-slate-800 pb-3">
-                        <div class="p-2 rounded-xl bg-brand-50 dark:bg-brand-900/40 text-brand-600 dark:text-brand-400">
-                            <i data-lucide="book-open-check" class="w-5 h-5"></i>
-                        </div>
-                        <h3 class="font-bold text-slate-900 dark:text-slate-100 text-base">Understanding This Scripture</h3>
-                    </div>
-                    
-                    <p id="votd-explanation" class="text-base leading-relaxed text-slate-700 dark:text-slate-200 font-sans selectable-text">
-                        Loading detailed explanation...
+                <div class="space-y-2 pt-1">
+                    <p id="votd-text" class="font-scripture text-2xl leading-relaxed text-slate-100 font-medium selectable-text min-h-[3.5rem]">
+                        Loading daily scripture...
                     </p>
-                </div>
-
-            </div>
-
-            <!-- Saved Tab Content -->
-            <div id="tab-content-saved" class="tab-view hidden space-y-4">
-                <h2 class="text-base font-bold text-slate-900 dark:text-slate-100">Bookmarks & Highlights</h2>
-                <div class="flex space-x-3 border-b border-slate-200 dark:border-slate-800 pb-2">
-                    <button id="subtab-highlights" class="font-bold text-xs text-brand-600 dark:text-brand-400 border-b-2 border-brand-600 dark:border-brand-500 pb-1">Highlights</button>
-                    <button id="subtab-bookmarks" class="font-bold text-xs text-slate-400 dark:text-slate-500 pb-1">Bookmarks</button>
-                </div>
-                <div id="saved-list-container" class="space-y-3"></div>
-            </div>
-        </div>
-
-        <!-- FLOATING PILL BUTTON FLOATING ABOVE NAV BAR -->
-        <div id="bottom-picker-dock" class="fixed inset-x-4 z-40 transition-all pointer-events-auto">
-            <button id="btn-docked-picker" class="w-full py-3.5 px-6 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-full shadow-2xl border border-brand-400/40 ring-2 ring-brand-500/20 flex items-center justify-between active:scale-95 transition">
-                <div class="flex items-center space-x-3">
-                    <i data-lucide="book-marked" class="w-5 h-5 text-amber-300"></i>
-                    <span id="docked-passage-label" class="text-sm font-bold tracking-wide">Choose a Book & Chapter</span>
-                </div>
-                <div class="flex items-center space-x-1.5 bg-white/20 px-3 py-1 rounded-full text-xs font-bold">
-                    <span>Select</span>
-                    <i data-lucide="chevron-up" class="w-4 h-4"></i>
-                </div>
-            </button>
-        </div>
-
-        <!-- RESTRUCTURED MULTI-VERSE ACTION DOCK (READ & EXPLAIN ONLY) -->
-        <div id="multi-verse-dock" class="fixed left-3 right-3 z-50 hidden transition-all transform animate-fade-in">
-            <div class="bg-slate-900/95 backdrop-blur-xl text-white px-3.5 py-3 rounded-2xl shadow-2xl border border-slate-700/80 flex flex-col space-y-2.5">
-                
-                <!-- TOP ROW: SELECTION COUNTER, ENLARGED & CENTERED HIGHLIGHT COLORS, AND CLEAR BUTTON -->
-                <div class="flex items-center justify-between w-full">
-                    <div class="w-7 h-7 rounded-full bg-brand-600 flex items-center justify-center text-xs font-bold shadow-md text-white flex-shrink-0" id="selected-count-badge">0</div>
-
-                    <div class="flex items-center space-x-2.5 bg-slate-800/80 px-3 py-1.5 rounded-xl border border-slate-700/80">
-                        <button data-color="yellow" class="dock-hl-color w-7 h-7 rounded-full bg-yellow-400 active:scale-95 transition shadow-md" title="Yellow"></button>
-                        <button data-color="green"  class="dock-hl-color w-7 h-7 rounded-full bg-emerald-400 active:scale-95 transition shadow-md" title="Green"></button>
-                        <button data-color="blue"   class="dock-hl-color w-7 h-7 rounded-full bg-sky-400 active:scale-95 transition shadow-md" title="Blue"></button>
-                        <button data-color="pink"   class="dock-hl-color w-7 h-7 rounded-full bg-pink-400 active:scale-95 transition shadow-md" title="Pink"></button>
-                        <button data-color="clear"  class="dock-hl-color w-7 h-7 rounded-full bg-slate-700 flex items-center justify-center text-sm font-bold text-slate-300 shadow-md" title="Clear Highlight">×</button>
-                    </div>
-
-                    <button id="btn-clear-selection" class="p-1.5 text-slate-400 hover:text-white rounded-xl bg-slate-800 border border-slate-700 transition active:scale-95 flex-shrink-0" title="Clear Selection">
-                        <i data-lucide="x" class="w-4 h-4"></i>
-                    </button>
-                </div>
-
-                <!-- BOTTOM ROW: READ AND EXPLAIN BUTTONS ONLY -->
-                <div class="grid grid-cols-2 gap-2 w-full pt-0.5">
-                    <button id="dock-act-speak" class="py-2.5 px-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl shadow-md flex items-center justify-center space-x-2 text-xs font-bold active:scale-95 transition" title="Read Selected Verses Out Loud">
-                        <i data-lucide="volume-2" class="w-4 h-4" id="speak-btn-icon"></i>
-                        <span id="speak-btn-label">Read</span>
-                    </button>
-                    <button id="dock-act-sparkle" class="py-2.5 px-3 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl shadow-md flex items-center justify-center space-x-2 text-xs font-bold active:scale-95 transition" title="Analyze & Explain Scripture">
-                        <i data-lucide="sparkles" class="w-4 h-4"></i>
-                        <span>Explain</span>
-                    </button>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- FLOATING CHAPTER NAVIGATION -->
-        <div id="floating-chap-nav" class="fixed right-5 flex space-x-2 z-20 hidden">
-            <button id="btn-prev-chap" class="p-3 bg-white/90 dark:bg-slate-800/90 backdrop-blur-lg shadow-xl border border-slate-200 dark:border-slate-700/80 rounded-2xl text-slate-800 dark:text-slate-100 active:scale-95 transition">
-                <i data-lucide="chevron-left" class="w-5 h-5"></i>
-            </button>
-            <button id="btn-next-chap" class="p-3 bg-white/90 dark:bg-slate-800/90 backdrop-blur-lg shadow-xl border border-slate-200 dark:border-slate-700/80 rounded-2xl text-slate-800 dark:text-slate-100 active:scale-95 transition">
-                <i data-lucide="chevron-right" class="w-5 h-5"></i>
-            </button>
-        </div>
-
-        <!-- FIXED BOTTOM NAV BAR (3 TABS: TODAY, READ, SAVED) -->
-        <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 grid grid-cols-3 py-2 z-30 shadow-2xl nav-safe">
-            <button data-tab="home" class="nav-tab flex flex-col items-center justify-center py-1 px-1 rounded-xl transition active:scale-95 text-brand-600 dark:text-brand-400 font-bold">
-                <i data-lucide="sparkles" class="w-5 h-5 mb-0.5"></i>
-                <span class="text-[11px] font-semibold tracking-tight">Today</span>
-            </button>
-            <button data-tab="reader" class="nav-tab flex flex-col items-center justify-center py-1 px-1 rounded-xl transition active:scale-95 text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400">
-                <i data-lucide="book-open" class="w-5 h-5 mb-0.5"></i>
-                <span class="text-[11px] font-semibold tracking-tight">Read</span>
-            </button>
-            <button data-tab="saved" class="nav-tab flex flex-col items-center justify-center py-1 px-1 rounded-xl transition active:scale-95 text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400">
-                <i data-lucide="bookmark" class="w-5 h-5 mb-0.5"></i>
-                <span class="text-[11px] font-semibold tracking-tight">Saved</span>
-            </button>
-        </nav>
-
-        <!-- BOOK / CHAPTER PICKER MODAL -->
-        <div id="modal-picker" class="fixed inset-0 bg-black/50 dark:bg-black/70 backdrop-blur-sm z-50 hidden flex flex-col justify-end nav-safe">
-            <div class="bg-white dark:bg-slate-900 rounded-t-3xl max-h-[80vh] flex flex-col p-5 space-y-4 animate-fade-in border-t border-slate-200 dark:border-slate-800 shadow-2xl">
-                <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
-                    <h3 class="font-bold text-slate-900 dark:text-slate-100 text-lg">Select Passage</h3>
-                    <button id="btn-close-picker" class="p-1 text-slate-400 hover:text-slate-200"><i data-lucide="x" class="w-6 h-6"></i></button>
-                </div>
-                <div class="flex space-x-2 border-b border-slate-200 dark:border-slate-800 pb-2">
-                    <button id="tab-ot" class="px-4 py-2 text-sm font-bold border-b-2 border-brand-600 dark:border-brand-500 text-brand-600 dark:text-brand-400">Old Testament</button>
-                    <button id="tab-nt" class="px-4 py-2 text-sm font-bold text-slate-400">New Testament</button>
-                </div>
-                <div id="picker-books" class="grid grid-cols-2 gap-2 overflow-y-auto max-h-64 p-1 no-scrollbar smooth-scroll"></div>
-                <div id="picker-chapters" class="hidden grid grid-cols-5 gap-2 overflow-y-auto max-h-64 p-1 no-scrollbar smooth-scroll"></div>
-            </div>
-        </div>
-
-        <!-- SCRIPTURE EXPLANATION MODAL (SPARKLE RESULT) -->
-        <div id="modal-explanation" class="fixed inset-0 bg-black/50 dark:bg-black/70 backdrop-blur-sm z-50 hidden flex flex-col justify-end nav-safe">
-            <div class="bg-white dark:bg-slate-900 rounded-t-3xl max-h-[85vh] flex flex-col p-6 space-y-4 animate-fade-in border-t border-slate-200 dark:border-slate-800 shadow-2xl overflow-y-auto no-scrollbar">
-                <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
                     <div class="flex items-center space-x-2">
-                        <i data-lucide="sparkles" class="w-5 h-5 text-amber-500"></i>
-                        <h3 class="font-bold text-slate-900 dark:text-slate-100 text-base" id="explanation-title">Scripture Explanation</h3>
+                        <span id="votd-ref" class="font-bold text-base text-amber-300 tracking-wide">John 3:16</span>
+                        <span id="votd-version-badge" class="text-[10px] uppercase font-bold bg-white/20 text-amber-200 px-2 py-0.5 rounded-md">CSB</span>
                     </div>
-                    <button id="btn-close-explanation" class="p-1 text-slate-400 hover:text-slate-200"><i data-lucide="x" class="w-6 h-6"></i></button>
                 </div>
-                
-                <div id="explanation-content" class="space-y-4 text-slate-800 dark:text-slate-200 leading-relaxed text-sm">
-                    <!-- Dynamic analysis injected here -->
+            </div>
+
+            <!-- IMMERSIVE MULTI-SECTION STUDY CARD -->
+            <div class="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-md space-y-5">
+                <div class="flex items-center space-x-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+                    <div class="p-2 rounded-xl bg-brand-50 dark:bg-brand-900/40 text-brand-600 dark:text-brand-400">
+                        <i data-lucide="book-open-check" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="font-bold text-base text-slate-900 dark:text-slate-100">Understanding This Scripture</h3>
+                </div>
+
+                <div id="votd-explanation" class="space-y-4 text-sm leading-relaxed text-slate-700 dark:text-slate-200 selectable-text">
+                    <div class="animate-pulse space-y-3">
+                        <div class="h-4 bg-slate-200 dark:bg-slate-800 rounded w-3/4"></div>
+                        <div class="h-4 bg-slate-200 dark:bg-slate-800 rounded w-full"></div>
+                        <div class="h-4 bg-slate-200 dark:bg-slate-800 rounded w-5/6"></div>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <div id="tab-content-saved" class="tab-view hidden space-y-4">
+            <h2 class="text-base font-bold">Bookmarks & Highlights</h2>
+
+            <div class="flex space-x-3 border-b border-slate-200 dark:border-slate-800 pb-2">
+                <button id="subtab-highlights" class="font-bold text-xs text-brand-600 border-b-2 border-brand-600 pb-1">Highlights</button>
+                <button id="subtab-bookmarks" class="font-bold text-xs text-slate-400 pb-1">Bookmarks</button>
+            </div>
+
+            <div id="saved-list-container" class="space-y-3"></div>
+        </div>
     </div>
 
-    <!-- SCRIPT APPLICATION LOGIC -->
-    <script>
-        function triggerHaptic() {
-            if ('vibrate' in navigator) {
-                try { navigator.vibrate(12); } catch (e) {}
-            }
-        }
+    <!-- FLOATING HOME START READING BUTTON -->
+    <div id="home-floating-picker" class="fixed right-5 z-30 transition-all pointer-events-auto">
+        <button id="btn-home-start-reading" class="py-3 px-5 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-full shadow-2xl border border-brand-400/40 ring-4 ring-brand-500/20 flex items-center space-x-2 active:scale-95 transition">
+            <i data-lucide="book-open" class="w-5 h-5 text-amber-300"></i>
+            <span class="text-sm font-bold tracking-wide">Choose Book</span>
+        </button>
+    </div>
 
-        const BIBLE_BOOKS = [
-            { name: "Genesis", testament: "OT", chapters: 50 },
-            { name: "Exodus", testament: "OT", chapters: 40 },
-            { name: "Leviticus", testament: "OT", chapters: 27 },
-            { name: "Numbers", testament: "OT", chapters: 36 },
-            { name: "Deuteronomy", testament: "OT", chaptersHere is the updated `index.html` with the Cross-Reference feature completely removed from the bottom navigation bar, the verse selection action dock, and the overlay views.
-
-```html
-<!DOCTYPE html>
-<html lang="en" class="h-full">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>BGS Pocket Scripture</title>
-
-    <meta name="application-name" content="BGS Pocket Scripture">
-    <meta name="apple-mobile-web-app-title" content="BGS Pocket Scripture">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#4f46e5">
-
-    <link rel="icon" type="image/png" sizes="512x512" href="[https://bgscribn.github.io/Pocket-Bible/icon.png?v=2](https://bgscribn.github.io/Pocket-Bible/icon.png?v=2)">
-    <link rel="icon" type="image/png" sizes="192x192" href="[https://bgscribn.github.io/Pocket-Bible/icon.png?v=2](https://bgscribn.github.io/Pocket-Bible/icon.png?v=2)">
-    <link rel="apple-touch-icon" sizes="180x180" href="[https://bgscribn.github.io/Pocket-Bible/icon.png?v=2](https://bgscribn.github.io/Pocket-Bible/icon.png?v=2)">
-
-    <link rel="manifest" href="manifest.json">
-
-    <script>
-        (function() {
-            const manifest = {
-                "name": "BGS Pocket Scripture",
-                "short_name": "BGS Scripture",
-                "start_url": "[https://bgscribn.github.io/Pocket-Bible/](https://bgscribn.github.io/Pocket-Bible/)",
-                "scope": "[https://bgscribn.github.io/Pocket-Bible/](https://bgscribn.github.io/Pocket-Bible/)",
-                "display": "standalone",
-                "orientation": "portrait",
-                "background_color": "#ffffff",
-                "theme_color": "#4f46e5",
-                "icons": [
-                    {
-                        "src": "[https://bgscribn.github.io/Pocket-Bible/icon.png?v=2](https://bgscribn.github.io/Pocket-Bible/icon.png?v=2)",
-                        "sizes": "192x192",
-                        "type": "image/png",
-                        "purpose": "any maskable"
-                    },
-                    {
-                        "src": "[https://bgscribn.github.io/Pocket-Bible/icon.png?v=2](https://bgscribn.github.io/Pocket-Bible/icon.png?v=2)",
-                        "sizes": "512x512",
-                        "type": "image/png",
-                        "purpose": "any maskable"
-                    }
-                ]
-            };
-            const stringManifest = JSON.stringify(manifest);
-            const blob = new Blob([stringManifest], {type: 'application/json'});
-            const manifestURL = URL.createObjectURL(blob);
-            const link = document.createElement('link');
-            link.rel = 'manifest';
-            link.href = manifestURL;
-            document.getElementsByTagName('head')[0].appendChild(link);
-        })();
-    </script>
-
-    <link rel="preconnect" href="[https://fonts.googleapis.com](https://fonts.googleapis.com)">
-    <link rel="preconnect" href="[https://fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
-    <link href="[https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;500;600&display=swap](https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;500;600&display=swap)" rel="stylesheet">
-
-    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                        serif: ['Newsreader', 'serif'],
-                    },
-                    colors: {
-                        brand: {
-                            50: '#eef2ff',
-                            100: '#e0e7ff',
-                            500: '#6366f1',
-                            600: '#4f46e5',
-                            700: '#4338ca',
-                            900: '#312e81',
-                        },
-                        accent: {
-                            500: '#10b981',
-                            600: '#059669',
-                        },
-                        sepia: {
-                            bg: '#f4f1ea',
-                            card: '#e8e2d5',
-                            text: '#2c251e',
-                            border: '#dcd3c1'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <script src="[https://unpkg.com/lucide@latest](https://unpkg.com/lucide@latest)"></script>
-    <style>
-        html, body {
-            height: 100%;
-            height: 100dvh;
-            overflow: hidden;
-            overscroll-behavior: none;
-            -webkit-tap-highlight-color: transparent;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            -webkit-user-select: none;
-            user-select: none;
-        }
-
-        .selectable-text {
-            -webkit-user-select: text;
-            user-select: text;
-        }
-
-        .font-scripture { font-family: 'Newsreader', serif; }
-
-        .red-letter { color: #e11d48; }
-        .dark .red-letter { color: #fb7185; }
-        .sepia .red-letter { color: #9f1239; }
-
-        .hl-yellow { background-color: rgba(253, 224, 71, 0.5); border-radius: 6px; }
-        .hl-green  { background-color: rgba(110, 231, 183, 0.5); border-radius: 6px; }
-        .hl-blue   { background-color: rgba(147, 197, 253, 0.5); border-radius: 6px; }
-        .hl-pink   { background-color: rgba(249, 168, 212, 0.5); border-radius: 6px; }
-
-        .dark .hl-yellow { background-color: rgba(161, 98, 7, 0.4); }
-        .dark .hl-green  { background-color: rgba(6, 95, 70, 0.4); }
-        .dark .hl-blue   { background-color: rgba(30, 58, 138, 0.4); }
-        .dark .hl-pink   { background-color: rgba(131, 24, 67, 0.4); }
-
-        body.sepia {
-            background-color: #f4f1ea;
-            color: #2c251e;
-        }
-        body.sepia .bg-card-theme { background-color: #e8e2d5; }
-        body.sepia .border-theme { border-color: #dcd3c1; }
-        
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        .smooth-scroll {
-            -webkit-overflow-scrolling: touch;
-            overscroll-behavior-y: contain;
-        }
-
-        .header-safe {
-            padding-top: max(12px, env(safe-area-inset-top));
-            padding-left: max(16px, env(safe-area-inset-left));
-            padding-right: max(16px, env(safe-area-inset-right));
-        }
-
-        .nav-safe {
-            padding-bottom: env(safe-area-inset-bottom, 0px);
-            padding-left: max(16px, env(safe-area-inset-left));
-            padding-right: max(16px, env(safe-area-inset-right));
-        }
-
-        #multi-verse-dock {
-            bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
-        }
-
-        #floating-chap-nav {
-            bottom: calc(11rem + env(safe-area-inset-bottom, 0px));
-        }
-
-        #bottom-picker-dock {
-            bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
-        }
-
-        @keyframes fadeInScale {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        .animate-fade-in { animation: fadeInScale 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-
-        .page-flip-container {
-            perspective: 1200px;
-            transform-style: preserve-3d;
-        }
-
-        .animate-flip-next-out { animation: flipOutLeft 0.22s ease-in forwards; transform-origin: left center; }
-        .animate-flip-next-in  { animation: flipInRight 0.22s ease-out forwards; transform-origin: right center; }
-        .animate-flip-prev-out { animation: flipOutRight 0.22s ease-in forwards; transform-origin: right center; }
-        .animate-flip-prev-in  { animation: flipInLeft 0.22s ease-out forwards; transform-origin: left center; }
-
-        @keyframes flipOutLeft { 0% { transform: rotateY(0deg); opacity: 1; } 100% { transform: rotateY(-35deg) translateX(-30px); opacity: 0; } }
-        @keyframes flipInRight { 0% { transform: rotateY(35deg) translateX(30px); opacity: 0; } 100% { transform: rotateY(0deg) translateX(0); opacity: 1; } }
-        @keyframes flipOutRight { 0% { transform: rotateY(0deg); opacity: 1; } 100% { transform: rotateY(35deg) translateX(30px); opacity: 0; } }
-        @keyframes flipInLeft { 0% { transform: rotateY(-35deg) translateX(-30px); opacity: 0; } 100% { transform: rotateY(0deg) translateX(0); opacity: 1; } }
-    </style>
-</head>
-<body class="h-full bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200 antialiased selection:bg-brand-500/30 text-base">
-
-    <div id="app" class="flex flex-col h-full w-full max-w-md mx-auto bg-white dark:bg-slate-950 shadow-2xl relative overflow-hidden">
-        
-        <header id="header" class="relative z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 transition-colors header-safe">
-            <div class="flex items-center justify-between pb-3 pt-1">
-                <div class="flex items-center space-x-2">
-                    <span id="header-app-title" class="text-base font-bold text-slate-900 dark:text-slate-100 tracking-tight">BGS Pocket Scripture</span>
-                </div>
-
-                <div class="flex items-center space-x-2">
-                    <div class="relative inline-block">
-                        <select id="version-select" class="absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer">
-                            <option value="CSB">Christian Standard Bible (CSB)</option>
-                            <option value="ESV">English Standard Version (ESV)</option>
-                            <option value="KJV">King James Version (KJV)</option>
-                            <option value="NKJV">New King James Version (NKJV)</option>
-                            <option value="NIV">New International Version (NIV)</option>
-                            <option value="NASB">New American Standard Bible (NASB)</option>
-                            <option value="ASV">American Standard Version (ASV)</option>
-                            <option value="TLB">The Living Bible (TLB)</option>
-                            <option value="NRSVUE">New Revised Standard Version (NRSVUE)</option>
-                            <option value="LSV">Legacy Standard Version (LSV)</option>
-                        </select>
-                        <div id="version-display-pill" class="bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/60 rounded-xl text-xs font-bold px-3 py-1.5 text-slate-800 dark:text-slate-200 flex items-center space-x-1.5 pointer-events-none">
-                            <span id="version-selected-abbr">CSB</span>
-                            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400"></i>
-                        </div>
-                    </div>
-
-                    <button id="btn-toggle-settings" class="p-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/60 transition">
-                        <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
-                    </button>
-                </div>
+    <!-- READER PASSAGE PICKER DOCK -->
+    <div id="bottom-picker-dock" class="fixed inset-x-4 z-40 transition-all pointer-events-auto hidden">
+        <button id="btn-docked-picker" class="w-full py-3.5 px-6 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-full shadow-2xl border border-brand-400/40 ring-2 ring-brand-500/20 flex items-center justify-between active:scale-95 transition">
+            <div class="flex items-center space-x-3">
+                <i data-lucide="book-marked" class="w-5 h-5 text-amber-300"></i>
+                <span id="docked-passage-label" class="text-sm font-bold tracking-wide">Choose a Book & Chapter</span>
             </div>
 
-            <div id="settings-panel" class="hidden px-5 py-4 bg-slate-50 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 text-sm space-y-4">
-                <div class="flex items-center justify-between">
-                    <span class="font-medium text-slate-700 dark:text-slate-300">Words of Jesus in Red</span>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" id="toggle-red-letter" class="sr-only peer" checked>
-                        <div class="w-11 h-6 bg-slate-300 dark:bg-slate-750 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-
+            <div class="flex items-center space-x-1.5 bg-white/20 px-3 py-1 rounded-full text-xs font-bold">
+                <span>Select</span>
+                <i data-lucide="chevron-up" class="w-4 h-4"></i>
+            </div>
+        </button>
+    </div>
+
+    <!-- MULTI-VERSE ACTION DOCK -->
+    <div id="multi-verse-dock" class="fixed left-3 right-3 z-50 hidden transition-all transform animate-fade-in">
+        <div class="bg-slate-900/95 backdrop-blur-xl text-white px-3.5 py-3 rounded-2xl shadow-2xl border border-slate-700/80 flex flex-col space-y-2.5">
+
+            <div class="flex items-center justify-between w-full">
+                <div id="selected-count-badge" class="w-7 h-7 rounded-full bg-brand-600 flex items-center justify-center text-xs font-bold shadow-md">0</div>
+
+                <div class="flex items-center space-x-2.5 bg-slate-800/80 px-3 py-1.5 rounded-xl border border-slate-700/80">
+                    <button data-color="yellow" class="dock-hl-color w-7 h-7 rounded-full bg-yellow-400" title="Yellow"></button>
+                    <button data-color="green" class="dock-hl-color w-7 h-7 rounded-full bg-emerald-400" title="Green"></button>
+                    <button data-color="blue" class="dock-hl-color w-7 h-7 rounded-full bg-sky-400" title="Blue"></button>
+                    <button data-color="pink" class="dock-hl-color w-7 h-7 rounded-full bg-pink-400" title="Pink"></button>
+                    <button data-color="clear" class="dock-hl-color w-7 h-7 rounded-full bg-slate-700 flex items-center justify-center text-sm font-bold" title="Clear Highlight">×</button>
+                </div>
+
+                <button id="btn-clear-selection" class="p-1.5 text-slate-400 hover:text-white rounded-xl bg-slate-800 border border-slate-700" title="Clear Selection">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 w-full pt-0.5">
+                <button id="dock-act-speak" class="py-2.5 px-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl shadow-md flex items-center justify-center space-x-2 text-xs font-bold" title="Read Selected Verses Out Loud">
+                    <i data-lucide="volume-2" class="w-4 h-4"></i>
+                    <span id="speak-btn-label">Read</span>
+                </button>
+
+                <button id="dock-act-sparkle" class="py-2.5 px-3 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl shadow-md flex items-center justify-center space-x-2 text-xs font-bold" title="Analyze & Explain Scripture">
+                    <i data-lucide="sparkles" class="w-4 h-4"></i>
+                    <span>Explain</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHAPTER NAVIGATION -->
+    <div id="floating-chap-nav" class="fixed right-5 flex space-x-2 z-20 hidden">
+        <button id="btn-prev-chap" class="p-3 bg-white/90 dark:bg-slate-800/90 backdrop-blur-lg shadow-xl border border-slate-200 dark:border-slate-700/80 rounded-2xl active:scale-95 transition">
+            <i data-lucide="chevron-left" class="w-5 h-5"></i>
+        </button>
+
+        <button id="btn-next-chap" class="p-3 bg-white/90 dark:bg-slate-800/90 backdrop-blur-lg shadow-xl border border-slate-200 dark:border-slate-700/80 rounded-2xl active:scale-95 transition">
+            <i data-lucide="chevron-right" class="w-5 h-5"></i>
+        </button>
+    </div>
+
+    <!-- BOTTOM NAV: 3 TABS -->
+    <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 grid grid-cols-3 pt-2 z-30 shadow-2xl nav-safe">
+        <button data-tab="home" class="nav-tab flex flex-col items-center justify-center py-1 px-1 rounded-xl text-brand-600 dark:text-brand-400 font-bold">
+            <i data-lucide="home" class="w-5 h-5 mb-0.5"></i>
+            <span class="text-[11px] font-semibold">Home</span>
+        </button>
+
+        <button data-tab="reader" class="nav-tab flex flex-col items-center justify-center py-1 px-1 rounded-xl text-slate-500 dark:text-slate-400">
+            <i data-lucide="book-open" class="w-5 h-5 mb-0.5"></i>
+            <span class="text-[11px] font-semibold">Read</span>
+        </button>
+
+        <button data-tab="saved" class="nav-tab flex flex-col items-center justify-center py-1 px-1 rounded-xl text-slate-500 dark:text-slate-400">
+            <i data-lucide="bookmark" class="w-5 h-5 mb-0.5"></i>
+            <span class="text-[11px] font-semibold">Saved</span>
+        </button>
+    </nav>
+
+    <!-- BOOK / CHAPTER PICKER MODAL -->
+    <div id="modal-picker" class="fixed inset-0 bg-black/50 dark:bg-black/70 backdrop-blur-sm z-50 hidden flex flex-col justify-end nav-safe">
+        <div class="bg-white dark:bg-slate-900 rounded-t-3xl max-h-[80vh] flex flex-col p-5 space-y-4 animate-fade-in border-t border-slate-200 dark:border-slate-800 shadow-2xl">
+
+            <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+                <h3 class="font-bold text-lg">Select Passage</h3>
+                <button id="btn-close-picker" class="p-1 text-slate-400">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <div class="flex space-x-2 border-b border-slate-200 dark:border-slate-800 pb-2">
+                <button id="tab-ot" class="px-4 py-2 text-sm font-bold border-b-2 border-brand-600 text-brand-600">Old Testament</button>
+                <button id="tab-nt" class="px-4 py-2 text-sm font-bold text-slate-400">New Testament</button>
+            </div>
+
+            <div id="picker-books" class="grid grid-cols-2 gap-2 overflow-y-auto max-h-64 p-1 no-scrollbar smooth-scroll"></div>
+            <div id="picker-chapters" class="hidden grid grid-cols-5 gap-2 overflow-y-auto max-h-64 p-1 no-scrollbar smooth-scroll"></div>
+        </div>
+    </div>
+
+    <!-- EXPLANATION MODAL -->
+    <div id="modal-explanation" class="fixed inset-0 bg-black/50 dark:bg-black/70 backdrop-blur-sm z-50 hidden flex flex-col justify-end nav-safe">
+        <div class="bg-white dark:bg-slate-900 rounded-t-3xl max-h-[85vh] flex flex-col p-6 space-y-4 animate-fade-in border-t border-slate-200 dark:border-slate-800 shadow-2xl overflow-y-auto no-scrollbar">
+
+            <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+                <div class="flex items-center space-x-2">
+                    <i data-lucide="sparkles" class="w-5 h-5 text-amber-500"></i>
+                    <h3 id="explanation-title" class="font-bold text-base">Scripture Explanation</h3>
+                </div>
+
+                <button id="btn-close-explanation" class="p-1 text-slate-400">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <div id="explanation-content" class="space-y-4 leading-relaxed text-sm">
+                Select one or more verses and tap Explain.
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+"use strict";
+
+const BIBLE_BOOKS = [
+    ["Genesis","OT",50],["Exodus","OT",40],["Leviticus","OT",27],["Numbers","OT",36],
+    ["Deuteronomy","OT",34],["Joshua","OT",24],["Judges","OT",21],["Ruth","OT",4],
+    ["1 Samuel","OT",31],["2 Samuel","OT",24],["1 Kings","OT",22],["2 Kings","OT",25],
+    ["1 Chronicles","OT",29],["2 Chronicles","OT",36],["Ezra","OT",10],["Nehemiah","OT",13],
+    ["Esther","OT",10],["Job","OT",42],["Psalms","OT",150],["Proverbs","OT",31],
+    ["Ecclesiastes","OT",12],["Song of Solomon","OT",8],["Isaiah","OT",66],
+    ["Jeremiah","OT",52],["Lamentations","OT",5],["Ezekiel","OT",48],["Daniel","OT",12],
+    ["Hosea","OT",14],["Joel","OT",3],["Amos","OT",9],["Obadiah","OT",1],
+    ["Jonah","OT",4],["Micah","OT",7],["Nahum","OT",3],["Habakkuk","OT",3],
+    ["Zephaniah","OT",3],["Haggai","OT",2],["Zechariah","OT",14],["Malachi","OT",4],
+    ["Matthew","NT",28],["Mark","NT",16],["Luke","NT",24],["John","NT",21],
+    ["Acts","NT",28],["Romans","NT",16],["1 Corinthians","NT",16],["2 Corinthians","NT",13],
+    ["Galatians","NT",6],["Ephesians","NT",6],["Philippians","NT",4],["Colossians","NT",4],
+    ["1 Thessalonians","NT",5],["2 Thessalonians","NT",3],["1 Timothy","NT",6],
+    ["2 Timothy","NT",4],["Titus","NT",3],["Philemon","NT",1],["Hebrews","NT",13],
+    ["James","NT",5],["1 Peter","NT",5],["2 Peter","NT",3],["1 John","NT",5],
+    ["2 John","NT",1],["3 John","NT",1],["Jude","NT",1],["Revelation","NT",22]
+].map(([name, testament, chapters]) => ({name, testament, chapters}));
+
+const versionMap = { 
+    'KJV': 'kjv', 
+    'NKJV': 'kjv', 
+    'ASV': 'asv', 
+    'ESV': 'web', 
+    'CSB': 'web', 
+    'NIV': 'web', 
+    'NASB': 'asv', 
+    'TLB': 'web', 
+    'NRSVUE': 'web', 
+    'LSV': 'asv',
+    'WEB': 'web'
+};
+
+const state = {
+    version: localStorage.getItem("bgs-version") || "CSB",
+    theme: localStorage.getItem("bgs-theme") || "system",
+    fontSize: Number(localStorage.getItem("bgs-font-size") || 22),
+    redLetter: localStorage.getItem("bgs-red-letter") !== "false",
+    currentBook: null,
+    currentChapter: null,
+    currentVotdIndex: 0,
+    selectedVerses: new Map(),
+    selectedHighlights: JSON.parse(localStorage.getItem("bgs-highlights") || "{}"),
+    bookmarks: JSON.parse(localStorage.getItem("bgs-bookmarks") || "[]")
+};
+
+const $ = id => document.getElementById(id);
+
+function triggerHaptic() {
+    if ("vibrate" in navigator) {
+        try { navigator.vibrate(12); } catch (_) {}
+    }
+}
+
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+    }[char]));
+}
+
+function applyTheme(theme) {
+    state.theme = theme;
+    localStorage.setItem("bgs-theme", theme);
+
+    const root = document.documentElement;
+    document.body.classList.remove("sepia");
+
+    if (theme === "dark") {
+        root.classList.add("dark");
+    } else if (theme === "light") {
+        root.classList.remove("dark");
+    } else if (theme === "sepia") {
+        root.classList.remove("dark");
+        document.body.classList.add("sepia");
+    } else {
+        const dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        root.classList.toggle("dark", dark);
+    }
+
+    document.querySelectorAll(".btn-theme").forEach(btn => {
+        const active = btn.dataset.theme === theme;
+        btn.classList.toggle("bg-white", active);
+        btn.classList.toggle("dark:bg-slate-700", active);
+        btn.classList.toggle("shadow-sm", active);
+    });
+}
+
+function updateFontSize() {
+    $("font-size-label").textContent = `${state.fontSize}px`;
+    $("chapter-content").style.fontSize = `${state.fontSize}px`;
+    localStorage.setItem("bgs-font-size", state.fontSize);
+}
+
+function showTab(tab) {
+    document.querySelectorAll(".tab-view").forEach(view => view.classList.add("hidden"));
+
+    if (tab === "reader") {
+        $("view-overlay").classList.add("hidden");
+        $("reader-container").classList.remove("hidden");
+        $("bottom-picker-dock").classList.remove("hidden");
+        $("home-floating-picker").classList.add("hidden");
+        $("floating-chap-nav").classList.remove("hidden");
+    } else {
+        $("reader-container").classList.add("hidden");
+        $("view-overlay").classList.remove("hidden");
+        $("floating-chap-nav").classList.add("hidden");
+
+        if (tab === "home") {
+            $("tab-content-home").classList.remove("hidden");
+            $("tab-content-saved").classList.add("hidden");
+            $("bottom-picker-dock").classList.add("hidden");
+            $("home-floating-picker").classList.remove("hidden");
+        } else if (tab === "saved") {
+            $("tab-content-home").classList.add("hidden");
+            $("tab-content-saved").classList.remove("hidden");
+            $("bottom-picker-dock").classList.add("hidden");
+            $("home-floating-picker").classList.add("hidden");
+            renderSaved();
+        }
+    }
+
+    document.querySelectorAll(".nav-tab").forEach(btn => {
+        const active = btn.dataset.tab === tab;
+        btn.classList.toggle("text-brand-600", active);
+        btn.classList.toggle("dark:text-brand-400", active);
+        btn.classList.toggle("font-bold", active);
+        btn.classList.toggle("text-slate-500", !active);
+        btn.classList.toggle("dark:text-slate-400", !active);
+    });
+}
+
+function renderBooks(testament = "OT") {
+    const container = $("picker-books");
+    $("picker-chapters").classList.add("hidden");
+    container.classList.remove("hidden");
+
+    container.innerHTML = "";
+
+    BIBLE_BOOKS.filter(book => book.testament === testament).forEach(book => {
+        const button = document.createElement("button");
+        button.className = "p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-semibold text-left hover:bg-brand-50 dark:hover:bg-brand-900/40";
+        button.textContent = book.name;
+        button.addEventListener("click", () => renderChapters(book));
+        container.appendChild(button);
+    });
+}
+
+function renderChapters(book) {
+    state.currentBook = book;
+    $("picker-books").classList.add("hidden");
+    const container = $("picker-chapters");
+    container.classList.remove("hidden");
+    container.innerHTML = "";
+
+    for (let chapter = 1; chapter <= book.chapters; chapter++) {
+        const button = document.createElement("button");
+        button.className = "p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-bold hover:bg-brand-50 dark:hover:bg-brand-900/40";
+        button.textContent = chapter;
+        button.addEventListener("click", () => {
+            closePicker();
+            loadChapter(book, chapter);
+        });
+        container.appendChild(button);
+    }
+}
+
+function openPicker() {
+    $("modal-picker").classList.remove("hidden");
+    renderBooks("OT");
+}
+
+function closePicker() {
+    $("modal-picker").classList.add("hidden");
+}
+
+async function fetchChapterText(bookName, chapter) {
+    try {
+        const apiVersion = versionMap[state.version] || 'web';
+        const singleChapterRanges = { "Obadiah": "1:1-21", "Philemon": "1:1-25", "2 John": "1:1-13", "3 John": "1:1-14", "Jude": "1:1-25" };
+        const query = singleChapterRanges[bookName] ? `${bookName} ${singleChapterRanges[bookName]}` : `${bookName} ${chapter}`;
+        const res = await fetch(`https://bible-api.com/${encodeURIComponent(query)}?translation=${apiVersion}`);
+        const data = await res.json();
+        return data && data.verses ? data.verses : [];
+    } catch (e) {
+        return [];
+    }
+}
+
+async function loadChapter(book, chapter) {
+    state.currentBook = book;
+    state.currentChapter = chapter;
+    state.selectedVerses.clear();
+    updateSelectionDock();
+
+    $("docked-passage-label").textContent = `${book.name} ${chapter}`;
+    $("loading-spinner").classList.remove("hidden");
+    $("chapter-content").innerHTML = "";
+
+    const verses = await fetchChapterText(book.name, chapter);
+    $("loading-spinner").classList.add("hidden");
+
+    if (!verses.length) {
+        $("chapter-content").innerHTML = `
+            <div class="p-4 rounded-xl bg-amber-50 dark:bg-amber-950/30 text-amber-800 dark:text-amber-200 text-sm">
+                Unable to load scripture passage. Please check your network connection.
+            </div>`;
+        return;
+    }
+
+    const header = document.createElement("div");
+    header.className = "mb-4";
+    header.innerHTML = `<div class="text-xs font-bold text-brand-600 dark:text-brand-400 uppercase tracking-wider">${escapeHTML(book.name)} (${state.version})</div>
+                        <h1 class="font-scripture text-3xl font-bold">Chapter ${chapter}</h1>`;
+    $("chapter-content").appendChild(header);
+
+    verses.forEach(v => {
+        const key = `${book.name}_${chapter}_${v.verse}`;
+        const color = state.selectedHighlights[key] ? `hl-${state.selectedHighlights[key].color}` : "";
+
+        const p = document.createElement("p");
+        p.id = `verse-${v.verse}`;
+        p.className = `verse-item py-1.5 px-2 rounded-xl transition cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/60 ${color}`;
+        p.style.fontSize = `${state.fontSize}px`;
+
+        const vNum = document.createElement("span");
+        vNum.className = "font-sans text-[12px] font-bold text-brand-600 dark:text-brand-400 mr-2 select-none align-super";
+        vNum.textContent = v.verse;
+
+        const vText = document.createElement("span");
+        if (state.redLetter && v.jesus) vText.className = "red-letter";
+        vText.textContent = v.text + " ";
+
+        p.appendChild(vNum);
+        p.appendChild(vText);
+
+        p.addEventListener("click", () => {
+            triggerHaptic();
+            if (state.selectedVerses.has(v.verse)) {
+                state.selectedVerses.delete(v.verse);
+                p.classList.remove("ring-2", "ring-brand-600", "bg-indigo-50", "dark:bg-indigo-950/60");
+            } else {
+                state.selectedVerses.set(v.verse, v.text);
+                p.classList.add("ring-2", "ring-brand-600", "bg-indigo-50", "dark:bg-indigo-950/60");
+            }
+            updateSelectionDock();
+        });
+
+        $("chapter-content").appendChild(p);
+    });
+
+    if (window.lucide) {
+        lucide.createIcons();
+    }
+
+    showTab("reader");
+}
+
+function updateSelectionDock() {
+    const count = state.selectedVerses.size;
+    $("selected-count-badge").textContent = count;
+    $("multi-verse-dock").classList.toggle("hidden", count === 0);
+}
+
+function renderSaved() {
+    const container = $("saved-list-container");
+    const highlights = Object.values(state.selectedHighlights);
+
+    if (!highlights.length && !state.bookmarks.length) {
+        container.innerHTML = `
+            <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 text-sm text-slate-500">
+                Nothing saved yet.
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = "";
+
+    highlights.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4";
+        card.innerHTML = `
+            <div class="text-xs font-bold text-brand-600 dark:text-brand-400 mb-1">
+                ${escapeHTML(item.reference || "")}
+            </div>
+            <div class="font-scripture text-lg selectable-text">${escapeHTML(item.text || "")}</div>
+        `;
+        container.appendChild(card);
+    });
+
+    if (window.lucide) {
+        lucide.createIcons();
+    }
+}
+
+function analyzeVersesDirectly(verseArray, bookName, chapter) {
+    const fullText = verseArray.map(v => v.text).join(" ").trim();
+    const sortedVerseNumbers = verseArray.map(v => v.num).sort((a, b) => a - b);
+    const rangeLabel = sortedVerseNumbers.length === 1 
+        ? `${bookName} ${chapter}:${sortedVerseNumbers[0]}`
+        : `${bookName} ${chapter}:${sortedVerseNumbers[0]}-${sortedVerseNumbers[sortedVerseNumbers.length - 1]}`;
+
+    // Historical context mapping by book genre/testament
+    const bookInfo = BIBLE_BOOKS.find(b => b.name === bookName) || { testament: "NT" };
+    let historicalContext = "";
+
+    if (bookName === "Psalms") {
+        historicalContext = `Psalms represents ancient Israel's worship liturgy and personal prayers. Composed across generations under diverse settings—from royal courts to wilderness exile—this Psalm gives voice to honest devotion under Yahweh's covenant authority.`;
+    } else if (bookName === "Proverbs") {
+        historicalContext = `Proverbs reflects the ancient Near Eastern tradition of practical wisdom literature passed down within royal courts to instruct young leaders in disciplined, upright, and reverent living.`;
+    } else if (["Matthew", "Mark", "Luke", "John"].includes(bookName)) {
+        historicalContext = `Set in first-century Judea and Galilee under Roman occupational rule, ${bookName} records Jesus' life and ministry as he announced the arrival of God's Kingdom, confronting both religious elites and societal norms.`;
+    } else if (bookInfo.testament === "NT") {
+        historicalContext = `Written during the expansion of the early Church across the Greco-Roman world, this portion of ${bookName} addresses the lived challenges, theological foundational truths, and spiritual endurance of early Christian communities.`;
+    } else {
+        historicalContext = `Rooted in the history of ancient Israel, ${bookName} preserves the prophetic, narrative, and legal covenant tradition that shaped God's people prior to the New Testament era.`;
+    }
+
+    // Extract notable thematic terms from selection
+    const cleanWords = fullText.replace(/[^a-zA-Z\s]/g, "").split(/\s+/);
+    const stopWords = new Set(["the", "and", "for", "that", "this", "with", "from", "they", "them", "their", "have", "will", "would", "shall", "unto", "upon", "into", "also", "your", "yours", "been", "were", "when", "then", "there"]);
+    const keyTerms = cleanWords.filter(w => w.length > 3 && !stopWords.has(w.toLowerCase())).slice(0, 3);
+    const keywordDisplay = keyTerms.length > 0 ? keyTerms.map(k => `"${k}"`).join(", ") : "the specific terminology used here";
+
+    // Build Theological Insights
+    const theologicalInsights = `The phrasing in this passage emphasizes ${keywordDisplay}. Rather than passive rhetoric, the wording builds a clear theological foundation centering on God's active involvement, divine character, and human response.`;
+
+    // Build Life Application
+    const lifeApplication = `Meditation on ${rangeLabel} calls for active reliance on God's truth rather than self-directed effort. Let the core truth of this passage inform how you respond to uncertainty, ground your choices, and navigate daily interactions.`;
+
+    return `
+        <div class="space-y-4">
+            <div class="p-3 bg-brand-50 dark:bg-brand-950/40 rounded-2xl border border-brand-100 dark:border-brand-900/60 space-y-1">
+                <span class="text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400 block">${escapeHTML(rangeLabel)}</span>
+                <p class="font-scripture italic text-xs text-slate-700 dark:text-slate-300">"${escapeHTML(fullText)}"</p>
+            </div>
+
+            <div class="space-y-4 pt-1">
+                <div class="space-y-1">
+                    <div class="flex items-center space-x-1.5 text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">
+                        <i data-lucide="landmark" class="w-3.5 h-3.5"></i>
+                        <span>Historical Context</span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">${escapeHTML(historicalContext)}</p>
+                </div>
+
+                <div class="border-t border-slate-100 dark:border-slate-800/80 pt-3 space-y-1">
+                    <div class="flex items-center space-x-1.5 text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">
+                        <i data-lucide="scroll" class="w-3.5 h-3.5"></i>
+                        <span>Theological Insights</span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">${escapeHTML(theologicalInsights)}</p>
+                </div>
+
+                <div class="border-t border-slate-100 dark:border-slate-800/80 pt-3 space-y-1">
+                    <div class="flex items-center space-x-1.5 text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                        <i data-lucide="compass" class="w-3.5 h-3.5"></i>
+                        <span>Life Application</span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">${escapeHTML(lifeApplication)}</p>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function showExplanation() {
+    const selectionCount = state.selectedVerses.size;
+
+    $("explanation-title").textContent =
+        state.currentBook && state.currentChapter
+            ? `${state.currentBook.name} ${state.currentChapter}`
+            : "Scripture Explanation";
+
+    if (selectionCount > 0 && state.currentBook && state.currentChapter) {
+        const verseArray = Array.from(state.selectedVerses.entries()).map(([num, text]) => ({ num, text }));
+        $("explanation-content").innerHTML = analyzeVersesDirectly(verseArray, state.currentBook.name, state.currentChapter);
+    } else {
+        $("explanation-content").innerHTML = `<p class="text-slate-500">Select one or more verses first in the reader view.</p>`;
+    }
+
+    if (window.lucide) {
+        lucide.createIcons();
+    }
+
+    $("modal-explanation").classList.remove("hidden");
+}
+
+function closeExplanation() {
+    $("modal-explanation").classList.add("hidden");
+}
+
+function setupEvents() {
+    $("btn-toggle-settings").addEventListener("click", () => {
+        $("settings-panel").classList.toggle("hidden");
+    });
+
+    $("version-select").addEventListener("change", event => {
+        state.version = event.target.value;
+        $("version-selected-abbr").textContent = state.version;
+        localStorage.setItem("bgs-version", state.version);
+
+        if (state.currentBook && state.currentChapter) {
+            loadChapter(state.currentBook, state.currentChapter);
+        }
+
+        loadVerseOfDay(state.currentVotdIndex);
+    });
+
+    document.querySelectorAll(".btn-theme").forEach(btn => {
+        btn.addEventListener("click", () => applyTheme(btn.dataset.theme));
+    });
+
+    $("btn-font-dec").addEventListener("click", () => {
+        state.fontSize = Math.max(16, state.fontSize - 1);
+        updateFontSize();
+    });
+
+    $("btn-font-inc").addEventListener("click", () => {
+        state.fontSize = Math.min(40, state.fontSize + 1);
+        updateFontSize();
+    });
+
+    $("toggle-red-letter").addEventListener("change", event => {
+        state.redLetter = event.target.checked;
+        localStorage.setItem("bgs-red-letter", String(state.redLetter));
+    });
+
+    document.querySelectorAll(".nav-tab").forEach(btn => {
+        btn.addEventListener("click", () => {
+            triggerHaptic();
+            showTab(btn.dataset.tab);
+        });
+    });
+
+    $("btn-home-start-reading").addEventListener("click", openPicker);
+    $("btn-docked-picker").addEventListener("click", openPicker);
+    $("btn-close-picker").addEventListener("click", closePicker);
+
+    $("modal-picker").addEventListener("click", event => {
+        if (event.target === $("modal-picker")) closePicker();
+    });
+
+    $("tab-ot").addEventListener("click", () => {
+        $("tab-ot").className = "px-4 py-2 text-sm font-bold border-b-2 border-brand-600 text-brand-600";
+        $("tab-nt").className = "px-4 py-2 text-sm font-bold text-slate-400";
+        renderBooks("OT");
+    });
+
+    $("tab-nt").addEventListener("click", () => {
+        $("tab-nt").className = "px-4 py-2 text-sm font-bold border-b-2 border-brand-600 text-brand-600";
+        $("tab-ot").className = "px-4 py-2 text-sm font-bold text-slate-400";
+        renderBooks("NT");
+    });
+
+    $("btn-clear-selection").addEventListener("click", () => {
+        state.selectedVerses.clear();
+        document.querySelectorAll(".verse-item").forEach(el => {
+            el.classList.remove("ring-2", "ring-brand-600", "bg-indigo-50", "dark:bg-indigo-950/60");
+        });
+        updateSelectionDock();
+    });
+
+    document.querySelectorAll(".dock-hl-color").forEach(button => {
+        button.addEventListener("click", () => {
+            if (!state.currentBook || !state.currentChapter) return;
+
+            const color = button.dataset.color;
+
+            state.selectedVerses.forEach((text, verse) => {
+                const key = `${state.currentBook.name}_${state.currentChapter}_${verse}`;
+
+                if (color === "clear") {
+                    delete state.selectedHighlights[key];
+                } else {
+                    state.selectedHighlights[key] = {
+                        reference: `${state.currentBook.name} ${state.currentChapter}:${verse}`,
+                        text: text,
+                        color: color
+                    };
+                }
+            });
+
+            localStorage.setItem("bgs-highlights", JSON.stringify(state.selectedHighlights));
+            loadChapter(state.currentBook, state.currentChapter);
+        });
+    });
+
+    $("dock-act-sparkle").addEventListener("click", showExplanation);
+
+    $("btn-close-explanation").addEventListener("click", closeExplanation);
+
+    $("modal-explanation").addEventListener("click", event => {
+        if (event.target === $("modal-explanation")) closeExplanation();
+    });
+
+    $("btn-prev-chap").addEventListener("click", () => {
+        if (!state.currentBook || !state.currentChapter) return;
+        if (state.currentChapter > 1) {
+            loadChapter(state.currentBook, state.currentChapter - 1);
+        } else {
+            const currentIndex = BIBLE_BOOKS.findIndex(b => b.name === state.currentBook.name);
+            if (currentIndex > 0) {
+                const prevBook = BIBLE_BOOKS[currentIndex - 1];
+                loadChapter(prevBook, prevBook.chapters);
+            }
+        }
+    });
+
+    $("btn-next-chap").addEventListener("click", () => {
+        if (!state.currentBook || !state.currentChapter) return;
+        if (state.currentChapter < state.currentBook.chapters) {
+            loadChapter(state.currentBook, state.currentChapter + 1);
+        } else {
+            const currentIndex = BIBLE_BOOKS.findIndex(b => b.name === state.currentBook.name);
+            if (currentIndex < BIBLE_BOOKS.length - 1) {
+                const nextBook = BIBLE_BOOKS[currentIndex + 1];
+                loadChapter(nextBook, 1);
+            }
+        }
+    });
+
+    $("dock-act-speak").addEventListener("click", () => {
+        if (!("speechSynthesis" in window)) {
+            alert("Text-to-speech is not supported by this browser.");
+            return;
+        }
+
+        const text = Array.from(state.selectedVerses.values()).join(" ") || $("chapter-content").innerText.trim();
+        if (!text) return;
+
+        speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 0.9;
+        speechSynthesis.speak(utterance);
+    });
+
+    $("btn-refresh-votd").addEventListener("click", () => {
+        const nextIndex = Math.floor(Math.random() * detailedVerses.length);
+        loadVerseOfDay(nextIndex);
+    });
+}
+
+const detailedVerses = [
+    { 
+        ref: "John 3:16", 
+        history: "Jesus speaks to Nicodemus, a Pharisee and member of the Sanhedrin, under cover of night. Nicodemus represents the religious elite who recognized Jesus' miracles but struggled to grasp a spiritual rebirth beyond external traditional law.",
+        theology: "The Greek word translated as 'love' here is *agape*—unconditional, sacrificial goodwill. Eternal life (*zoe aionios*) signifies not merely unending time, but participating in the divine quality of God's uncorrupted life through faith rather than human merit.",
+        application: "God's love is active and initiative-taking. Faith isn't a passive agreement, but an active reliance on Christ that frees us from striving for validation and anchors our security in grace."
+    },
+    { 
+        ref: "Psalms 23:1", 
+        history: "Composed by King David, who spent his youth in the Judean wilderness guarding sheep from predators. In ancient Near Eastern culture, kings were often called 'shepherds' of their people, but David turns the metaphor on its head by identifying himself as a needy sheep under Yahweh's care.",
+        theology: "The phrase 'I shall not want' reflects absolute contentment in Yahweh's relational covenant (*Yahweh-Rohi*). A shepherd guarantees green pastures, quiet waters, and path guidance, taking total responsibility for the flock's security.",
+        application: "Anxiety often stems from the belief that we are self-reliant rulers of our own lives. Recognizing God as your personal shepherd allows you to rest, knowing your essential needs are held in divine care."
+    },
+    { 
+        ref: "Philippians 4:13", 
+        history: "Paul wrote this epistle while imprisoned in Rome, reliant on the generosity of the church at Philippi. Rather than complaining of hardship or boasting in self-reliance, Paul thanks them while describing an inner secret he discovered during life's highs and lows.",
+        theology: "Contextually, 'all things' refers to enduring both abundance and extreme poverty with contentment. The 'strength' (*endynamoō*) is an internal infusion of divine stamina rather than a guarantee of success in personal ambitions.",
+        application: "True strength isn't the absence of difficulty, but Christ's presence sustaining you through it. Whatever circumstances you face today—plenty or scarcity—you have the supernatural capacity to endure with grace."
+    },
+    { 
+        ref: "Proverbs 3:5", 
+        history: "Written in the tradition of wisdom literature passed from a father to his son in ancient Israel. Wisdom (*chokmah*) in Proverbs is practical, skilled living rooted in reverent awe of God rather than human pride.",
+        theology: "To 'trust' (*batach*) means to cast oneself down or rely completely on a secure support. 'Understanding' (*binah*) represents human cognitive analysis, which is limited by finite perspectives and flawed assumptions.",
+        application: "Surrendering self-reliance doesn't mean switching off your intellect; it means submitting your plans to God's higher wisdom when circumstances don't make sense to human logic."
+    },
+    { 
+        ref: "Romans 8:28", 
+        history: "Paul addresses believers in Rome facing intense societal pressure and impending persecution under imperial rule, reminding them that suffering is not proof of God's absence.",
+        theology: "God 'works together' (*synenergei*) all things—even human errors and suffering—towards ultimate spiritual good (*agathos*), which Paul defines in the next verse as being conformed to the image of His Son.",
+        application: "Hardship is not wasted. Even when life feels disjointed, God is actively orchestrating every experience to refine your character and align your life with His eternal purposes."
+    }
+];
+
+async function loadVerseOfDay(index = 0) {
+    state.currentVotdIndex = index;
+    const selected = detailedVerses[index];
+
+    $("votd-ref").textContent = selected.ref;
+    $("votd-version-badge").textContent = state.version;
+
+    $("votd-explanation").innerHTML = `
+        <div class="space-y-4">
+            <div class="space-y-1">
+                <div class="flex items-center space-x-1.5 text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">
+                    <i data-lucide="landmark" class="w-3.5 h-3.5"></i>
+                    <span>Historical Context</span>
+                </div>
+                <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">${selected.history}</p>
+            </div>
+
+            <div class="border-t border-slate-100 dark:border-slate-800/80 pt-3 space-y-1">
+                <div class="flex items-center space-x-1.5 text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">
+                    <i data-lucide="scroll" class="w-3.5 h-3.5"></i>
+                    <span>Theological Insights</span>
+                </div>
+                <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">${selected.theology}</p>
+            </div>
+
+            <div class="border-t border-slate-100 dark:border-slate-800/80 pt-3 space-y-1">
+                <div class="flex items-center space-x-1.5 text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                    <i data-lucide="compass" class="w-3.5 h-3.5"></i>
+                    <span>Life Application</span>
+                </div>
+                <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">${selected.application}</p>
+            </div>
+        </div>
+    `;
+
+    if (window.lucide) lucide.createIcons();
+
+    try {
+        const apiVersion = versionMap[state.version] || 'web';
+        const res = await fetch(`https://bible-api.com/${encodeURIComponent(selected.ref)}?translation=${apiVersion}`);
+        const data = await res.json();
+        if (data && data.text) {
+            $("votd-text").textContent = `"${data.text.trim()}"`;
+        }
+    } catch (e) {
+        $("votd-text").textContent = `"For God so loved the world..."`;
+    }
+}
+
+function init() {
+    $("version-select").value = state.version;
+    $("version-selected-abbr").textContent = state.version;
+    $("toggle-red-letter").checked = state.redLetter;
+
+    updateFontSize();
+    applyTheme(state.theme);
+    setupEvents();
+    loadVerseOfDay(0);
+
+    if (window.lucide) {
+        lucide.createIcons();
+    }
+
+    showTab("home");
+}
+
+document.addEventListener("DOMContentLoaded", init);
+</script>
+
+</body>
+</html>
